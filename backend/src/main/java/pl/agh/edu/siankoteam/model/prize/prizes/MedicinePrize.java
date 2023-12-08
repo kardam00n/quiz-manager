@@ -1,7 +1,7 @@
-package model.prize.prizes;
+package pl.agh.edu.siankoteam.model.prize.prizes;
 
-import model.prize.Prize;
-import model.prize.PrizeType;
+import pl.agh.edu.siankoteam.model.prize.Prize;
+import pl.agh.edu.siankoteam.model.prize.PrizeType;
 
 public class MedicinePrize extends Prize {
     public MedicinePrize() {

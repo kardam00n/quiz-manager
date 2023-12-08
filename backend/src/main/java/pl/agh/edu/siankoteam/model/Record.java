@@ -1,6 +1,6 @@
-package model;
+package pl.agh.edu.siankoteam.model;
 
-import model.prize.Prize;
+import pl.agh.edu.siankoteam.model.prize.Prize;
 
 import java.time.LocalDateTime;
 import java.util.List;

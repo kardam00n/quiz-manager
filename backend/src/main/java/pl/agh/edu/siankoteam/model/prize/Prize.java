@@ -1,4 +1,4 @@
-package model.prize;
+package pl.agh.edu.siankoteam.model.prize;
 
 public abstract class Prize {
     protected final PrizeType type;

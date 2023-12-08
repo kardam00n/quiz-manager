@@ -1,7 +1,7 @@
-package utils;
+package pl.agh.edu.siankoteam.utils;
 
-import model.Record;
-import model.prize.Prize;
+import pl.agh.edu.siankoteam.model.Record;
+import pl.agh.edu.siankoteam.model.prize.Prize;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 

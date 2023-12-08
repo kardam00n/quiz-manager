@@ -1,4 +1,4 @@
-package model;
+package pl.agh.edu.siankoteam.model;
 
 import java.util.TreeSet;
 
