@@ -7,7 +7,7 @@ import java.util.Objects;
 public class QuizManager extends Application {
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("QuizManager");
+        primaryStage.setTitle("QuizManager :3");
         primaryStage.setResizable(false);
         primaryStage
                 .getIcons()
