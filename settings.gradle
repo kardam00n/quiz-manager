@@ -1,4 +1,4 @@
-rootProject.name = "quiz-m"
+rootProject.name = "quiz-manager"
 
 include 'backend'
 include 'frontend'
