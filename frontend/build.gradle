@@ -1,12 +1,30 @@
 plugins {
-    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
 }
 
 group = 'pl.edu.agh.siankoteam'
 version = '0.1'
 
+apply plugin: 'org.openjfx.javafxplugin'
+
 repositories {
     mavenCentral()
+}
+
+application {
+    mainClassName = 'QuizManager'
+}
+
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+javafx {
+    version = '17'
+    modules = ['javafx.controls', 'javafx.fxml']
 }
 
 dependencies {
