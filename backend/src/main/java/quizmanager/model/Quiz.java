@@ -1,4 +1,4 @@
-package pl.agh.edu.siankoteam.model;
+package quizmanager.model;
 
 import java.util.TreeSet;
 

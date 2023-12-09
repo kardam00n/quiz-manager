@@ -1,7 +1,7 @@
-package pl.agh.edu.siankoteam.model.prize.prizes;
+package quizmanager.model.prize.prizes;
 
-import pl.agh.edu.siankoteam.model.prize.Prize;
-import pl.agh.edu.siankoteam.model.prize.PrizeType;
+import quizmanager.model.prize.Prize;
+import quizmanager.model.prize.PrizeType;
 
 public class HayDiscountPrize extends Prize {
 

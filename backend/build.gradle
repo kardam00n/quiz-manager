@@ -16,7 +16,7 @@ repositories {
 }
 
 application {
-    mainClassName = "pl.edu.agh.siankoteam.Application"
+    mainClassName = "quizmanager.Application"
 }
 
 java {

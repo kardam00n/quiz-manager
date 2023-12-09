@@ -1,4 +1,4 @@
-package pl.agh.edu.siankoteam.model.prize;
+package quizmanager.model.prize;
 
 public abstract class Prize {
     protected final PrizeType type;

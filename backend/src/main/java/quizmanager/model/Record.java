@@ -1,6 +1,6 @@
-package pl.agh.edu.siankoteam.model;
+package quizmanager.model;
 
-import pl.agh.edu.siankoteam.model.prize.Prize;
+import quizmanager.model.prize.Prize;
 
 import java.time.LocalDateTime;
 import java.util.List;
