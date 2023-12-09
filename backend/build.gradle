@@ -16,7 +16,7 @@ repositories {
 }
 
 application {
-    mainClassName = "Application"
+    mainClassName = "pl.edu.agh.siankoteam.Application"
 }
 
 java {
