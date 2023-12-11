@@ -3,12 +3,9 @@ package quizmanager.presenter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
-import javafx.stage.FileChooser;
 import quizmanager.controller.QuizManagerController;
 import quizmanager.model.Quiz;
 import quizmanager.model.QuizList;
-
-import java.io.File;
 
 public class QuizView {
 
@@ -27,14 +24,8 @@ public class QuizView {
     public void setData(QuizList ql) {
         quizList = ql;
     }
-    public void updateModel() {
 
-    }
 
-    public void updateQuizList(File file) {
-        System.out.println(file);
-
-    }
 
     @FXML
     public void addQuiz(ActionEvent actionEvent) {
@@ -45,10 +36,6 @@ public class QuizView {
 
             quizList.addQuiz(quiz); // TODO - czy pamiętamy listę całą? chyba tak?
         }
-
-
-
-
     }
 
     public void setAppController(QuizManagerController appController){

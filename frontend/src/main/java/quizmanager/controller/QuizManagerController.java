@@ -6,7 +6,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import quizmanager.model.Quiz;
 import quizmanager.model.QuizList;
 import quizmanager.presenter.FormUploadPresenter;
 import quizmanager.presenter.QuizView;
@@ -14,9 +13,9 @@ import quizmanager.presenter.QuizView;
 import java.io.IOException;
 
 public class QuizManagerController {
-    private Stage primaryStage;
+    private final Stage primaryStage;
 
-    private QuizList quizList;
+    private final QuizList quizList;
 
     public QuizManagerController(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -30,7 +29,7 @@ public class QuizManagerController {
             // load layout from FXML file
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(QuizManagerController.class.getResource("/view/main_view.fxml"));
-            GridPane rootLayout = (GridPane) loader.load();
+            GridPane rootLayout = loader.load();
 
 
             QuizView controller = loader.getController();

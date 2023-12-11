@@ -22,7 +22,6 @@ public class FormUploadPresenter {
 
     private boolean approved;
 
-    private Quiz quiz;
 
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
