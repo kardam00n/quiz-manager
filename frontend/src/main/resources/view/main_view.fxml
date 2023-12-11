@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane gridLinesVisible="true" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
+          xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17" fx:controller="quizmanager.QuizView">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="291.0" minWidth="10.0" prefWidth="177.5"/>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="460.0" minWidth="10.0" prefWidth="422.5"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints maxHeight="376.0" minHeight="0.0" prefHeight="372.5" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="240.5" minHeight="0.0" prefHeight="27.0" vgrow="SOMETIMES"/>
+    </rowConstraints>
+    <ScrollPane prefHeight="200.0" prefWidth="200.0"/>
+    <ScrollPane prefHeight="355.0" prefWidth="400.0" GridPane.columnIndex="1"/>
+    <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1"
+          GridPane.rowIndex="1">
+        <Label text="Wybrana strategia:"/>
+        <ListView prefHeight="200.0" prefWidth="200.0"/>
+    </HBox>
+    <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Dodaj Quiz" GridPane.rowIndex="1"/>
+</GridPane>
