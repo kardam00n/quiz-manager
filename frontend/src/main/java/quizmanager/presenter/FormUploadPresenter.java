@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import quizmanager.model.Quiz;
 
 import java.io.File;
 
@@ -20,6 +21,8 @@ public class FormUploadPresenter {
     private Stage dialogStage;
 
     private boolean approved;
+
+    private Quiz quiz;
 
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
@@ -43,6 +46,7 @@ public class FormUploadPresenter {
     }
 
     private void updateModel() {
+        // TODO czy tu ma być jakiś call do service, który wyśle to na backend?
 
     }
 
@@ -62,4 +66,5 @@ public class FormUploadPresenter {
         filePath.setText(selectedFile.toString());
         quizName.setText(selectedFile.getName());
     }
+
 }

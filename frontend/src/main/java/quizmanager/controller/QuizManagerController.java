@@ -6,6 +6,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import quizmanager.model.Quiz;
+import quizmanager.model.QuizList;
 import quizmanager.presenter.FormUploadPresenter;
 import quizmanager.presenter.QuizView;
 
@@ -14,8 +16,11 @@ import java.io.IOException;
 public class QuizManagerController {
     private Stage primaryStage;
 
+    private QuizList quizList;
+
     public QuizManagerController(Stage primaryStage) {
         this.primaryStage = primaryStage;
+        this.quizList = new QuizList();
     }
 
 
@@ -30,6 +35,7 @@ public class QuizManagerController {
 
             QuizView controller = loader.getController();
             controller.setAppController(this);
+            controller.setData(quizList);
 
             // add layout to a scene and show them all
             Scene scene = new Scene(rootLayout);
