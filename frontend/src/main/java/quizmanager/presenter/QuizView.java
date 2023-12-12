@@ -6,7 +6,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import quizmanager.controller.QuizManagerController;
-import quizmanager.model.Quiz;
+import quizmanager.model.QuizListElement;
 import quizmanager.model.QuizList;
 
 import java.time.LocalDate;
@@ -14,19 +14,19 @@ import java.time.LocalDate;
 public class QuizView {
 
     @FXML
-    private TableView<Quiz> quizDetailsTable;
+    private TableView<QuizListElement> quizDetailsTable;
 
     @FXML
-    private TableColumn<Quiz, String> petName;
+    private TableColumn<QuizListElement, String> petName;
 
     @FXML
-    private TableColumn<Quiz, Integer> correctAnswers;
+    private TableColumn<QuizListElement, Integer> correctAnswers;
 
     @FXML
-    private TableColumn<Quiz, LocalDate> timestamp;
+    private TableColumn<QuizListElement, LocalDate> timestamp;
 
     @FXML
-    private TableColumn<Quiz, String> prize; // TODO change type
+    private TableColumn<QuizListElement, String> prize; // TODO change type
 
     private QuizManagerController appController;
 
@@ -50,12 +50,13 @@ public class QuizView {
 
     @FXML
     public void addQuiz(ActionEvent actionEvent) {
-        if(appController.showFormUploadDialog()){
+        var quizListElement = new QuizListElement();
+        if(appController.showFormUploadDialog(quizListElement)){
 
-            // TODO get parsed xlsx and initialize quiz
-            var quiz = new Quiz(); // temporary
+            System.out.println("Przesyłam: " + quizListElement + " na serwer");
 
-            quizList.addQuiz(quiz); // TODO - czy pamiętamy listę całą? chyba tak?
+
+//            quizList.addQuiz(quiz); // TODO - czy pamiętamy listę całą? chyba tak?
         }
     }
 

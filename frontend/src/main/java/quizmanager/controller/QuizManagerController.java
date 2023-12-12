@@ -7,6 +7,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import quizmanager.model.QuizList;
+import quizmanager.model.QuizListElement;
 import quizmanager.presenter.FormUploadPresenter;
 import quizmanager.presenter.QuizView;
 
@@ -51,7 +52,7 @@ public class QuizManagerController {
 
 
 
-    public boolean showFormUploadDialog() {
+    public boolean showFormUploadDialog(QuizListElement quizListElement) {
         try {
             // Load the fxml file and create a new stage for the dialog
             FXMLLoader loader = new FXMLLoader();
@@ -69,6 +70,7 @@ public class QuizManagerController {
             // Set the presenter for the view
             FormUploadPresenter presenter = loader.getController();
             presenter.setDialogStage(dialogStage);
+            presenter.setData(quizListElement);
 
 
             // Show the dialog and wait until the user closes it

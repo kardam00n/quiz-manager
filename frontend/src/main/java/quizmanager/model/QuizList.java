@@ -6,11 +6,11 @@ import java.util.List;
 public class QuizList {
 
     // TODO jak to chcemy robić?
-    private final List<Quiz> quizList = new ArrayList<>();
+    private final List<QuizListElement> quizListElementList = new ArrayList<>();
 
 
-    public void addQuiz(Quiz q) {
-        quizList.add(q);
+    public void addQuiz(QuizListElement q) {
+        quizListElementList.add(q);
     }
 
 }
