@@ -19,7 +19,7 @@ public class QuizManagerController {
 
     public QuizManagerController(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.quizList = new QuizList();
+        this.quizList = new QuizList(); //TODO czy to powinno tu być?
     }
 
 
@@ -29,12 +29,13 @@ public class QuizManagerController {
             // load layout from FXML file
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(QuizManagerController.class.getResource("/view/main_view.fxml"));
-            GridPane rootLayout = loader.load();
+            BorderPane rootLayout = loader.load();
 
 
-            QuizView controller = loader.getController();
-            controller.setAppController(this);
-            controller.setData(quizList);
+            // set presenter for the view
+            QuizView presenter = loader.getController();
+            presenter.setAppController(this);
+            presenter.setData(quizList); //TODO czy to powinno tu być?
 
             // add layout to a scene and show them all
             Scene scene = new Scene(rootLayout);
@@ -65,7 +66,7 @@ public class QuizManagerController {
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
 
-            // Set the transaction into the presenter.
+            // Set the presenter for the view
             FormUploadPresenter presenter = loader.getController();
             presenter.setDialogStage(dialogStage);
 

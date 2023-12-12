@@ -1,32 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<GridPane gridLinesVisible="true" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
-          xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="quizmanager.presenter.QuizView">
-    <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="291.0" minWidth="10.0" prefWidth="177.5"/>
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="460.0" minWidth="10.0" prefWidth="422.5"/>
-    </columnConstraints>
-    <rowConstraints>
-        <RowConstraints maxHeight="376.0" minHeight="0.0" prefHeight="372.5" vgrow="SOMETIMES"/>
-        <RowConstraints maxHeight="240.5" minHeight="0.0" prefHeight="27.0" vgrow="SOMETIMES"/>
-    </rowConstraints>
-    <ScrollPane fx:id="quizes" prefHeight="200.0" prefWidth="200.0"/>
-    <ScrollPane fx:id="records" prefHeight="355.0" prefWidth="400.0" GridPane.columnIndex="1"/>
-    <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1"
-          GridPane.rowIndex="1">
-        <Label text="Wybrana strategia:"/>
-        <ListView prefHeight="200.0" prefWidth="200.0"/>
-    </HBox>
-    <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addQuiz" text="Dodaj Quiz"
-            GridPane.rowIndex="1"/>
-</GridPane>
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="quizmanager.presenter.QuizView">
+
+<left>
+    <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" prefWidth="150.0" BorderPane.alignment="CENTER">
+        <opaqueInsets>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+        </opaqueInsets>
+        <children>
+            <ScrollPane fx:id="quizes" prefHeight="437.0" prefWidth="150.0" VBox.vgrow="ALWAYS" />
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addQuiz" text="Dodaj Quiz" GridPane.rowIndex="1" />
+        </children>
+        <BorderPane.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+        </BorderPane.margin>
+    </VBox>
+
+
+
+
+</left>
+<center>
+    <TableView fx:id="quizDetailsTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <columns>
+            <TableColumn fx:id="petName" prefWidth="75.0" text="Pseudonim" />
+            <TableColumn fx:id="correctAnswers" prefWidth="75.0" text="Liczba poprawnych&#10;&#9;odpowiedzi&#10;" />
+            <TableColumn fx:id="timestamp" prefWidth="75.0" text="Timestamp" />
+            <TableColumn fx:id="prize" prefWidth="75.0" text="Nagroda" />
+        </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+        </columnResizePolicy>
+    </TableView>
+</center>
+
+</BorderPane>

@@ -16,7 +16,7 @@ public class QuizManager extends Application {
         primaryStage.setTitle("QuizManager");
         primaryStage
                 .getIcons()
-                .add(new Image(Objects.requireNonNull(QuizManager.class.getResourceAsStream("../logo.png"))));
+                .add(new Image(Objects.requireNonNull(QuizManager.class.getResourceAsStream("/logo.png"))));
         QuizManagerController quizManagerController = new QuizManagerController(primaryStage);
         quizManagerController.initRootLayout();
     }
