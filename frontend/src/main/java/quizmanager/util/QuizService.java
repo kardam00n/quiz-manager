@@ -11,7 +11,7 @@ import retrofit2.http.Part;
 public interface QuizService {
     @Multipart
     @POST("something")
-    Call<ResponseBody> upload(
+    Call<ResponseBody> uploadFile(
             @Part("description") RequestBody description,
             @Part MultipartBody.Part file
     );

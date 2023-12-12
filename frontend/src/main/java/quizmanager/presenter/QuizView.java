@@ -58,16 +58,20 @@ public class QuizView {
                 @Override
                 public void onSuccess() {
                     System.out.println("Udało się");
+
+                    // TODO updateControls()
                 }
 
                 @Override
                 public void onError(String errorMessage) {
                     System.out.println("nie udało się");
+                    // TODO display error message?
                 }
 
                 @Override
                 public void onFailure(String failureMessage) {
                     System.out.println(failureMessage);
+                    // TODO display error message?
                 }
             });
         }

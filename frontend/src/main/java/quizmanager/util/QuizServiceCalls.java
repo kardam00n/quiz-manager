@@ -32,7 +32,7 @@ public class QuizServiceCalls {
 
             MultipartBody.Part filePart = MultipartBody.Part.createFormData(quizListElement.getName(), file.getName(), fileBody);
 
-            Call<ResponseBody> call = quizService.upload(description, filePart);
+            Call<ResponseBody> call = quizService.uploadFile(description, filePart);
             call.enqueue(new Callback<>() {
 
 
