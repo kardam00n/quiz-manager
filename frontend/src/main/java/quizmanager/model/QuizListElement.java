@@ -15,6 +15,14 @@ public class QuizListElement {
         this.name = name;
     }
 
+    public File getFile() {
+        return file;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     public String toString(){
         return name + file.toString();
     }

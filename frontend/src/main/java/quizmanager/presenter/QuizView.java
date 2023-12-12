@@ -6,8 +6,9 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import quizmanager.controller.QuizManagerController;
-import quizmanager.model.QuizListElement;
 import quizmanager.model.QuizList;
+import quizmanager.model.QuizListElement;
+import quizmanager.util.QuizServiceCalls;
 
 import java.time.LocalDate;
 
@@ -40,10 +41,11 @@ public class QuizView {
     private QuizList quizList;
 
 
+
     public void setData(QuizList ql) {
         quizList = ql;
 
-        // TODO will be more complicated...
+        // TODO nwm czy będzie to potrzebne
     }
 
 
@@ -52,15 +54,28 @@ public class QuizView {
     public void addQuiz(ActionEvent actionEvent) {
         var quizListElement = new QuizListElement();
         if(appController.showFormUploadDialog(quizListElement)){
+            QuizServiceCalls.send(quizListElement, new QuizServiceCalls.SendCallback() {
+                @Override
+                public void onSuccess() {
+                    System.out.println("Udało się");
+                }
 
-            System.out.println("Przesyłam: " + quizListElement + " na serwer");
+                @Override
+                public void onError(String errorMessage) {
+                    System.out.println("nie udało się");
+                }
 
-
-//            quizList.addQuiz(quiz); // TODO - czy pamiętamy listę całą? chyba tak?
+                @Override
+                public void onFailure(String failureMessage) {
+                    System.out.println(failureMessage);
+                }
+            });
         }
     }
 
     public void setAppController(QuizManagerController appController){
         this.appController = appController;
     }
+
+
 }
