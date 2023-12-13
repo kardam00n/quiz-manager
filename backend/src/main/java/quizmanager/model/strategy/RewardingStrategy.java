@@ -13,6 +13,8 @@ public abstract class RewardingStrategy {
     @GeneratedValue
     int id;
 
+    String name;
+
     @ManyToOne
     @JoinColumn(name = "passed_id")
     PrizeType prizeTypeIfPassed;

@@ -12,6 +12,7 @@ public class Quiz {
     @Id
     @GeneratedValue
     private int id;
+    private String name;
     @ManyToOne
     @JoinColumn(name = "rewarding_strategy_id")
     private RewardingStrategy rewardingStrategy;

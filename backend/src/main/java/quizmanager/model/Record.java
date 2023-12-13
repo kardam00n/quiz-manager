@@ -11,7 +11,7 @@ public class Record {
     @GeneratedValue
     private int id;
     @ManyToOne
-    @JoinColumn(name = "quiz_id")
+    @JoinColumn(name = "quiz_id", referencedColumnName = "id")
     private Quiz quiz;
     private String nickname;
     private LocalDateTime timestamp;
