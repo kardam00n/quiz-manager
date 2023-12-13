@@ -15,8 +15,9 @@ import java.io.File;
 public class QuizServiceCalls {
 
     public interface SendCallback {
-        void onSuccess();
-        void onError(String errorMessage);
+        void onSuccess(Response<ResponseBody> response);
+
+        void onError(Response<ResponseBody> response);
 
         void onFailure(String failureMessage);
     }
@@ -33,31 +34,47 @@ public class QuizServiceCalls {
             MultipartBody.Part filePart = MultipartBody.Part.createFormData(quizListElement.getName(), file.getName(), fileBody);
 
             Call<ResponseBody> call = quizService.uploadFile(description, filePart);
-            call.enqueue(new Callback<>() {
-
-
-                @Override
-                @EverythingIsNonNull
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    if (response.isSuccessful()) {
-                        callback.onSuccess();
-
-
-                    } else {
-                        callback.onError(response.message());
-                    }
-                }
-
-                @Override
-                @EverythingIsNonNull
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    callback.onFailure(t.getMessage());
-
-                }
-            });
+            sendRequest(callback, call);
         } else {
             System.out.println("Plik nie istnieje.");
         }
+
+    }
+
+
+    public static void getQuizTitleList(SendCallback callback) {
+        QuizService quizService = RetrofitSingleton.getInstance().getQuizService();
+
+        Call<ResponseBody> call = quizService.getQuizTitles();
+        sendRequest(callback, call);
+
+
+    }
+
+    private static void sendRequest(SendCallback callback, Call<ResponseBody> call) {
+        call.enqueue(new Callback<>() {
+
+
+            @Override
+            @EverythingIsNonNull
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess(response);
+
+
+
+                } else {
+                    callback.onError(response);
+                }
+            }
+
+            @Override
+            @EverythingIsNonNull
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                callback.onFailure(t.getMessage());
+
+            }
+        });
 
     }
 

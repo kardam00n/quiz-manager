@@ -3,10 +3,8 @@ package quizmanager.controller;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import quizmanager.model.QuizList;
 import quizmanager.model.QuizListElement;
 import quizmanager.presenter.FormUploadPresenter;
 import quizmanager.presenter.QuizView;
@@ -16,11 +14,9 @@ import java.io.IOException;
 public class QuizManagerController {
     private final Stage primaryStage;
 
-    private final QuizList quizList;
 
     public QuizManagerController(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.quizList = new QuizList(); //TODO czy to powinno tu być?
     }
 
 
@@ -36,7 +32,6 @@ public class QuizManagerController {
             // set presenter for the view
             QuizView presenter = loader.getController();
             presenter.setAppController(this);
-            presenter.setData(quizList); //TODO czy to powinno tu być?
 
             // add layout to a scene and show them all
             Scene scene = new Scene(rootLayout);

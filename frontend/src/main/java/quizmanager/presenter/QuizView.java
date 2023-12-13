@@ -2,17 +2,27 @@ package quizmanager.presenter;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ScrollPane;
+import javafx.fxml.Initializable;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import okhttp3.ResponseBody;
 import quizmanager.controller.QuizManagerController;
-import quizmanager.model.QuizList;
 import quizmanager.model.QuizListElement;
 import quizmanager.util.QuizServiceCalls;
+import retrofit2.Response;
 
+import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 
-public class QuizView {
+public class QuizView implements Initializable {
+
+    private QuizManagerController appController;
+
+    // Quiz table
 
     @FXML
     private TableView<QuizListElement> quizDetailsTable;
@@ -29,41 +39,63 @@ public class QuizView {
     @FXML
     private TableColumn<QuizListElement, String> prize; // TODO change type
 
-    private QuizManagerController appController;
 
-
-    @FXML
-    private ScrollPane quizes;
+    // Quiz title list
 
     @FXML
-    private ScrollPane records;
-
-    private QuizList quizList;
+    private ListView<String> quizTitles;
 
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        QuizServiceCalls.getQuizTitleList(new QuizServiceCalls.SendCallback() {
+            @Override
+            public void onSuccess(Response<ResponseBody> response) {
+                // TODO parse response to List<String>
 
-    public void setData(QuizList ql) {
-        quizList = ql;
+            }
 
-        // TODO nwm czy będzie to potrzebne
+            @Override
+            public void onError(Response<ResponseBody> response) {
+
+            }
+
+            @Override
+            public void onFailure(String failureMessage) {
+                quizTitles.getItems().addAll(List.of("Quiz1", "Quiz2")); // TODO temporary
+                if (!quizTitles.getItems().isEmpty())
+                    quizTitles.getSelectionModel().select(0);
+            }
+        });
+
+        quizTitles
+                .getSelectionModel()
+                .selectedItemProperty()
+                .addListener(
+                        (observable, oldValue, newValue) -> {
+                            String currentQuiz = quizTitles
+                                    .getSelectionModel()
+                                    .getSelectedItem();
+
+
+                        });
     }
-
 
 
     @FXML
     public void addQuiz(ActionEvent actionEvent) {
         var quizListElement = new QuizListElement();
-        if(appController.showFormUploadDialog(quizListElement)){
+        if (appController.showFormUploadDialog(quizListElement)) {
             QuizServiceCalls.send(quizListElement, new QuizServiceCalls.SendCallback() {
                 @Override
-                public void onSuccess() {
+                public void onSuccess(Response<ResponseBody> response) {
                     System.out.println("Udało się");
 
                     // TODO updateControls()
                 }
 
                 @Override
-                public void onError(String errorMessage) {
+                public void onError(Response<ResponseBody> response) {
                     System.out.println("nie udało się");
                     // TODO display error message?
                 }
@@ -77,7 +109,7 @@ public class QuizView {
         }
     }
 
-    public void setAppController(QuizManagerController appController){
+    public void setAppController(QuizManagerController appController) {
         this.appController = appController;
     }
 
