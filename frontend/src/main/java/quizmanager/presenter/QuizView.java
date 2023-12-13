@@ -14,7 +14,6 @@ import retrofit2.Response;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -48,7 +47,7 @@ public class QuizView implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        QuizServiceCalls.getQuizTitleList(new QuizServiceCalls.SendCallback() {
+        QuizServiceCalls.loadQuizTitles(new QuizServiceCalls.SendCallback() {
             @Override
             public void onSuccess(Response<ResponseBody> response) {
                 // TODO parse response to List<String>
@@ -57,28 +56,25 @@ public class QuizView implements Initializable {
 
             @Override
             public void onError(Response<ResponseBody> response) {
-
+                // TODO parse response to List<String>
             }
 
             @Override
             public void onFailure(String failureMessage) {
-                quizTitles.getItems().addAll(List.of("Quiz1", "Quiz2")); // TODO temporary
+                // TODO display error message
+                quizTitles.getItems().addAll(List.of("Quiz1", "Quiz2"));
                 if (!quizTitles.getItems().isEmpty())
                     quizTitles.getSelectionModel().select(0);
             }
         });
 
-        quizTitles
-                .getSelectionModel()
-                .selectedItemProperty()
-                .addListener(
-                        (observable, oldValue, newValue) -> {
-                            String currentQuiz = quizTitles
-                                    .getSelectionModel()
-                                    .getSelectedItem();
+        quizTitles.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    String currentQuiz = quizTitles
+                            .getSelectionModel()
+                            .getSelectedItem();
 
-
-                        });
+                });
     }
 
 
@@ -86,7 +82,7 @@ public class QuizView implements Initializable {
     public void addQuiz(ActionEvent actionEvent) {
         var quizListElement = new QuizListElement();
         if (appController.showFormUploadDialog(quizListElement)) {
-            QuizServiceCalls.send(quizListElement, new QuizServiceCalls.SendCallback() {
+            QuizServiceCalls.uploadQuiz(quizListElement, new QuizServiceCalls.SendCallback() {
                 @Override
                 public void onSuccess(Response<ResponseBody> response) {
                     System.out.println("Udało się");

@@ -12,7 +12,8 @@ import retrofit2.http.Part;
 public interface QuizService {
     @Multipart
     @POST("something")
-    Call<ResponseBody> uploadFile(
+    Call<ResponseBody> postQuiz(
+            // TODO probably fixme
             @Part("description") RequestBody description,
             @Part MultipartBody.Part file
     );
@@ -20,6 +21,11 @@ public interface QuizService {
 
     @GET("sth")
     Call<ResponseBody> getQuizTitles(
+            // TODO probably fixme
+    );
 
+    @GET("sth_else")
+    Call<ResponseBody> getQuiz(
+            // TODO probably fixme
     );
 }

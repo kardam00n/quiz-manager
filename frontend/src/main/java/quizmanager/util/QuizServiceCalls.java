@@ -23,7 +23,22 @@ public class QuizServiceCalls {
     }
 
 
-    public static void send(QuizListElement quizListElement, SendCallback callback) {
+    public static void loadQuizTitles(SendCallback callback) {
+        QuizService quizService = RetrofitSingleton.getInstance().getQuizService();
+
+        Call<ResponseBody> call = quizService.getQuizTitles();
+        sendRequest(callback, call);
+    }
+
+
+    public static void loadQuiz(SendCallback callback) {
+        QuizService quizService = RetrofitSingleton.getInstance().getQuizService();
+
+        Call<ResponseBody> call = quizService.getQuiz();
+        sendRequest(callback, call);
+    }
+
+    public static void uploadQuiz(QuizListElement quizListElement, SendCallback callback) {
         QuizService quizService = RetrofitSingleton.getInstance().getQuizService();
         File file = quizListElement.getFile();
 
@@ -33,23 +48,14 @@ public class QuizServiceCalls {
 
             MultipartBody.Part filePart = MultipartBody.Part.createFormData(quizListElement.getName(), file.getName(), fileBody);
 
-            Call<ResponseBody> call = quizService.uploadFile(description, filePart);
+            Call<ResponseBody> call = quizService.postQuiz(description, filePart);
             sendRequest(callback, call);
         } else {
-            System.out.println("Plik nie istnieje.");
+            System.out.println("File" + file + " does not exist");
         }
 
     }
 
-
-    public static void getQuizTitleList(SendCallback callback) {
-        QuizService quizService = RetrofitSingleton.getInstance().getQuizService();
-
-        Call<ResponseBody> call = quizService.getQuizTitles();
-        sendRequest(callback, call);
-
-
-    }
 
     private static void sendRequest(SendCallback callback, Call<ResponseBody> call) {
         call.enqueue(new Callback<>() {
@@ -60,7 +66,6 @@ public class QuizServiceCalls {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     callback.onSuccess(response);
-
 
 
                 } else {
