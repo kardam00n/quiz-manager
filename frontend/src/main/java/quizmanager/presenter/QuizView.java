@@ -50,31 +50,71 @@ public class QuizView implements Initializable {
         QuizServiceCalls.loadQuizTitles(new QuizServiceCalls.SendCallback() {
             @Override
             public void onSuccess(Response<ResponseBody> response) {
-                // TODO parse response to List<String>
+                quizTitles.getSelectionModel().selectedItemProperty().addListener(
+                        (observable, oldValue, newValue) -> {
+                            String selectedQuiz = quizTitles
+                                    .getSelectionModel()
+                                    .getSelectedItem();
+                            getAndShowSelectedQuiz(selectedQuiz);
+                        });
+                if (!quizTitles.getItems().isEmpty())
+                    quizTitles.getSelectionModel().select(0);
 
+
+                // TODO parse response to List<String>
             }
 
             @Override
             public void onError(Response<ResponseBody> response) {
-                // TODO parse response to List<String>
+                // TODO parse response to List<String> and display error message
             }
 
             @Override
             public void onFailure(String failureMessage) {
-                // TODO display error message
+                // Debugging - will be removed!
                 quizTitles.getItems().addAll(List.of("Quiz1", "Quiz2"));
+                quizTitles.getSelectionModel().selectedItemProperty().addListener(
+                        (observable, oldValue, newValue) -> {
+                            String selectedQuiz = quizTitles
+                                    .getSelectionModel()
+                                    .getSelectedItem();
+                            getAndShowSelectedQuiz(selectedQuiz);
+                        });
+
                 if (!quizTitles.getItems().isEmpty())
                     quizTitles.getSelectionModel().select(0);
+
+
+                // TODO display error message
             }
         });
 
-        quizTitles.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> {
-                    String currentQuiz = quizTitles
-                            .getSelectionModel()
-                            .getSelectedItem();
 
-                });
+    }
+
+    private void getAndShowSelectedQuiz(String selectedQuiz) {
+
+        QuizServiceCalls.loadQuiz(new QuizServiceCalls.SendCallback() {
+            @Override
+            public void onSuccess(Response<ResponseBody> response) {
+                // TODO parse response and populate the tableView
+            }
+
+            @Override
+            public void onError(Response<ResponseBody> response) {
+                // TODO parse response and show error msg
+            }
+
+            @Override
+            public void onFailure(String failureMessage) {
+                // Debugging - will be removed!
+                System.out.println(failureMessage);
+                System.out.println(selectedQuiz);
+
+
+                // TODO show error message
+            }
+        });
     }
 
 
