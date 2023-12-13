@@ -1,19 +1,37 @@
 package quizmanager.model.prize;
 
-public abstract class Prize {
-    protected final PrizeType type;
-    protected final String name;
-    protected final String description;
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
+public class Prize {
+    @Id
+    @GeneratedValue
+    private int id;
+    @ManyToMany
+    @JoinTable(
+            name = "PRIZE_PRIZETYPES",
+            joinColumns = @JoinColumn(name = "PRIZE_ID", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "PRIZETYPE_ID", referencedColumnName = "id")
+    )
+    private List<PrizeType> types;
+    private String name;
+    private String description;
 
 
-    protected Prize(PrizeType type, String name, String description) {
-        this.type = type;
+    public Prize() {
+    }
+
+    public Prize(List<PrizeType> type, String name, String description) {
+        this.types = type;
         this.name = name;
         this.description = description;
     }
 
-    public PrizeType getType() {
-        return type;
+
+
+    public List<PrizeType> getTypes() {
+        return types;
     }
 
     public String getName() {

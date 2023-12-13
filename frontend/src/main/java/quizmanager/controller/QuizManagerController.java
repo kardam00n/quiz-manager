@@ -67,6 +67,8 @@ public class QuizManagerController {
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
 
+            // Set the size of the dialog stage
+
             // Set the presenter for the view
             FormUploadPresenter presenter = loader.getController();
             presenter.setDialogStage(dialogStage);

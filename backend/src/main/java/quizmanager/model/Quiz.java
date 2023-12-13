@@ -1,17 +1,32 @@
 package quizmanager.model;
 
+import quizmanager.model.strategy.RewardingStrategy;
+
+import javax.persistence.*;
+import java.util.List;
 import java.util.TreeSet;
 
+@Entity
 public class Quiz {
-    private RewardingStrategy rewardingStrategy;
-    private TreeSet<Record> recordSet;
 
-    public Quiz(TreeSet<Record> recordSet, RewardingStrategy rewardingStrategy) {
+    @Id
+    @GeneratedValue
+    private int id;
+    @ManyToOne
+    @JoinColumn(name = "rewarding_strategy_id")
+    private RewardingStrategy rewardingStrategy;
+    @OneToMany(mappedBy = "quiz")
+    private List<Record> recordSet;
+
+    public Quiz() {
+    }
+
+    public Quiz(List<Record> recordSet, RewardingStrategy rewardingStrategy) {
         this.recordSet = recordSet;
         this.rewardingStrategy = rewardingStrategy;
     }
 
-    public TreeSet<Record> getRecordSet() {
+    public List<Record> getRecordSet() {
         return recordSet;
     }
 }
