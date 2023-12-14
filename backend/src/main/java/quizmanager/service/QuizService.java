@@ -1,5 +1,6 @@
 package quizmanager.service;
 
+import org.springframework.scheduling.support.SimpleTriggerContext;
 import org.springframework.stereotype.Service;
 import quizmanager.model.Quiz;
 import quizmanager.repository.QuizRepository;
@@ -20,5 +21,13 @@ public class QuizService {
 
     public Quiz getQuizById(Integer id){
         return quizRepository.findById(id).orElse(null);
+    }
+
+    public void addQuiz(Quiz quiz) {
+        quizRepository.save(quiz);
+    }
+
+    public List<String> getQuizzesNames() {
+        return quizRepository.getQuizzesNames();
     }
 }

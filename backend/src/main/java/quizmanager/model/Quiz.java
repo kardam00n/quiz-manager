@@ -22,7 +22,8 @@ public class Quiz {
     public Quiz() {
     }
 
-    public Quiz(List<Record> recordSet, RewardingStrategy rewardingStrategy) {
+    public Quiz(String name, List<Record> recordSet, RewardingStrategy rewardingStrategy) {
+        this.name = name;
         this.recordSet = recordSet;
         this.rewardingStrategy = rewardingStrategy;
     }

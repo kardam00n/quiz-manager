@@ -2,6 +2,12 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="17">
+      <module name="mi-pt-1300-siankoteam.backend" target="17" />
+      <module name="mi-pt-1300-siankoteam.backend.main" target="17" />
+      <module name="mi-pt-1300-siankoteam.backend.test" target="17" />
+      <module name="mi-pt-1300-siankoteam.frontend" target="17" />
+      <module name="mi-pt-1300-siankoteam.frontend.main" target="17" />
+      <module name="mi-pt-1300-siankoteam.frontend.test" target="17" />
       <module name="Proj.backend" target="17" />
       <module name="Proj.backend.main" target="17" />
       <module name="Proj.backend.test" target="17" />
