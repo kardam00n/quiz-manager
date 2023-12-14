@@ -38,6 +38,9 @@ public class QuizServiceCalls {
         sendRequest(callback, call);
     }
 
+
+    // TODO
+    //  - tutaj prawdopodobnie multiparta trzeba sprawdzić i być może parsowanie?
     public static void uploadQuiz(QuizListElement quizListElement, SendCallback callback) {
         QuizService quizService = RetrofitSingleton.getInstance().getQuizService();
         File file = quizListElement.getFile();
@@ -66,8 +69,6 @@ public class QuizServiceCalls {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     callback.onSuccess(response);
-
-
                 } else {
                     callback.onError(response);
                 }

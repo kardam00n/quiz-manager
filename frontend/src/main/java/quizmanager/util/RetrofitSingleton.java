@@ -17,6 +17,8 @@ public class RetrofitSingleton {
         return instance;
     }
 
+    // TODO
+    //  - chyba tu dodać parsowanie jsona?
     private RetrofitSingleton() {
         buildRetrofit();
     }
