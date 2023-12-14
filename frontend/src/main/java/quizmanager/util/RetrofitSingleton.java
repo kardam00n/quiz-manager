@@ -1,6 +1,7 @@
 package quizmanager.util;
 
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitSingleton {
 
@@ -26,6 +27,7 @@ public class RetrofitSingleton {
     private void buildRetrofit() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         this.quizService = retrofit.create(QuizService.class);

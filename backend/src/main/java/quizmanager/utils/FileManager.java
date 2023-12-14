@@ -19,10 +19,10 @@ public class FileManager {
     private FileManager() {
     }
 
-    public static TreeSet<Record> importFile(String filePath) throws IOException {
-        TreeSet<Record> recordSet = new TreeSet<>();
-        FileInputStream file = new FileInputStream(new File(filePath));
-        Workbook workbook = new XSSFWorkbook(file);
+    public static List<Record> importFile(File file) throws IOException {
+        List<Record> recordSet = new ArrayList<>();
+        FileInputStream fileStream = new FileInputStream(file);
+        Workbook workbook = new XSSFWorkbook(fileStream);
 
         Sheet sheet = workbook.getSheetAt(0);
 
