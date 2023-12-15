@@ -61,5 +61,5 @@ public class QuizController {
         }
     }
 
-    public record RecordDto(String nickname, int score, LocalDateTime timestamp, String prize) {}
+    public record RecordDto(String nickname, int score, String timestamp, String prize) {}
 }
