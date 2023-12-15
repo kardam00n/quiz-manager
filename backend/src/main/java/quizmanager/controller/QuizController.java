@@ -13,6 +13,7 @@ import quizmanager.utils.FileManager;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -35,8 +36,9 @@ public class QuizController {
     }
 
     // TODO fix this endpoint xd
-//    @GetMapping("/getQuiz")
-//    public List<RecordDto> getQuizByName(@Param("name") String name) {
+    @GetMapping("/getQuiz/{name}")
+    public List<RecordDto> getQuizByName(@PathVariable("name") String name) {
+        return new ArrayList<>();
 //        return quizService.getQuizByName(name)
 //                .map(quiz -> {quiz.getRecordSet().stream()
 //                        .map((record) -> new RecordDto(
@@ -45,7 +47,7 @@ public class QuizController {
 //                                record.getTimestamp(),
 //                                record.getPrize().toString())).toList()})
 //                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-//    }
+    }
 
     @PostMapping("/addQuiz")
     public void addQuiz(@RequestBody MultipartFile file) {
