@@ -36,8 +36,8 @@
 <center>
     <TableView fx:id="quizDetailsTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>
-            <TableColumn fx:id="petName" prefWidth="75.0" text="Pseudonim" />
-            <TableColumn fx:id="correctAnswers" prefWidth="75.0" text="Liczba poprawnych&#10;&#9;odpowiedzi&#10;" />
+            <TableColumn fx:id="nickname" prefWidth="75.0" text="Pseudonim" />
+            <TableColumn fx:id="score" prefWidth="75.0" text="Liczba poprawnych&#10;&#9;odpowiedzi&#10;" />
             <TableColumn fx:id="timestamp" prefWidth="75.0" text="Timestamp" />
             <TableColumn fx:id="prize" prefWidth="75.0" text="Nagroda" />
         </columns>

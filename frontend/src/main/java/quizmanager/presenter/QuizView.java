@@ -1,7 +1,7 @@
 package quizmanager.presenter;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;import javafx.event.ActionEvent;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
@@ -30,10 +30,10 @@ public class QuizView implements Initializable {
     private TableView<RecordDto> quizDetailsTable;
 
     @FXML
-    private TableColumn<RecordDto, String> petName;
+    private TableColumn<RecordDto, String> nickname;
 
     @FXML
-    private TableColumn<RecordDto, Integer> correctAnswers;
+    private TableColumn<RecordDto, Integer> score;
 
     @FXML
     private TableColumn<RecordDto, Timestamp> timestamp;
@@ -52,8 +52,8 @@ public class QuizView implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
 
-        petName.setCellValueFactory(new PropertyValueFactory<>("petName"));
-        correctAnswers.setCellValueFactory(new PropertyValueFactory<>("correctAnswers"));
+        nickname.setCellValueFactory(new PropertyValueFactory<>("nickname"));
+        score.setCellValueFactory(new PropertyValueFactory<>("score"));
         timestamp.setCellValueFactory(new PropertyValueFactory<>("timestamp"));
         prize.setCellValueFactory(new PropertyValueFactory<>("prize"));
         QuizServiceCalls.loadQuizTitles(new QuizServiceCalls.SendCallback<>() {
