@@ -24,10 +24,6 @@ public class QuizController {
     public QuizController(QuizService quizService) {
         this.quizService = quizService;
     }
-    @GetMapping("/all")
-    public List<Quiz> getAllQuizzes(){
-        return quizService.getQuizzes();
-    }
 
     @GetMapping("/names")
     public List<String> getAllQuizzesNames() {
