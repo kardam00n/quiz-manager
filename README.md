@@ -7,7 +7,7 @@ Schemat aplikacji
 # Changelog
 ## 07.12.23
  - podstawowy model danych
- - import plików
+ - import plików działający w backendzie
  
 ## 14.12.23
  - działająca baza danych
