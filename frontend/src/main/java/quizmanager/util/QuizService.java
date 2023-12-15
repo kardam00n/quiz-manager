@@ -27,8 +27,8 @@ public interface QuizService {
     @GET("/quizzes/names")
     Call<List<String>> getQuizTitles();
 
-    @GET("/quizzes/getQuiz")
-    Call<ResponseBody> getQuiz(     // preferably list of records, but don't know what king of object should they be, maybe some DTO?
-            @Query("name") String name
+    @GET("/quizzes/get/{name}")
+    Call<List<QuizDto>> getQuiz(     // preferably list of records, but don't know what king of object should they be, maybe some DTO?
+                                     @Path("name") String name
     );
 }

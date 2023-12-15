@@ -4,6 +4,7 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import quizmanager.model.QuizDto;
 import quizmanager.model.QuizListElement;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -53,29 +54,48 @@ public class QuizServiceCalls {
     }
 
 
-    public static void loadQuiz(String name, SendCallback<ResponseBody> callback) {
-        System.out.println("getting quiz " + name);
+    public static void loadQuiz(String name, SendCallback<List<QuizDto>> callback) {
         QuizService quizService = RetrofitSingleton.getInstance().getQuizService();
 
-        Call<ResponseBody> call = quizService.getQuiz(name);
-        sendRequest(callback, call);
+        Call<List<QuizDto>> call = quizService.getQuiz(name);
+//        sendRequest(callback, call);
+
+        call.enqueue(new Callback<>() {
+
+
+            @Override
+            @EverythingIsNonNull
+        public void onResponse(Call<List<QuizDto>> call, Response<List<QuizDto>> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess(response);
+
+
+                } else {
+                    callback.onError(response);
+                }
+            }
+
+            @Override
+            @EverythingIsNonNull
+            public void onFailure(Call<List<QuizDto>> call, Throwable t) {
+                callback.onFailure(t.getMessage());
+
+            }
+        });
+
     }
 
     public static void uploadQuiz(QuizListElement quizListElement, SendCallback<ResponseBody> callback) {
-        System.out.println("uploading quiz");
         QuizService quizService = RetrofitSingleton.getInstance().getQuizService();
         File file = quizListElement.getFile();
 
         if (file.exists()) {
-//            String description = "File upload";
             RequestBody description = RequestBody.create(MediaType.parse("text/plain"), "File upload");
             RequestBody fileBody = RequestBody.create(MediaType.parse("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"), file);
 
             MultipartBody.Part filePart = MultipartBody.Part.createFormData(quizListElement.getName(), file.getName(), fileBody);
 
             Call<ResponseBody> call = quizService.postQuiz(description, filePart);
-//            Call<ResponseBody> call = quizService.postQuiz(description);
-            System.out.println("sending request");
             sendRequest(callback, call);
         } else {
             System.out.println("File" + file + " does not exist");
