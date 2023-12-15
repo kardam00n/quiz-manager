@@ -16,7 +16,7 @@ public interface QuizService {
     //    czy nie brakuje jakichś danych w zapytaniu oraz ewentualnie zmienić ResponseBody na
     //    odp. typ
     @Multipart
-    @POST("something")
+    @POST("/quizzes/addQuiz")
     Call<ResponseBody> postQuiz(
             // TODO probably fixme
             @Part("description") RequestBody description,

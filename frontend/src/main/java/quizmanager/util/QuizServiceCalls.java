@@ -57,35 +57,10 @@ public class QuizServiceCalls {
         QuizService quizService = RetrofitSingleton.getInstance().getQuizService();
 
         Call<ResponseBody> call = quizService.getQuiz(name);
-        call.enqueue(new Callback<>() {
-
-
-            @Override
-            @EverythingIsNonNull
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-                    callback.onSuccess(response);
-
-
-                } else {
-                    callback.onError(response);
-                }
-            }
-
-            @Override
-            @EverythingIsNonNull
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                callback.onFailure(t.getMessage());
-
-            }
-        });
+        sendRequest(callback, call);
     }
 
     public static void uploadQuiz(QuizListElement quizListElement, SendCallback<ResponseBody> callback) {
-
-    // TODO
-    //  - tutaj prawdopodobnie multiparta trzeba sprawdzić i być może parsowanie?
-    public static void uploadQuiz(QuizListElement quizListElement, SendCallback callback) {
         QuizService quizService = RetrofitSingleton.getInstance().getQuizService();
         File file = quizListElement.getFile();
 
@@ -104,7 +79,7 @@ public class QuizServiceCalls {
     }
 
 
-    private static void sendRequest(SendCallback callback, Call<ResponseBody> call) {
+    private static void sendRequest(SendCallback<ResponseBody> callback, Call<ResponseBody> call) {
         call.enqueue(new Callback<>() {
 
 

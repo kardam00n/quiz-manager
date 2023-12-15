@@ -3,6 +3,7 @@ package quizmanager.controller;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import quizmanager.model.Quiz;
 import quizmanager.model.Record;
@@ -40,9 +41,11 @@ public class QuizController {
     }
 
     @PostMapping("/addQuiz")
-    public void addQuiz(@RequestBody File file, @RequestBody String name) {
+    public void addQuiz(@RequestParam("name") String name, @RequestParam("file") MultipartFile file) {
         try {
-            List<Record> records = FileManager.importFile(file);
+            File transferFile = new File("");
+            file.transferTo(transferFile);
+            List<Record> records = FileManager.importFile(transferFile);
             Quiz quiz = new Quiz(name, records, new CorrectAnswersRewardingStrategy()); //temporarily added preset strategy
             quizService.addQuiz(quiz);
         } catch (IOException e) {
