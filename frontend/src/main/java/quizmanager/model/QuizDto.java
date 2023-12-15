@@ -3,7 +3,6 @@ package quizmanager.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
 
 public class QuizDto {
     @SerializedName("petName")
@@ -18,6 +17,7 @@ public class QuizDto {
     @SerializedName("prize")
     private String prize;
 
+
     public QuizDto(String petName, Integer correctAnswers, Timestamp timestamp, String prize) {
         this.petName = petName;
         this.correctAnswers = correctAnswers;
@@ -25,34 +25,42 @@ public class QuizDto {
         this.prize = prize;
     }
 
+    @SuppressWarnings("unused")
     public String getPetName() {
         return petName;
     }
 
+    @SuppressWarnings("unused")
     public void setPetName(String petName) {
         this.petName = petName;
     }
 
+    @SuppressWarnings("unused")
     public Integer getCorrectAnswers() {
         return correctAnswers;
     }
 
+    @SuppressWarnings("unused")
     public void setCorrectAnswers(Integer correctAnswers) {
         this.correctAnswers = correctAnswers;
     }
 
+    @SuppressWarnings("unused")
     public Timestamp getTimestamp() {
         return timestamp;
     }
 
+    @SuppressWarnings("unused")
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
 
+    @SuppressWarnings("unused")
     public String getPrize() {
         return prize;
     }
 
+    @SuppressWarnings("unused")
     public void setPrize(String prize) {
         this.prize = prize;
     }
