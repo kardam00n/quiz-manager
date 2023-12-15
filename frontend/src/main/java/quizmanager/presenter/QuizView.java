@@ -1,13 +1,17 @@
 package quizmanager.presenter;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import okhttp3.ResponseBody;
 import quizmanager.controller.QuizManagerController;
+import quizmanager.model.QuizDto;
 import quizmanager.model.QuizListElement;
 import quizmanager.util.QuizServiceCalls;
 import retrofit2.Response;
@@ -24,19 +28,23 @@ public class QuizView implements Initializable {
     // Quiz table
 
     @FXML
-    private TableView<QuizListElement> quizDetailsTable;
+    private TableView<QuizDto> quizDetailsTable;
 
     @FXML
-    private TableColumn<QuizListElement, String> petName;
+    private TableColumn<QuizDto, String> petName;
 
     @FXML
-    private TableColumn<QuizListElement, Integer> correctAnswers;
+    private TableColumn<QuizDto, Integer> correctAnswers;
 
     @FXML
-    private TableColumn<QuizListElement, LocalDate> timestamp;
+    private TableColumn<QuizDto, LocalDate> timestamp;
 
     @FXML
-    private TableColumn<QuizListElement, String> prize; // TODO change type
+    private TableColumn<QuizDto, String> prize; // TODO change type
+
+
+    ObservableList<QuizDto> data = FXCollections.observableArrayList();
+
 
 
     // Quiz title list
@@ -47,6 +55,12 @@ public class QuizView implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+
+        petName.setCellValueFactory(new PropertyValueFactory<>("petName"));
+        correctAnswers.setCellValueFactory(new PropertyValueFactory<>("correctAnswers"));
+        timestamp.setCellValueFactory(new PropertyValueFactory<>("timestamp"));
+        prize.setCellValueFactory(new PropertyValueFactory<>("prize"));
         QuizServiceCalls.loadQuizTitles(new QuizServiceCalls.SendCallback<List<String>>() {
             @Override
             public void onSuccess(Response<List<String>> response) {
@@ -103,7 +117,10 @@ public class QuizView implements Initializable {
         QuizServiceCalls.loadQuiz(selectedQuiz, new QuizServiceCalls.SendCallback<ResponseBody>() {
             @Override
             public void onSuccess(Response<ResponseBody> response) {
-                quizDetailsTable.getColumns().addAll(petName, correctAnswers, timestamp, prize);
+
+
+//                quizDetailsTable.setItems();
+//                quizDetailsTable.getColumns().addAll(petName, correctAnswers, timestamp, prize);
 
 
                 // TODO parse response and populate the tableView
@@ -119,6 +136,17 @@ public class QuizView implements Initializable {
                 // Debugging - will be removed!
                 System.out.println(failureMessage);
                 System.out.println(selectedQuiz);
+
+
+                        data.addAll(
+                        new QuizDto("ala", 2, LocalDate.now(), "Trawka"),
+                        new QuizDto("ala", 2, LocalDate.now(), "Trawka"),
+                        new QuizDto("ala", 2, LocalDate.now(), "Trawka"),
+                        new QuizDto("ala", 2, LocalDate.now(), "Trawka")
+
+                );
+
+                quizDetailsTable.setItems(data);
 
 
                 // TODO show error message
