@@ -4,8 +4,8 @@
  - import plików działający w backendzie
  
 ## 14.12.23
- - działająca baza danych
- - endpoint w backendzie
+ - działająca baza danych z przykładowymi danymi
+ - endpointy w backendzie
  - pobieranie listy dostępnych quizów
  - wyświetlanie rekordów i wyników wybranego quizu
  
