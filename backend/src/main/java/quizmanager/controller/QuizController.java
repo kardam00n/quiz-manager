@@ -13,7 +13,6 @@ import quizmanager.utils.FileManager;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -35,18 +34,17 @@ public class QuizController {
         return quizService.getQuizzesNames();
     }
 
-    // TODO fix this endpoint xd
     @GetMapping("/getQuiz/{name}")
     public List<RecordDto> getQuizByName(@PathVariable("name") String name) {
-        return new ArrayList<>();
-//        return quizService.getQuizByName(name)
-//                .map(quiz -> {quiz.getRecordSet().stream()
-//                        .map((record) -> new RecordDto(
-//                                record.getNickname(),
-//                                record.getScore(),
-//                                record.getTimestamp(),
-//                                record.getPrize().toString())).toList()})
-//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        System.out.println("name: " + name);
+        return quizService.getQuizByName(name)
+                .map(quiz -> quiz.getRecordSet().stream()
+                        .map((record) -> new RecordDto(
+                                record.getNickname(),
+                                record.getScore(),
+                                record.getTimestamp(),
+                                record.getPrize().toString())).toList())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping("/addQuiz")
