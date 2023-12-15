@@ -1,6 +1,5 @@
 package quizmanager.controller;
 
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,6 +12,8 @@ import quizmanager.utils.FileManager;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -34,22 +35,33 @@ public class QuizController {
         return quizService.getQuizzesNames();
     }
 
-    @GetMapping("/get")
-    public Quiz getQuizByName(@Param("name") String name) {
-        return quizService.getQuizByName(name)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    // TODO fix this endpoint xd
+    @GetMapping("/getQuiz/{name}")
+    public List<RecordDto> getQuizByName(@PathVariable("name") String name) {
+        return new ArrayList<>();
+//        return quizService.getQuizByName(name)
+//                .map(quiz -> {quiz.getRecordSet().stream()
+//                        .map((record) -> new RecordDto(
+//                                record.getNickname(),
+//                                record.getScore(),
+//                                record.getTimestamp(),
+//                                record.getPrize().toString())).toList()})
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping("/addQuiz")
-    public void addQuiz(@RequestParam("name") String name, @RequestParam("file") MultipartFile file) {
+    public void addQuiz(@RequestBody MultipartFile file) {
+        System.out.println("received file with name: " + file.getName());
         try {
-            File transferFile = new File("");
+            File transferFile = new File("received.xlsx");
             file.transferTo(transferFile);
             List<Record> records = FileManager.importFile(transferFile);
-            Quiz quiz = new Quiz(name, records, new CorrectAnswersRewardingStrategy()); //temporarily added preset strategy
+            Quiz quiz = new Quiz(file.getName(), records, new CorrectAnswersRewardingStrategy()); //temporarily added preset strategy
             quizService.addQuiz(quiz);
         } catch (IOException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
+
+    public record RecordDto(String nickname, int score, LocalDateTime timestamp, String prize) {}
 }

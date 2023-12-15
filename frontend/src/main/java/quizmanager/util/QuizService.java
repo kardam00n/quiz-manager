@@ -3,7 +3,7 @@ package quizmanager.util;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
-import quizmanager.model.QuizDto;
+import quizmanager.model.RecordDto;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -21,8 +21,8 @@ public interface QuizService {
     @GET("/quizzes/names")
     Call<List<String>> getQuizTitles();
 
-    @GET("/quizzes/get/{name}")
-    Call<List<QuizDto>> getQuiz(
+    @GET("/quizzes/getQuiz/{name}")
+    Call<List<RecordDto>> getQuiz(
             @Path("name") String name
     );
 }

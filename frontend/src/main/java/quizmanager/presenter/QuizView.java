@@ -1,7 +1,7 @@
 package quizmanager.presenter;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.collections.ObservableList;import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
@@ -10,7 +10,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import okhttp3.ResponseBody;
 import quizmanager.controller.QuizManagerController;
-import quizmanager.model.QuizDto;
+import quizmanager.model.RecordDto;
 import quizmanager.model.QuizListElement;
 import quizmanager.util.QuizServiceCalls;
 import retrofit2.Response;
@@ -27,19 +27,19 @@ public class QuizView implements Initializable {
     // Quiz table
 
     @FXML
-    private TableView<QuizDto> quizDetailsTable;
+    private TableView<RecordDto> quizDetailsTable;
 
     @FXML
-    private TableColumn<QuizDto, String> petName;
+    private TableColumn<RecordDto, String> petName;
 
     @FXML
-    private TableColumn<QuizDto, Integer> correctAnswers;
+    private TableColumn<RecordDto, Integer> correctAnswers;
 
     @FXML
-    private TableColumn<QuizDto, Timestamp> timestamp;
+    private TableColumn<RecordDto, Timestamp> timestamp;
 
     @FXML
-    private TableColumn<QuizDto, String> prize; // TODO change type
+    private TableColumn<RecordDto, String> prize; // TODO change type
 
 
     // Quiz title list
@@ -93,9 +93,9 @@ public class QuizView implements Initializable {
 
         QuizServiceCalls.loadQuiz(selectedQuiz, new QuizServiceCalls.SendCallback<>() {
             @Override
-            public void onSuccess(Response<List<QuizDto>> response) {
+            public void onSuccess(Response<List<RecordDto>> response) {
 
-                ObservableList<QuizDto> data = FXCollections.observableArrayList();
+                ObservableList<RecordDto> data = FXCollections.observableArrayList();
 
                 assert response.body() != null;
                 data.addAll(response.body());
@@ -105,7 +105,7 @@ public class QuizView implements Initializable {
             }
 
             @Override
-            public void onError(Response<List<QuizDto>> response) {
+            public void onError(Response<List<RecordDto>> response) {
                 System.out.println("Error: " + response.code());
             }
 
