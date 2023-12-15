@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.sql.Timestamp;
 
-public class QuizDto {
+public class RecordDto {
     @SerializedName("petName")
     private String petName;
 
@@ -18,7 +18,7 @@ public class QuizDto {
     private String prize;
 
 
-    public QuizDto(String petName, Integer correctAnswers, Timestamp timestamp, String prize) {
+    public RecordDto(String petName, Integer correctAnswers, Timestamp timestamp, String prize) {
         this.petName = petName;
         this.correctAnswers = correctAnswers;
         this.timestamp = timestamp;
