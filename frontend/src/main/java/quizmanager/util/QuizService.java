@@ -9,6 +9,12 @@ import retrofit2.http.*;
 import java.util.List;
 
 public interface QuizService {
+
+    // TODO
+    //  - tutaj trzeba zmienić something na jakiś endpoint poprawny
+    //  - poprawnie wysłać xlsx, sprawdzić, czy "description" jest poprawne i potrzebne,
+    //    czy nie brakuje jakichś danych w zapytaniu oraz ewentualnie zmienić ResponseBody na
+    //    odp. typ
     @Multipart
     @POST("something")
     Call<ResponseBody> postQuiz(
