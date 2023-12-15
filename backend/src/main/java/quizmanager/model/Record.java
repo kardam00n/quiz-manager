@@ -15,8 +15,9 @@ public class Record {
     @JoinColumn(name = "quiz_id", referencedColumnName = "id")
     private Quiz quiz;
     private String nickname;
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime timestamp;
+    //TODO: Change to LocalDateTime
+    //@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private String timestamp;
     private int score;
 
     @ManyToMany
@@ -30,7 +31,7 @@ public class Record {
     @JoinColumn(name = "prize_id")
     private Prize prize = null;
 
-    public Record(String nickname, LocalDateTime timestamp, int score, List<Prize> prizeList) {
+    public Record(String nickname, String timestamp, int score, List<Prize> prizeList) {
         this.nickname = nickname;
         this.timestamp = timestamp;
         this.score = score;
@@ -52,7 +53,7 @@ public class Record {
         return score;
     }
 
-    public LocalDateTime getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
