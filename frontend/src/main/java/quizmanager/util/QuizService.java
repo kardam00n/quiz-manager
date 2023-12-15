@@ -10,16 +10,9 @@ import retrofit2.http.*;
 import java.util.List;
 
 public interface QuizService {
-
-    // TODO
-    //  - tutaj trzeba zmienić something na jakiś endpoint poprawny
-    //  - poprawnie wysłać xlsx, sprawdzić, czy "description" jest poprawne i potrzebne,
-    //    czy nie brakuje jakichś danych w zapytaniu oraz ewentualnie zmienić ResponseBody na
-    //    odp. typ
     @Multipart
     @POST("/quizzes/addQuiz")
     Call<ResponseBody> postQuiz(
-            // TODO probably fixme
             @Part("description") RequestBody description,
             @Part MultipartBody.Part file
     );
@@ -29,7 +22,7 @@ public interface QuizService {
     Call<List<String>> getQuizTitles();
 
     @GET("/quizzes/get/{name}")
-    Call<List<QuizDto>> getQuiz(     // preferably list of records, but don't know what king of object should they be, maybe some DTO?
-                                     @Path("name") String name
+    Call<List<QuizDto>> getQuiz(
+            @Path("name") String name
     );
 }

@@ -1,7 +1,6 @@
 package quizmanager.presenter;
 
 import javafx.beans.binding.Bindings;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -40,21 +39,21 @@ public class FormUploadPresenter {
     }
 
     @FXML
-    private void handleOkAction(ActionEvent event) {
+    private void handleOkAction() {
         updateModel();
         approved = true;
         dialogStage.close();
     }
 
     @FXML
-    private void handleCancelAction(ActionEvent event) {
+    private void handleCancelAction() {
         dialogStage.close();
     }
 
 
 
     @FXML
-    private void chooseFile(ActionEvent actionEvent) {
+    private void chooseFile() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
         fileChooser.getExtensionFilters().addAll(

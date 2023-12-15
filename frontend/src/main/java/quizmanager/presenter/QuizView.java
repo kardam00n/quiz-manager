@@ -2,7 +2,6 @@ package quizmanager.presenter;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
@@ -18,7 +17,6 @@ import retrofit2.Response;
 
 import java.net.URL;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -120,10 +118,10 @@ public class QuizView implements Initializable {
 
 
     @FXML
-    public void addQuiz(ActionEvent actionEvent) {
+    public void addQuiz() {
         var quizListElement = new QuizListElement();
         if (appController.showFormUploadDialog(quizListElement)) {
-            QuizServiceCalls.uploadQuiz(quizListElement, new QuizServiceCalls.SendCallback<ResponseBody>() {
+            QuizServiceCalls.uploadQuiz(quizListElement, new QuizServiceCalls.SendCallback<>() {
                 @Override
                 public void onSuccess(Response<ResponseBody> response) {
                     quizTitles.getItems().add(quizListElement.getName());
