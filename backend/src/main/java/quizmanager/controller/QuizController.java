@@ -36,7 +36,6 @@ public class QuizController {
 
     @GetMapping("/getQuiz/{name}")
     public List<RecordDto> getQuizByName(@PathVariable("name") String name) {
-        System.out.println("name: " + name);
         return quizService.getQuizByName(name)
                 .map(quiz -> quiz.getRecordSet().stream()
                         .map((record) -> new RecordDto(

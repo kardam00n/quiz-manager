@@ -5,53 +5,55 @@ import com.google.gson.annotations.SerializedName;
 import java.sql.Timestamp;
 
 public class RecordDto {
-    @SerializedName("petName")
-    private String petName;
+    @SerializedName("nickname")
+    private String nickname;
 
-    @SerializedName("correctAnswers")
-    private Integer correctAnswers;
+    @SerializedName("score")
+    private int score;
 
     @SerializedName("timestamp")
 
-    private Timestamp timestamp;
+    // TODO change to proper Class when fixed in the backend
+//    private Timestamp timestamp;
+    private String timestamp;
     @SerializedName("prize")
     private String prize;
 
 
-    public RecordDto(String petName, Integer correctAnswers, Timestamp timestamp, String prize) {
-        this.petName = petName;
-        this.correctAnswers = correctAnswers;
+    public RecordDto(String nickname, int score, String timestamp, String prize) {
+        this.nickname = nickname;
+        this.score = score;
         this.timestamp = timestamp;
         this.prize = prize;
     }
 
     @SuppressWarnings("unused")
-    public String getPetName() {
-        return petName;
+    public String getNickname() {
+        return nickname;
     }
 
     @SuppressWarnings("unused")
-    public void setPetName(String petName) {
-        this.petName = petName;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     @SuppressWarnings("unused")
-    public Integer getCorrectAnswers() {
-        return correctAnswers;
+    public Integer getScore() {
+        return score;
     }
 
     @SuppressWarnings("unused")
-    public void setCorrectAnswers(Integer correctAnswers) {
-        this.correctAnswers = correctAnswers;
+    public void setScore(int score) {
+        this.score = score;
     }
 
     @SuppressWarnings("unused")
-    public Timestamp getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
     @SuppressWarnings("unused")
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
