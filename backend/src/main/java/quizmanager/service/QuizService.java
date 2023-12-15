@@ -1,11 +1,11 @@
 package quizmanager.service;
 
-import org.springframework.scheduling.support.SimpleTriggerContext;
 import org.springframework.stereotype.Service;
 import quizmanager.model.Quiz;
 import quizmanager.repository.QuizRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class QuizService {
@@ -29,5 +29,8 @@ public class QuizService {
 
     public List<String> getQuizzesNames() {
         return quizRepository.getQuizzesNames();
+    }
+    public Optional<Quiz> getQuizByName(String name) {
+        return quizRepository.getQuizByName(name);
     }
 }

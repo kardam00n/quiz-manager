@@ -11,23 +11,45 @@ import retrofit2.Response;
 import retrofit2.internal.EverythingIsNonNull;
 
 import java.io.File;
+import java.util.List;
 
 public class QuizServiceCalls {
 
-    public interface SendCallback {
-        void onSuccess(Response<ResponseBody> response);
+    public interface SendCallback<T> {
+        void onSuccess(Response<T> response);
 
-        void onError(Response<ResponseBody> response);
+        void onError(Response<T> response);
 
         void onFailure(String failureMessage);
     }
 
 
-    public static void loadQuizTitles(SendCallback callback) {
+    public static void loadQuizTitles(SendCallback<List<String>> callback) {
         QuizService quizService = RetrofitSingleton.getInstance().getQuizService();
 
-        Call<ResponseBody> call = quizService.getQuizTitles();
-        sendRequest(callback, call);
+        Call<List<String>> call = quizService.getQuizTitles();
+        call.enqueue(new Callback<>() {
+
+
+            @Override
+            @EverythingIsNonNull
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess(response);
+
+
+                } else {
+                    callback.onError(response);
+                }
+            }
+
+            @Override
+            @EverythingIsNonNull
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                callback.onFailure(t.getMessage());
+
+            }
+        });
     }
 
 

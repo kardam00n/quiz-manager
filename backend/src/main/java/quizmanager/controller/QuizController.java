@@ -1,5 +1,6 @@
 package quizmanager.controller;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -30,6 +31,12 @@ public class QuizController {
     @GetMapping("/names")
     public List<String> getAllQuizzesNames() {
         return quizService.getQuizzesNames();
+    }
+
+    @GetMapping("/get")
+    public Quiz getQuizByName(@Param("name") String name) {
+        return quizService.getQuizByName(name)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping("/addQuiz")

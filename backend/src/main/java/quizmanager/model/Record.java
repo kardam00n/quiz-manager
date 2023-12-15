@@ -1,5 +1,7 @@
 package quizmanager.model;
 
+import org.hibernate.annotations.Type;
+import org.springframework.format.annotation.DateTimeFormat;
 import quizmanager.model.prize.Prize;
 
 import javax.persistence.*;
@@ -14,6 +16,7 @@ public class Record {
     @JoinColumn(name = "quiz_id", referencedColumnName = "id")
     private Quiz quiz;
     private String nickname;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime timestamp;
     private int score;
 

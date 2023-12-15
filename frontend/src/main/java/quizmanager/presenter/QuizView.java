@@ -47,9 +47,9 @@ public class QuizView implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        QuizServiceCalls.loadQuizTitles(new QuizServiceCalls.SendCallback() {
+        QuizServiceCalls.loadQuizTitles(new QuizServiceCalls.SendCallback<List<String>>() {
             @Override
-            public void onSuccess(Response<ResponseBody> response) {
+            public void onSuccess(Response<List<String>> response) {
                 quizTitles.getSelectionModel().selectedItemProperty().addListener(
                         (observable, oldValue, newValue) -> {
                             String selectedQuiz = quizTitles
@@ -60,12 +60,14 @@ public class QuizView implements Initializable {
                 if (!quizTitles.getItems().isEmpty())
                     quizTitles.getSelectionModel().select(0);
 
+                List<String> quizList = response.body();
+                assert quizList != null;
+                quizTitles.getItems().addAll(quizList);
 
-                // TODO parse response to List<String>
             }
 
             @Override
-            public void onError(Response<ResponseBody> response) {
+            public void onError(Response<List<String>> response) {
                 // TODO parse response to List<String> and display error message
             }
 
@@ -94,7 +96,7 @@ public class QuizView implements Initializable {
 
     private void getAndShowSelectedQuiz(String selectedQuiz) {
 
-        QuizServiceCalls.loadQuiz(new QuizServiceCalls.SendCallback() {
+        QuizServiceCalls.loadQuiz(new QuizServiceCalls.SendCallback<ResponseBody>() {
             @Override
             public void onSuccess(Response<ResponseBody> response) {
                 // TODO parse response and populate the tableView
@@ -122,7 +124,7 @@ public class QuizView implements Initializable {
     public void addQuiz(ActionEvent actionEvent) {
         var quizListElement = new QuizListElement();
         if (appController.showFormUploadDialog(quizListElement)) {
-            QuizServiceCalls.uploadQuiz(quizListElement, new QuizServiceCalls.SendCallback() {
+            QuizServiceCalls.uploadQuiz(quizListElement, new QuizServiceCalls.SendCallback<ResponseBody>() {
                 @Override
                 public void onSuccess(Response<ResponseBody> response) {
                     System.out.println("Udało się");

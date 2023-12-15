@@ -4,7 +4,6 @@ import quizmanager.model.strategy.RewardingStrategy;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.TreeSet;
 
 @Entity
 public class Quiz {
