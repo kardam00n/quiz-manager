@@ -54,6 +54,7 @@ public class QuizServiceCalls {
 
 
     public static void loadQuiz(String name, SendCallback<ResponseBody> callback) {
+        System.out.println("getting quiz " + name);
         QuizService quizService = RetrofitSingleton.getInstance().getQuizService();
 
         Call<ResponseBody> call = quizService.getQuiz(name);
@@ -61,16 +62,20 @@ public class QuizServiceCalls {
     }
 
     public static void uploadQuiz(QuizListElement quizListElement, SendCallback<ResponseBody> callback) {
+        System.out.println("uploading quiz");
         QuizService quizService = RetrofitSingleton.getInstance().getQuizService();
         File file = quizListElement.getFile();
 
         if (file.exists()) {
+//            String description = "File upload";
             RequestBody description = RequestBody.create(MediaType.parse("text/plain"), "File upload");
             RequestBody fileBody = RequestBody.create(MediaType.parse("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"), file);
 
             MultipartBody.Part filePart = MultipartBody.Part.createFormData(quizListElement.getName(), file.getName(), fileBody);
 
             Call<ResponseBody> call = quizService.postQuiz(description, filePart);
+//            Call<ResponseBody> call = quizService.postQuiz(description);
+            System.out.println("sending request");
             sendRequest(callback, call);
         } else {
             System.out.println("File" + file + " does not exist");
