@@ -4,6 +4,7 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import quizmanager.model.QuizDto;
 import quizmanager.model.QuizListElement;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -53,11 +54,35 @@ public class QuizServiceCalls {
     }
 
 
-    public static void loadQuiz(String name, SendCallback<ResponseBody> callback) {
+    public static void loadQuiz(String name, SendCallback<List<QuizDto>> callback) {
         QuizService quizService = RetrofitSingleton.getInstance().getQuizService();
 
-        Call<ResponseBody> call = quizService.getQuiz(name);
-        sendRequest(callback, call);
+        Call<List<QuizDto>> call = quizService.getQuiz(name);
+//        sendRequest(callback, call);
+
+        call.enqueue(new Callback<>() {
+
+
+            @Override
+            @EverythingIsNonNull
+        public void onResponse(Call<List<QuizDto>> call, Response<List<QuizDto>> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess(response);
+
+
+                } else {
+                    callback.onError(response);
+                }
+            }
+
+            @Override
+            @EverythingIsNonNull
+            public void onFailure(Call<List<QuizDto>> call, Throwable t) {
+                callback.onFailure(t.getMessage());
+
+            }
+        });
+
     }
 
     public static void uploadQuiz(QuizListElement quizListElement, SendCallback<ResponseBody> callback) {

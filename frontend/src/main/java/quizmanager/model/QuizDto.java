@@ -1,14 +1,24 @@
 package quizmanager.model;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.sql.Timestamp;
 import java.time.LocalDate;
 
 public class QuizDto {
+    @SerializedName("petName")
     private String petName;
+
+    @SerializedName("correctAnswers")
     private Integer correctAnswers;
-    private LocalDate timestamp;
+
+    @SerializedName("timestamp")
+
+    private Timestamp timestamp;
+    @SerializedName("prize")
     private String prize;
 
-    public QuizDto(String petName, Integer correctAnswers, LocalDate timestamp, String prize) {
+    public QuizDto(String petName, Integer correctAnswers, Timestamp timestamp, String prize) {
         this.petName = petName;
         this.correctAnswers = correctAnswers;
         this.timestamp = timestamp;
@@ -31,11 +41,11 @@ public class QuizDto {
         this.correctAnswers = correctAnswers;
     }
 
-    public LocalDate getTimestamp() {
+    public Timestamp getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(LocalDate timestamp) {
+    public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -47,3 +57,5 @@ public class QuizDto {
         this.prize = prize;
     }
 }
+
+
