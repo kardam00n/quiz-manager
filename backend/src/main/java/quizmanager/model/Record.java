@@ -1,6 +1,5 @@
 package quizmanager.model;
 
-import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 import quizmanager.model.prize.Prize;
 

@@ -53,14 +53,35 @@ public class QuizServiceCalls {
     }
 
 
-    public static void loadQuiz(SendCallback callback) {
+    public static void loadQuiz(String name, SendCallback<ResponseBody> callback) {
         QuizService quizService = RetrofitSingleton.getInstance().getQuizService();
 
-        Call<ResponseBody> call = quizService.getQuiz();
-        sendRequest(callback, call);
+        Call<ResponseBody> call = quizService.getQuiz(name);
+        call.enqueue(new Callback<>() {
+
+
+            @Override
+            @EverythingIsNonNull
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess(response);
+
+
+                } else {
+                    callback.onError(response);
+                }
+            }
+
+            @Override
+            @EverythingIsNonNull
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                callback.onFailure(t.getMessage());
+
+            }
+        });
     }
 
-    public static void uploadQuiz(QuizListElement quizListElement, SendCallback callback) {
+    public static void uploadQuiz(QuizListElement quizListElement, SendCallback<ResponseBody> callback) {
         QuizService quizService = RetrofitSingleton.getInstance().getQuizService();
         File file = quizListElement.getFile();
 
@@ -79,7 +100,7 @@ public class QuizServiceCalls {
     }
 
 
-    private static void sendRequest(SendCallback callback, Call<ResponseBody> call) {
+    private static void sendRequest(SendCallback<ResponseBody> callback, Call<ResponseBody> call) {
         call.enqueue(new Callback<>() {
 
 

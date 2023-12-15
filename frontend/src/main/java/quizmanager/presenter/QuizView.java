@@ -68,7 +68,10 @@ public class QuizView implements Initializable {
 
             @Override
             public void onError(Response<List<String>> response) {
+                System.out.println("error " + response.code());
+
                 // TODO parse response to List<String> and display error message
+
             }
 
             @Override
@@ -86,6 +89,7 @@ public class QuizView implements Initializable {
                 if (!quizTitles.getItems().isEmpty())
                     quizTitles.getSelectionModel().select(0);
 
+                System.out.println("failure: " + failureMessage);
 
                 // TODO display error message
             }
@@ -96,9 +100,12 @@ public class QuizView implements Initializable {
 
     private void getAndShowSelectedQuiz(String selectedQuiz) {
 
-        QuizServiceCalls.loadQuiz(new QuizServiceCalls.SendCallback<ResponseBody>() {
+        QuizServiceCalls.loadQuiz(selectedQuiz, new QuizServiceCalls.SendCallback<ResponseBody>() {
             @Override
             public void onSuccess(Response<ResponseBody> response) {
+                quizDetailsTable.getColumns().addAll(petName, correctAnswers, timestamp, prize);
+
+
                 // TODO parse response and populate the tableView
             }
 
@@ -130,18 +137,21 @@ public class QuizView implements Initializable {
                     System.out.println("Udało się");
 
                     // TODO updateControls()
+                    quizTitles.getItems().add(quizListElement.getName());
                 }
 
                 @Override
                 public void onError(Response<ResponseBody> response) {
                     System.out.println("nie udało się");
                     // TODO display error message?
+                    System.out.println("problem while adding new quiz, error code:" + response.code());
                 }
 
                 @Override
                 public void onFailure(String failureMessage) {
                     System.out.println(failureMessage);
                     // TODO display error message?
+                    System.out.println("problem while adding new quiz, failure message:\n" + failureMessage);
                 }
             });
         }
