@@ -11,11 +11,11 @@ import java.util.List;
 public class PrizeType {
     @Id
     @GeneratedValue
-    int id;
-    String name;
+    private int id;
+    private String name;
 
     @ManyToMany(mappedBy = "types")
-    List<Prize> prizes;
+    private List<Prize> prizes;
 
     public PrizeType(String name) {
         this.name = name;

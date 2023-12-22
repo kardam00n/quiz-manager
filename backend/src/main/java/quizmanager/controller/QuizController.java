@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping(path = "quizzes")
 public class QuizController {
 
-    QuizService quizService;
+    private final QuizService quizService;
 
     public QuizController(QuizService quizService) {
         this.quizService = quizService;

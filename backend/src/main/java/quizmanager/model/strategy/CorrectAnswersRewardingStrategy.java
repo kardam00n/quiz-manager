@@ -10,7 +10,7 @@ import javax.persistence.Entity;
 @DiscriminatorValue("CORR_ANS")
 public class CorrectAnswersRewardingStrategy extends RewardingStrategy{
 
-    int correctAnswersToPass;
+    private int correctAnswersToPass;
     @Override
     PrizeType getsPrize(Record record) {
         //TODO : Implement

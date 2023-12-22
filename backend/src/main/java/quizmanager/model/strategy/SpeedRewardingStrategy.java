@@ -10,7 +10,7 @@ import javax.persistence.Entity;
 @DiscriminatorValue("SPEED")
 public class SpeedRewardingStrategy extends RewardingStrategy{
 
-    int topSpeedPercentage;
+    private int topSpeedPercentage;
     @Override
     PrizeType getsPrize(Record record) {
         //TODO: implement

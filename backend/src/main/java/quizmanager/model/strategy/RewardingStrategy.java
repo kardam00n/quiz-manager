@@ -11,9 +11,9 @@ import javax.persistence.*;
 public abstract class RewardingStrategy {
     @Id
     @GeneratedValue
-    int id;
+    private int id;
 
-    String name;
+    private String name;
 
     @ManyToOne
     @JoinColumn(name = "passed_id")

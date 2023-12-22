@@ -11,9 +11,6 @@ public class Record {
     @Id
     @GeneratedValue
     private int id;
-    @ManyToOne
-    @JoinColumn(name = "quiz_id", referencedColumnName = "id")
-    private Quiz quiz;
     private String nickname;
     //TODO: Change to LocalDateTime
     //@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

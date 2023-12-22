@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Service
 public class QuizService {
-    QuizRepository quizRepository;
+    private final QuizRepository quizRepository;
 
     public QuizService(QuizRepository quizRepository) {
         this.quizRepository = quizRepository;
