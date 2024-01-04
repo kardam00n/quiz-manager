@@ -38,7 +38,8 @@
         <columns>
             <TableColumn fx:id="nickname" prefWidth="75.0" text="Pseudonim" />
             <TableColumn fx:id="score" prefWidth="75.0" text="Liczba poprawnych&#10;&#9;odpowiedzi&#10;" />
-            <TableColumn fx:id="timestamp" prefWidth="75.0" text="Timestamp" />
+            <TableColumn fx:id="startTimestamp" prefWidth="75.0" text="Timestamp - Start" />
+            <TableColumn fx:id="endTimestamp" prefWidth="75.0" text="Timestamp - End" />
             <TableColumn fx:id="prize" prefWidth="75.0" text="Nagroda" />
         </columns>
         <columnResizePolicy>

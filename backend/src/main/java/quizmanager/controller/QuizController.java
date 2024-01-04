@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "quizzes")
@@ -55,21 +56,29 @@ public class QuizController {
     @GetMapping("/getQuiz/{name}")
     public List<RecordDto> getQuizByName(@PathVariable("name") String name) {
 
-        Optional<Quiz> quiz = quizService.getQuizByName(name);
-        quiz.ifPresent((e) -> System.out.println(e));
+        Optional<Quiz> quizOptional = quizService.getQuizByName(name);
 
+        List<RecordDto> recordDtoList = new ArrayList<>();
 
-        return Collections.emptyList();
-//        return quizService.getQuizByName(name)
-//                .map(quiz -> quiz.getRecordSet().stream()
-//                        .map(record -> new RecordDto(
-//                                record.getNickname(),
-//                                record.getScore(),
-//                                record.getTimestamp(),
-//                                record.getPrize().toString()))
-//                        .toList())
-//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        quizOptional.ifPresent(quiz -> {
+            List<RecordDto> records = quiz.getRecordSet().stream()
+                    .map(record -> new RecordDto(
+                            record.getNickname(),
+                            record.getScore(),
+                            record.getStartTimestamp(),
+                            record.getEndTimestamp(),
+                            record.getPrize().toString()))
+                    .collect(Collectors.toList());
+            recordDtoList.addAll(records);
+        });
+
+        if (recordDtoList.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        return recordDtoList;
     }
+
 
 
     @PostMapping("/addQuiz")
@@ -86,6 +95,6 @@ public class QuizController {
         }
     }
 
-    public record RecordDto(String nickname, int score, Timestamp timestamp, String prize) {
+    public record RecordDto(String nickname, int score, Timestamp startTimestamp,Timestamp endTimestamp, String prize) {
     }
 }

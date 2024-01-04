@@ -36,7 +36,11 @@ public class QuizView implements Initializable {
     private TableColumn<RecordDto, Integer> score;
 
     @FXML
-    private TableColumn<RecordDto, Timestamp> timestamp;
+    private TableColumn<RecordDto, Timestamp> startTimestamp;
+    @FXML
+    private TableColumn<RecordDto, Timestamp> endTimestamp;
+
+
 
     @FXML
     private TableColumn<RecordDto, String> prize; // TODO change type
@@ -54,7 +58,8 @@ public class QuizView implements Initializable {
 
         nickname.setCellValueFactory(new PropertyValueFactory<>("nickname"));
         score.setCellValueFactory(new PropertyValueFactory<>("score"));
-        timestamp.setCellValueFactory(new PropertyValueFactory<>("timestamp"));
+        startTimestamp.setCellValueFactory(new PropertyValueFactory<>("startTimestamp"));
+        endTimestamp.setCellValueFactory(new PropertyValueFactory<>("endTimestamp"));
         prize.setCellValueFactory(new PropertyValueFactory<>("prize"));
         QuizServiceCalls.loadQuizTitles(new QuizServiceCalls.SendCallback<>() {
             @Override

@@ -14,10 +14,10 @@ public class Record {
     @GeneratedValue
     private int id;
     private String nickname;
-//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Timestamp timestamp;
+    private Timestamp startTimestamp;
+    private Timestamp endTimestamp;
     private int score;
 
     @ManyToMany
@@ -31,9 +31,10 @@ public class Record {
     @JoinColumn(name = "prize_id")
     private Prize prize = null;
 
-    public Record(String nickname, Timestamp timestamp, int score, List<Prize> prizeList) {
+    public Record(String nickname, Timestamp startTimestamp,Timestamp endTimestamp, int score, List<Prize> prizeList) {
         this.nickname = nickname;
-        this.timestamp = timestamp;
+        this.startTimestamp = startTimestamp;
+        this.endTimestamp = endTimestamp;
         this.score = score;
         this.prizeList = prizeList;
     }
@@ -53,10 +54,16 @@ public class Record {
         return score;
     }
 
-    public Timestamp getTimestamp() {
+    public Timestamp getStartTimestamp() {
         System.out.println("\n\n\n\n");
-        System.out.println(timestamp);
-        return timestamp;
+        System.out.println(startTimestamp);
+        return startTimestamp;
+    }
+
+    public Timestamp getEndTimestamp() {
+        System.out.println("\n\n\n\n");
+        System.out.println(endTimestamp);
+        return endTimestamp;
     }
 
     public List<Prize> getPrizeList() {
@@ -71,7 +78,8 @@ public class Record {
     public String toString() {
         return "Record{" +
                 "nickname='" + nickname + '\'' +
-                ", timestamp=" + timestamp +
+                ", startTimestamp=" + startTimestamp +
+                ", endTimestamp=" + endTimestamp +
                 ", score=" + score +
                 ", prizeList=" + prizeList +
                 ", prize=" + prize +

@@ -34,6 +34,8 @@ public class FileManager {
                     row.getCell(13).getStringCellValue(),
                     Timestamp.from(
                             Instant.ofEpochMilli(row.getCell(2).getDateCellValue().getTime())),
+                    Timestamp.from(
+                            Instant.ofEpochMilli(row.getCell(3).getDateCellValue().getTime())),
                     (int) row.getCell(5).getNumericCellValue(),
                     parsePrizeString(row.getCell(16).getStringCellValue())
             ));
@@ -55,19 +57,23 @@ public class FileManager {
         nicknameCell.setCellValue("nickname");
 
         sheet.setColumnWidth(1, 4000);
-        Cell timestampCell = header.createCell(1);
-        timestampCell.setCellValue("timestamp");
+        Cell startTimestampCell = header.createCell(1);
+        startTimestampCell.setCellValue("startTimestamp");
 
-        sheet.setColumnWidth(2, 1000);
-        Cell scoreCell = header.createCell(2);
+        sheet.setColumnWidth(2, 4000);
+        Cell endTimestampCell = header.createCell(2);
+        endTimestampCell.setCellValue("endTimestamp");
+
+        sheet.setColumnWidth(3, 1000);
+        Cell scoreCell = header.createCell(3);
         scoreCell.setCellValue("score");
 
-        sheet.setColumnWidth(3, 2000);
-        Cell prizeCell = header.createCell(3);
+        sheet.setColumnWidth(4, 2000);
+        Cell prizeCell = header.createCell(4);
         prizeCell.setCellValue("prize");
 
-        sheet.setColumnWidth(4, 6000);
-        Cell prizeListCell = header.createCell(4);
+        sheet.setColumnWidth(5, 6000);
+        Cell prizeListCell = header.createCell(5);
         prizeListCell.setCellValue("prize list");
 
         int rowNum = 1;
@@ -75,9 +81,15 @@ public class FileManager {
             Row row = sheet.createRow(rowNum);
             nicknameCell = row.createCell(0);
             nicknameCell.setCellValue(record.getNickname());
-            timestampCell = row.createCell(1);
-            timestampCell.setCellValue(record.getTimestamp());
-            timestampCell.setCellStyle(dateCellStyle);
+
+            startTimestampCell = row.createCell(1);
+            startTimestampCell.setCellValue(record.getStartTimestamp());
+            startTimestampCell.setCellStyle(dateCellStyle);
+
+            endTimestampCell = row.createCell(1);
+            endTimestampCell.setCellValue(record.getEndTimestamp());
+            endTimestampCell.setCellStyle(dateCellStyle);
+
             scoreCell = row.createCell(2);
             scoreCell.setCellValue(record.getScore());
             prizeCell = row.createCell(3);

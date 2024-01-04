@@ -2,6 +2,7 @@ package quizmanager.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 
 public class RecordDto {
@@ -11,19 +12,21 @@ public class RecordDto {
     @SerializedName("score")
     private int score;
 
-    @SerializedName("timestamp")
+    @SerializedName("startTimestamp")
+    private Timestamp startTimestamp;
 
-    // TODO change to proper Class when fixed in the backend
-//    private Timestamp timestamp;
-    private String timestamp;
+    @SerializedName("endTimestamp")
+    private Timestamp endTimestamp;
+
     @SerializedName("prize")
     private String prize;
 
 
-    public RecordDto(String nickname, int score, String timestamp, String prize) {
+    public RecordDto(String nickname, int score, Timestamp startTimestamp,Timestamp endTimestamp, String prize) {
         this.nickname = nickname;
         this.score = score;
-        this.timestamp = timestamp;
+        this.startTimestamp = startTimestamp;
+        this.endTimestamp = endTimestamp;
         this.prize = prize;
     }
 
@@ -46,15 +49,21 @@ public class RecordDto {
     public void setScore(int score) {
         this.score = score;
     }
-
     @SuppressWarnings("unused")
-    public String getTimestamp() {
-        return timestamp;
+    public Timestamp getStartTimestamp() {
+        return startTimestamp;
     }
-
     @SuppressWarnings("unused")
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
+    public void setStartTimestamp(Timestamp startTimestamp) {
+        this.startTimestamp = startTimestamp;
+    }
+    @SuppressWarnings("unused")
+    public Timestamp getEndTimestamp() {
+        return endTimestamp;
+    }
+    @SuppressWarnings("unused")
+    public void setEndTimestamp(Timestamp endTimestamp) {
+        this.endTimestamp = endTimestamp;
     }
 
     @SuppressWarnings("unused")
