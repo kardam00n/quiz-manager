@@ -70,7 +70,6 @@ public class QuizView implements Initializable {
                     quizTitles.getSelectionModel().select(0);
 
                 List<String> quizList = response.body();
-                assert quizList != null;
                 quizTitles.getItems().addAll(quizList);
 
             }
