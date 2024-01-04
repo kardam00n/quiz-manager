@@ -15,7 +15,8 @@ public class Quiz {
     @ManyToOne
     @JoinColumn(name = "rewarding_strategy_id")
     private RewardingStrategy rewardingStrategy;
-    @OneToMany(mappedBy = "quiz")
+    @OneToMany()
+    @JoinColumn(name = "quiz_id")
     private List<Record> recordSet;
 
     public Quiz() {
