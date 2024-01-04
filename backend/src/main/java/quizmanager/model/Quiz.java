@@ -31,4 +31,9 @@ public class Quiz {
     public List<Record> getRecordSet() {
         return recordSet;
     }
+
+    @Override
+    public String toString(){
+        return name + " " + recordSet.get(0).getNickname();
+    }
 }

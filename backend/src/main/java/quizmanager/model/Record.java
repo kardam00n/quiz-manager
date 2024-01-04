@@ -1,9 +1,11 @@
 package quizmanager.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 import quizmanager.model.prize.Prize;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 @Entity
@@ -12,9 +14,10 @@ public class Record {
     @GeneratedValue
     private int id;
     private String nickname;
-    //TODO: Change to LocalDateTime
-    //@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private String timestamp;
+//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Timestamp timestamp;
     private int score;
 
     @ManyToMany
@@ -28,7 +31,7 @@ public class Record {
     @JoinColumn(name = "prize_id")
     private Prize prize = null;
 
-    public Record(String nickname, String timestamp, int score, List<Prize> prizeList) {
+    public Record(String nickname, Timestamp timestamp, int score, List<Prize> prizeList) {
         this.nickname = nickname;
         this.timestamp = timestamp;
         this.score = score;
@@ -50,7 +53,9 @@ public class Record {
         return score;
     }
 
-    public String getTimestamp() {
+    public Timestamp getTimestamp() {
+        System.out.println("\n\n\n\n");
+        System.out.println(timestamp);
         return timestamp;
     }
 
