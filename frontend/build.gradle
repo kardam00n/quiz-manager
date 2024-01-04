@@ -3,14 +3,9 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.1.0'
 }
 
-group = 'pl.edu.agh.siankoteam'
+group = 'quizmanager'
 version = '0.1'
 
-apply plugin: 'org.openjfx.javafxplugin'
-
-repositories {
-    mavenCentral()
-}
 
 application {
     mainClassName = 'quizmanager.QuizManager'
@@ -23,11 +18,17 @@ java {
 }
 
 javafx {
-    version = '17'
+    version = '21'
     modules = ['javafx.controls', 'javafx.fxml']
 }
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation group: 'com.squareup.retrofit2', name: 'converter-gson', version: '2.9.0'
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }

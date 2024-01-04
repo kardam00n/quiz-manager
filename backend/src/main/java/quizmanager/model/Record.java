@@ -1,23 +1,41 @@
 package quizmanager.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import quizmanager.model.prize.Prize;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
-
-public class Record implements Comparable<Record> {
+@Entity
+public class Record {
+    @Id
+    @GeneratedValue
+    private int id;
     private String nickname;
-    private LocalDateTime timestamp;
+    //TODO: Change to LocalDateTime
+    //@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private String timestamp;
     private int score;
 
+    @ManyToMany
+    @JoinTable(
+            name = "RECORD_PRIZES",
+            joinColumns = @JoinColumn(name = "RECORD_ID", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "PRIZE_ID", referencedColumnName = "id")
+    )
     private List<Prize> prizeList;
+    @ManyToOne
+    @JoinColumn(name = "prize_id")
     private Prize prize = null;
 
-    public Record(String nickname, LocalDateTime timestamp, int score, List<Prize> prizeList) {
+    public Record(String nickname, String timestamp, int score, List<Prize> prizeList) {
         this.nickname = nickname;
         this.timestamp = timestamp;
         this.score = score;
         this.prizeList = prizeList;
+    }
+
+    public Record() {
     }
 
     public Prize getPrize() {
@@ -32,7 +50,7 @@ public class Record implements Comparable<Record> {
         return score;
     }
 
-    public LocalDateTime getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
@@ -42,18 +60,6 @@ public class Record implements Comparable<Record> {
 
     void forcePrize(Prize prize) {
         this.prize = prize;
-    }
-
-    @Override
-    public int compareTo(Record record) {
-        int result = Integer.compare(score, record.score);
-        if (result == 0) {
-            result = timestamp.compareTo(record.timestamp);
-            if (result == 0) {
-                result = nickname.compareTo(record.nickname);
-            }
-        }
-        return result;
     }
 
     @Override

@@ -11,7 +11,6 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 
 public class FileManager {
@@ -19,10 +18,10 @@ public class FileManager {
     private FileManager() {
     }
 
-    public static TreeSet<Record> importFile(String filePath) throws IOException {
-        TreeSet<Record> recordSet = new TreeSet<>();
-        FileInputStream file = new FileInputStream(new File(filePath));
-        Workbook workbook = new XSSFWorkbook(file);
+    public static List<Record> importFile(File file) throws IOException {
+        List<Record> recordSet = new ArrayList<>();
+        FileInputStream fileStream = new FileInputStream(file);
+        Workbook workbook = new XSSFWorkbook(fileStream);
 
         Sheet sheet = workbook.getSheetAt(0);
 
@@ -32,9 +31,10 @@ public class FileManager {
             }
             recordSet.add(new Record(
                     row.getCell(13).getStringCellValue(),
-                    Instant.ofEpochMilli(row.getCell(2).getDateCellValue().getTime())
-                            .atZone(ZoneId.systemDefault())
-                            .toLocalDateTime(),
+//                    Instant.ofEpochMilli(row.getCell(2).getDateCellValue().getTime())
+//                            .atZone(ZoneId.systemDefault())
+//                            .toLocalDateTime(),
+                    row.getCell(2).getStringCellValue(),
                     (int) row.getCell(5).getNumericCellValue(),
                     parsePrizeString(row.getCell(16).getStringCellValue())
             ));
@@ -77,8 +77,9 @@ public class FileManager {
             nicknameCell = row.createCell(0);
             nicknameCell.setCellValue(record.getNickname());
             timestampCell = row.createCell(1);
-            timestampCell.setCellValue(java.util.Date
-                    .from(record.getTimestamp().atZone(ZoneId.systemDefault()).toInstant()));
+//            timestampCell.setCellValue(java.util.Date
+//                    .from(record.getTimestamp().atZone(ZoneId.systemDefault()).toInstant()));
+            timestampCell.setCellValue(record.getTimestamp());
             timestampCell.setCellStyle(dateCellStyle);
             scoreCell = row.createCell(2);
             scoreCell.setCellValue(record.getScore());
