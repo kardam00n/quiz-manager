@@ -6,6 +6,7 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.*;
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -31,9 +32,8 @@ public class FileManager {
             }
             recordSet.add(new Record(
                     row.getCell(13).getStringCellValue(),
-                    Instant.ofEpochMilli(row.getCell(2).getDateCellValue().getTime())
-                            .atZone(ZoneId.systemDefault())
-                            .toLocalDateTime(),
+                    Timestamp.from(
+                            Instant.ofEpochMilli(row.getCell(2).getDateCellValue().getTime())),
                     (int) row.getCell(5).getNumericCellValue(),
                     parsePrizeString(row.getCell(16).getStringCellValue())
             ));
@@ -76,8 +76,7 @@ public class FileManager {
             nicknameCell = row.createCell(0);
             nicknameCell.setCellValue(record.getNickname());
             timestampCell = row.createCell(1);
-            timestampCell.setCellValue(java.util.Date
-                    .from(record.getTimestamp().atZone(ZoneId.systemDefault()).toInstant()));
+            timestampCell.setCellValue(record.getTimestamp());
             timestampCell.setCellStyle(dateCellStyle);
             scoreCell = row.createCell(2);
             scoreCell.setCellValue(record.getScore());

@@ -12,9 +12,12 @@ import quizmanager.utils.FileManager;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "quizzes")
@@ -25,8 +28,9 @@ public class QuizController {
     public QuizController(QuizService quizService) {
         this.quizService = quizService;
     }
+
     @GetMapping("/all")
-    public List<Quiz> getAllQuizzes(){
+    public List<Quiz> getAllQuizzes() {
         return quizService.getQuizzes();
     }
 
@@ -36,18 +40,38 @@ public class QuizController {
     }
 
     // TODO fix this endpoint xd
+//    @GetMapping("/getQuiz/{name}")
+//    public List<RecordDto> getQuizByName(@PathVariable("name") String name) {
+//        return new ArrayList<>();
+////        return quizService.getQuizByName(name)
+////                .map(quiz -> {quiz.getRecordSet().stream()
+////                        .map((record) -> new RecordDto(
+////                                record.getNickname(),
+////                                record.getScore(),
+////                                record.getTimestamp(),
+////                                record.getPrize().toString())).toList()})
+////                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+//    }
+
     @GetMapping("/getQuiz/{name}")
     public List<RecordDto> getQuizByName(@PathVariable("name") String name) {
-        return new ArrayList<>();
+
+        Optional<Quiz> quiz = quizService.getQuizByName(name);
+        quiz.ifPresent((e) -> System.out.println(e));
+
+
+        return Collections.emptyList();
 //        return quizService.getQuizByName(name)
-//                .map(quiz -> {quiz.getRecordSet().stream()
-//                        .map((record) -> new RecordDto(
+//                .map(quiz -> quiz.getRecordSet().stream()
+//                        .map(record -> new RecordDto(
 //                                record.getNickname(),
 //                                record.getScore(),
 //                                record.getTimestamp(),
-//                                record.getPrize().toString())).toList()})
+//                                record.getPrize().toString()))
+//                        .toList())
 //                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
+
 
     @PostMapping("/addQuiz")
     public void addQuiz(@RequestBody MultipartFile file) {
@@ -63,5 +87,6 @@ public class QuizController {
         }
     }
 
-    public record RecordDto(String nickname, int score, LocalDateTime timestamp, String prize) {}
+    public record RecordDto(String nickname, int score, Timestamp timestamp, String prize) {
+    }
 }
