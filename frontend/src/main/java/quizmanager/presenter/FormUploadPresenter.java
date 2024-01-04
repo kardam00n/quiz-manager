@@ -13,6 +13,9 @@ import java.io.File;
 
 public class FormUploadPresenter {
 
+    public static final String FILE_CHOOSER_TITLE = "Open Resource File";
+    public static final String FILE_CHOOSER_DESCRIPTION = "Excel Files";
+    public static final String FILE_CHOOSER_EXTENSION = "*.xlsx";
     @FXML
     private Button okButton;
 
@@ -55,9 +58,9 @@ public class FormUploadPresenter {
     @FXML
     private void chooseFile() {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open Resource File");
+        fileChooser.setTitle(FILE_CHOOSER_TITLE);
         fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"));
+                new FileChooser.ExtensionFilter(FILE_CHOOSER_DESCRIPTION, FILE_CHOOSER_EXTENSION));
         File selectedFile = fileChooser.showOpenDialog(dialogStage);
         if (selectedFile != null) {
             this.selectedFile = selectedFile;
