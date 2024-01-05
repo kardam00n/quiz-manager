@@ -25,3 +25,6 @@ Model danych
 Schemat aplikacji
 ![Schemat aplikacji](docs/AppSchematics.jpg)
 
+Przejrzysta historia commitów
+![Slalom](docs/slalom.png)
+
