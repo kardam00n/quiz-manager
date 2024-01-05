@@ -41,4 +41,11 @@ public interface QuizServiceApi {
     @GET("sth/{quiz}")
     Observable<StrategyBData> getStrategyBData(@Path("quiz") String quizName);
 
+
+    @PUT("sth/{quiz}")
+    Observable<ResponseBody> updateStrategyForQuiz(@Path("quiz") String quiz, @Body StrategyAData strategy);
+
+    @PUT("sth/{quiz}")
+    Observable<ResponseBody> updateStrategyForQuiz(@Path("quiz") String quiz, @Body StrategyBData strategy);
+
 }

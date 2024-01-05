@@ -85,5 +85,13 @@ public class QuizService {
         return service.getStrategyBData(quizTitle);
     }
 
+    public Observable<ResponseBody> updateStrategyForQuiz(String quizTitle, StrategyAData strategyAdata){
+        return service.updateStrategyForQuiz(quizTitle, strategyAdata);
+    }
+
+    public Observable<ResponseBody> updateStrategyForQuiz(String quizTitle, StrategyBData strategyBdata){
+        return service.updateStrategyForQuiz(quizTitle, strategyBdata);
+    }
+
 
 }

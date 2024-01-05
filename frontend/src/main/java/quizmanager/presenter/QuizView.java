@@ -196,9 +196,16 @@ public class QuizView implements Initializable {
 
             StrategyDto strategyDto = presenter.getStrategyDto();
             if(strategyDto instanceof StrategyAData strategy) {
-                // TODO here we have our strategy to be put for quiz i guess
+                service.updateStrategyForQuiz(quizTitles.getSelectionModel().getSelectedItem(), strategy).subscribe(
+                        System.out::println,
+                        System.out::println
+                );
             }
-            else if (strategyDto instanceof StrategyBData) {
+            else if (strategyDto instanceof StrategyBData strategy) {
+                service.updateStrategyForQuiz(quizTitles.getSelectionModel().getSelectedItem(), strategy).subscribe(
+                        System.out::println,
+                        System.out::println
+                );
 
             }
 

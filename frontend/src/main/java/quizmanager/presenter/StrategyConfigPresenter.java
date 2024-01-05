@@ -66,6 +66,7 @@ public class StrategyConfigPresenter {
 
         chosenStrategy.getSelectionModel().select(0);
 
+        // TODO
 //        okButton.disableProperty().bind(
 //                Bindings.isEmpty(treshold.textProperty())
 //                        .or(Bindings.isEmpty(victoryPrizeType.textProperty()))
