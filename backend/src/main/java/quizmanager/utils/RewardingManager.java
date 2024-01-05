@@ -13,7 +13,9 @@ import quizmanager.model.strategy.SpeedRewardingStrategy;
 import quizmanager.service.PrizeService;
 import quizmanager.service.RecordService;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class RewardingManager {
@@ -41,13 +43,9 @@ public class RewardingManager {
     public void assignPrizesCorrectAnswers(Quiz quiz, Prize nonePrize) {
         RewardingStrategy rewardingStrategy = quiz.getRewardingStrategy();
         List<Record> records = quiz.getRecordSet();
-        int correctAnswersToPass = ((CorrectAnswersRewardingStrategy) rewardingStrategy).getCorrectAnswersToPass();
+        Map<Integer, PrizeType> prizeTypeMap = ((CorrectAnswersRewardingStrategy) rewardingStrategy).getPrizeTypeMap();
         for (Record record : records) {
-            if (record.getScore() >= correctAnswersToPass) {
-                setPrize(record, rewardingStrategy.getPrizeTypeIfPassed());
-            } else {
-                setPrize(record, rewardingStrategy.getPrizeTypeIfFailed());
-            }
+            setPrize(record, prizeTypeMap.get(record.getScore()));
             if(record.getPrize() == null){
                 setPrize(record, nonePrize);
             }
