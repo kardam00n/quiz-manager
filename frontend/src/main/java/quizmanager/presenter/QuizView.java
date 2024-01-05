@@ -14,18 +14,14 @@ import quizmanager.model.PrizeTypeDto;
 import quizmanager.model.QuizListElement;
 import quizmanager.model.RecordDto;
 import quizmanager.service.QuizService;
-import rx.Observable;
 
 import java.net.URL;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class QuizView implements Initializable {
 
-    public QuizView(QuizService service){
+    public QuizView(QuizService service) {
         this.service = service;
     }
 
@@ -49,7 +45,6 @@ public class QuizView implements Initializable {
     private TableColumn<RecordDto, Timestamp> endTimestamp;
 
 
-
     @FXML
     private TableColumn<RecordDto, String> prize; // TODO change type
 
@@ -58,7 +53,7 @@ public class QuizView implements Initializable {
 
     @FXML
     private ListView<String> quizTitles;
-    private  QuizService service;
+    private final QuizService service;
 
 
     @Override
@@ -81,12 +76,11 @@ public class QuizView implements Initializable {
                 });
 
 
-
         service.loadQuizTitles().subscribe(
                 next -> quizTitles.getItems().addAll(next),
                 System.out::println,
                 () -> {
-                    if (!quizTitles.getItems().isEmpty()){
+                    if (!quizTitles.getItems().isEmpty()) {
                         quizTitles.getSelectionModel().select(0);
                     }
                 }
@@ -130,8 +124,12 @@ public class QuizView implements Initializable {
     public void addPrize() {
         PrizeDto prizeDto = new PrizeDto();
 
-        if(appController.showAddPrizeDialog(prizeDto, service.getPrizeTypes())) {
-            service.uploadPrize(prizeDto);
+        if (appController.showAddPrizeDialog(prizeDto, service.getPrizeTypes())) {
+            service.uploadPrize(prizeDto).subscribe(
+                    next -> {
+                    },
+                    System.out::println
+            );
         }
     }
 
@@ -140,7 +138,11 @@ public class QuizView implements Initializable {
     public void addPrizeType() {
         var prizeTypeDto = new PrizeTypeDto();
         if (appController.showNewPrizeTypeDialog(prizeTypeDto)) {
-            // upload prize type
+            service.uploadPrizeType(prizeTypeDto).subscribe(
+                    next -> {
+                    },
+                    System.out::println
+            );
         }
     }
 

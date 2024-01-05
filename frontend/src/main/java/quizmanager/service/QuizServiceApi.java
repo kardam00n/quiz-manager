@@ -29,4 +29,7 @@ public interface QuizServiceApi {
 
     @POST("/sth2")
     Observable<ResponseBody> uploadPrize(@Body PrizeDto prizeDto);
+
+    @POST("sth3")
+    Observable<ResponseBody> uploadPrizeType(@Body PrizeTypeDto prizeTypeDto);
 }
