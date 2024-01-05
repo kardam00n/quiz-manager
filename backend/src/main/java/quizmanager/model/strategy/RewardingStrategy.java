@@ -1,9 +1,11 @@
 package quizmanager.model.strategy;
 
 import quizmanager.model.Record;
+import quizmanager.model.prize.Prize;
 import quizmanager.model.prize.PrizeType;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @DiscriminatorColumn(name="STRAT_TYPE")
@@ -22,5 +24,28 @@ public abstract class RewardingStrategy {
     @JoinColumn(name = "failed_id")
     PrizeType prizeTypeIfFailed;
 
-    abstract PrizeType getsPrize(Record record);
+    public RewardingStrategy(String name, PrizeType prizeTypeIfPassed, PrizeType prizeTypeIfFailed) {
+        this.name = name;
+        this.prizeTypeIfPassed = prizeTypeIfPassed;
+        this.prizeTypeIfFailed = prizeTypeIfFailed;
+    }
+
+    public RewardingStrategy() {
+
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public PrizeType getPrizeTypeIfPassed() {
+        return prizeTypeIfPassed;
+    }
+
+    public PrizeType getPrizeTypeIfFailed() {
+        return prizeTypeIfFailed;
+    }
+
+    public abstract void assignPrizes(List<Record> records);
+
 }

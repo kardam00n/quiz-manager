@@ -34,6 +34,14 @@ public class Prize {
         return types;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public boolean isTypeOf(PrizeType type){
+        return types.contains(type);
+    }
+
     public String getName() {
         return name;
     }

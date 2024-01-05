@@ -3,6 +3,7 @@ package quizmanager.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 import quizmanager.model.prize.Prize;
+import quizmanager.model.prize.PrizeType;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -11,7 +12,7 @@ import java.util.List;
 @Entity
 public class Record {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String nickname;
 
@@ -55,14 +56,10 @@ public class Record {
     }
 
     public Timestamp getStartTimestamp() {
-        System.out.println("\n\n\n\n");
-        System.out.println(startTimestamp);
         return startTimestamp;
     }
 
     public Timestamp getEndTimestamp() {
-        System.out.println("\n\n\n\n");
-        System.out.println(endTimestamp);
         return endTimestamp;
     }
 
@@ -72,6 +69,18 @@ public class Record {
 
     void forcePrize(Prize prize) {
         this.prize = prize;
+    }
+
+    public void setPrize(PrizeType type){
+        for (Prize prize : prizeList) {
+            if (prize.isTypeOf(type)){
+                this.prize = prize;
+            }
+        }
+    }
+
+    public int getId() {
+        return id;
     }
 
     @Override

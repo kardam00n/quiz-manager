@@ -47,7 +47,7 @@ public class QuizService {
         if (file.exists()) {
             MultipartBody.Part filePart = MultipartBody.Part.createFormData
                     ("file",
-                            file.getName(),
+                            quizListElement.getName(),
                             RequestBody.create(
                                     MediaType.parse("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"),
                                     file
