@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 public class Record {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String nickname;
 

@@ -33,9 +33,9 @@ public class FileManager {
             recordSet.add(new Record(
                     row.getCell(13).getStringCellValue(),
                     Timestamp.from(
-                            Instant.ofEpochMilli(row.getCell(2).getDateCellValue().getTime())),
+                            Instant.ofEpochMilli(row.getCell(1).getDateCellValue().getTime())),
                     Timestamp.from(
-                            Instant.ofEpochMilli(row.getCell(3).getDateCellValue().getTime())),
+                            Instant.ofEpochMilli(row.getCell(2).getDateCellValue().getTime())),
                     (int) row.getCell(5).getNumericCellValue(),
                     parsePrizeString(row.getCell(16).getStringCellValue())
             ));

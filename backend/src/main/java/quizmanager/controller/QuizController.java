@@ -9,6 +9,7 @@ import quizmanager.model.Record;
 import quizmanager.model.prize.PrizeType;
 import quizmanager.model.strategy.CorrectAnswersRewardingStrategy;
 import quizmanager.service.QuizService;
+import quizmanager.service.RewardingStrategyService;
 import quizmanager.utils.FileManager;
 
 import java.io.File;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLOutput;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,9 +31,11 @@ import java.util.stream.Collectors;
 public class QuizController {
 
     private final QuizService quizService;
+    private final RewardingStrategyService rewardingStrategyService;
 
-    public QuizController(QuizService quizService) {
+    public QuizController(QuizService quizService, RewardingStrategyService rewardingStrategyService) {
         this.quizService = quizService;
+        this.rewardingStrategyService = rewardingStrategyService;
     }
     @GetMapping("/all")
     public List<Quiz> getAllQuizzes(){
@@ -61,7 +65,7 @@ public class QuizController {
     public List<RecordDto> getQuizByName(@PathVariable("name") String name) {
 
         Optional<Quiz> quizOptional = quizService.getQuizByName(name);
-
+        quizOptional.ifPresent(Quiz::assignPrizes);
         List<RecordDto> recordDtoList = new ArrayList<>();
 
         quizOptional.ifPresent(quiz -> {
@@ -91,10 +95,11 @@ public class QuizController {
     public void addQuiz(@RequestBody MultipartFile file) {
         System.out.println("received file with name: " + file.getName());
         try {
-            File transferFile = new File("received.xlsx");
+            File transferFile = File.createTempFile("received", ".xlsx");
             file.transferTo(transferFile);
+            System.out.println("Im here");
             List<Record> records = FileManager.importFile(transferFile);
-            Quiz quiz = new Quiz(file.getName(), records, new CorrectAnswersRewardingStrategy("Strat1", new PrizeType("Type1"), new PrizeType("Type2"), 1)); //temporarily added preset strategy
+            Quiz quiz = new Quiz(file.getName(), records, rewardingStrategyService.getFirstRewardingStrategy()); //temporarily added preset strategy
             quizService.addQuiz(quiz);
         } catch (IOException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);

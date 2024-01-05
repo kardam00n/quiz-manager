@@ -9,13 +9,13 @@ import java.util.List;
 public class Quiz {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
     @ManyToOne
     @JoinColumn(name = "rewarding_strategy_id")
     private RewardingStrategy rewardingStrategy;
-    @OneToMany()
+    @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "quiz_id")
     private List<Record> recordSet;
 
