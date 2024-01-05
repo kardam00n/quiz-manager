@@ -48,6 +48,7 @@ public class QuizManagerController {
 
             // add layout to a scene and show them all
             Scene scene = new Scene(rootLayout);
+
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (IOException e) {

@@ -40,6 +40,8 @@ public class QuizManager extends Application {
             Platform.exit();
             System.exit(0);
         });
+
+        primaryStage.setMaximized(true);
     }
 
     public static void main(String[] args) {
