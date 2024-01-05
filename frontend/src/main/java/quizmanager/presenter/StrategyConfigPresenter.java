@@ -3,7 +3,10 @@ package quizmanager.presenter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -11,17 +14,19 @@ import quizmanager.model.PrizeTypeDto;
 import quizmanager.model.StrategyAData;
 import quizmanager.model.StrategyBData;
 import quizmanager.model.StrategyDto;
+import quizmanager.service.QuizService;
 
 public class StrategyConfigPresenter {
+
+    public StrategyConfigPresenter(QuizService service) {
+        this.service = service;
+    }
 
 
     @FXML
     private ChoiceBox<StrategyDto> chosenStrategy;
 
-    @FXML
-    private ScrollPane scrollPane;
-    @FXML
-    private HBox lastRow;
+
     @FXML
     private VBox optionsPane;
     @FXML
@@ -35,8 +40,9 @@ public class StrategyConfigPresenter {
 
     private boolean approved;
 
-    private StrategyDto strategyDto;
+    private StrategyDto strategyDto = new StrategyDto();
     private String quizTitle;
+    private QuizService service;
 
 
     @FXML
@@ -76,16 +82,14 @@ public class StrategyConfigPresenter {
 
     @FXML
     private void handleOkAction() {
-
-        // TODO checking if data is well formatted?
         updateModel();
         approved = true;
         dialogStage.close();
     }
 
     private void updateModel() {
-        StrategyDto selected  = chosenStrategy.getSelectionModel().getSelectedItem();
-        if(selected.getAlgorithmName().equals("one")) {
+        StrategyDto selected = chosenStrategy.getSelectionModel().getSelectedItem();
+        if (selected.getAlgorithmName().equals("one")) {
             StrategyAData strategyA = new StrategyAData();
 
 
@@ -100,13 +104,26 @@ public class StrategyConfigPresenter {
             strategyA.setRestPrizeType(choiceBox2.getValue());
 
             strategyDto = strategyA;
-        }
-        else if(chosenStrategy.getSelectionModel().getSelectedItem().getAlgorithmName().equals("two")) {
-            StrategyBData strategyB = (StrategyBData) chosenStrategy.getSelectionModel().getSelectedItem();
+        } else if (selected.getAlgorithmName().equals("two")) {
+            StrategyBData strategyB = new StrategyBData();
+
+
+            int index = 0;
+            for (var node : optionsPane.getChildren()) {
+                if (node instanceof HBox hBox) {
+                    if (index > 0 && index < optionsPane.getChildren().size() - 1) {
+                        Spinner<Integer> spinner = (Spinner<Integer>) hBox.getChildren().get(0);
+                        ChoiceBox<PrizeTypeDto> choiceBox = (ChoiceBox<PrizeTypeDto>) hBox.getChildren().get(1);
+                        strategyB.getData().put(spinner.getValue(), choiceBox.getValue());
+                    }
+
+                }
+                index++;
+            }
+
+            strategyDto = strategyB;
         }
 
-//        strategyDto.setDescription(prizeDescription.getText());
-//        strategyDto.setPrizeType(prizeType.getValue());
     }
 
 
@@ -119,11 +136,8 @@ public class StrategyConfigPresenter {
         return approved;
     }
 
-    public void setData(StrategyDto strategyDto, String quizTitle) {
-        this.strategyDto = strategyDto;
+    public void setData(String quizTitle) {
         this.quizTitle = quizTitle;
-
-
     }
 
 
@@ -167,10 +181,23 @@ public class StrategyConfigPresenter {
 
         hBox.getChildren().addAll(spinner, victoryPrizeCategory, restPrizeCategory);
 
+
+        service.getStrategyAData(quizTitle).subscribe(
+                next ->
+                {
+                    spinner.getValueFactory().setValue(next.getTreshold());
+                    victoryPrizeCategory.getItems().addAll(next.getVictoryPrizeType());
+                    restPrizeCategory.getItems().addAll(next.getRestPrizeType());
+                },
+                error -> {
+                    System.out.println("sth went wrong... (poprawimy na kolejne laby :>)");
+                }
+        );
+
         optionsPane.getChildren().add(optionsPane.getChildren().size() - 1, hBox);
     }
 
-    private void displayStrategyAControls(){
+    private void displayStrategyAControls() {
         addRowButton.setVisible(false);
         displayStrategyAHeader();
         displayStrategyARow();
@@ -196,9 +223,17 @@ public class StrategyConfigPresenter {
 
         optionsPane.getChildren().add(optionsPane.getChildren().size() - 1, title);
 
+        service.getStrategyBData(quizTitle).subscribe(
+                next -> next.getData().forEach(this::displayStrategyBRow),
+
+                error -> {
+                    System.out.println("sth went wrong");
+                }
+        );
+
     }
 
-    private void displayStrategyBRow() {
+    private void displayStrategyBRow(Integer i, PrizeTypeDto prizeTypeDto) {
         HBox hBox = new HBox();
         hBox.setAlignment(Pos.CENTER);
         hBox.setSpacing(20.0);
@@ -210,20 +245,35 @@ public class StrategyConfigPresenter {
         prizeCategory.setMinWidth(120.0);
         prizeCategory.setMaxWidth(120.0);
 
+
         hBox.getChildren().addAll(spinner, prizeCategory);
 
-        optionsPane.getChildren().add(optionsPane.getChildren().size() - 1, hBox);
 
+        optionsPane.getChildren().add(optionsPane.getChildren().size() - 1, hBox);
+        if (i != null && prizeTypeDto != null) {
+            spinner.getValueFactory().setValue(i);
+            prizeCategory.getItems().addAll(prizeTypeDto);
+        }
+    }
+
+    private void displayStrategyBRow() {
+        displayStrategyBRow(null, null);
     }
 
     private void displayBStrategyControls() {
         addRowButton.setVisible(true);
         displayStrategyBHeader();
         displayStrategyBRow();
+
     }
 
     @FXML
     private void addRow(ActionEvent actionEvent) {
         displayStrategyBRow();
     }
+
+    public StrategyDto getStrategyDto() {
+        return strategyDto;
+    }
+
 }

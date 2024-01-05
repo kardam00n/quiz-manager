@@ -43,6 +43,7 @@ public class QuizManagerController {
             // set presenter for the view
             QuizView presenter = loader.getController();
             presenter.setAppController(this);
+            presenter.setStage(primaryStage);
 
 
             // add layout to a scene and show them all
@@ -157,42 +158,44 @@ public class QuizManagerController {
     }
 
 
-    public boolean showStrategyConfigDialog(StrategyDto strategyDto, String quizTitle) {
-        try {
-            // Load the fxml file and create a new stage for the dialog
-            FXMLLoader loader = new FXMLLoader();
-
-            loader.setLocation(QuizManagerController.class.getResource("/view/strategy_config_dialog.fxml"));
-
-
-            BorderPane page = loader.load();
-
-            // Create the dialog Stage.
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("Konfiguracja strategii [" +quizTitle + "]" );
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(primaryStage);
-            Scene scene = new Scene(page);
-            dialogStage.setScene(scene);
-
-            // Set the size of the dialog stage
-
-            // Set the presenter for the view
-            StrategyConfigPresenter presenter = loader.getController();
-            presenter.setDialogStage(dialogStage);
-            presenter.setData(strategyDto, quizTitle);
-
-
-            // Show the dialog and wait until the user closes it
-            dialogStage.showAndWait();
-            return presenter.isApproved();
-
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
+//    public boolean showStrategyConfigDialog(StrategyDto strategyDto, String quizTitle) {
+//        try {
+//            // Load the fxml file and create a new stage for the dialog
+//            FXMLLoader loader = new FXMLLoader();
+//
+//            loader.setLocation(QuizManagerController.class.getResource("/view/strategy_config_dialog.fxml"));
+//
+//
+//            BorderPane page = loader.load();
+//
+//            // Create the dialog Stage.
+//            Stage dialogStage = new Stage();
+//            dialogStage.setTitle("Konfiguracja strategii [" +quizTitle + "]" );
+//            dialogStage.initModality(Modality.WINDOW_MODAL);
+//            dialogStage.initOwner(primaryStage);
+//            Scene scene = new Scene(page);
+//            dialogStage.setScene(scene);
+//
+//            // Set the size of the dialog stage
+//
+//            // Set the presenter for the view
+//            StrategyConfigPresenter presenter = loader.getController();
+//            presenter.setDialogStage(dialogStage);
+//            presenter.setData(strategyDto, quizTitle);
+//
+//
+//            // Show the dialog and wait until the user closes it
+//            dialogStage.showAndWait();
+//
+//
+//            return presenter.isApproved();
+//
+//
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//    }
 
 }

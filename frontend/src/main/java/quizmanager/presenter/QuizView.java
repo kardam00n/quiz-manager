@@ -5,16 +5,22 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import quizmanager.controller.QuizManagerController;
 import quizmanager.model.*;
 import quizmanager.service.QuizService;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ResourceBundle;
@@ -22,6 +28,7 @@ import java.util.ResourceBundle;
 public class QuizView implements Initializable {
 
 
+    private Stage stage;
 
     public QuizView(QuizService service) {
         this.service = service;
@@ -161,16 +168,47 @@ public class QuizView implements Initializable {
 
     @FXML
     private void configureStrategy(ActionEvent actionEvent) {
+        try {
+            // Load the fxml file and create a new stage for the dialog
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(QuizManagerController.class.getResource("/view/strategy_config_dialog.fxml"));
+            loader.setControllerFactory(controllerClass -> new StrategyConfigPresenter(service));
+            BorderPane page = loader.load();
 
-        String selectedQuiz = quizTitles.getSelectionModel().getSelectedItem();
-        var strategyDto = new StrategyDto();
-        if (appController.showStrategyConfigDialog(strategyDto, selectedQuiz)) {
-            if(strategyDto instanceof StrategyAData) {
-                System.out.println("A");
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Konfiguracja strategii [" + quizTitles.getSelectionModel().getSelectedItem() + "]" );
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(stage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the size of the dialog stage
+
+            // Set the presenter for the view
+            StrategyConfigPresenter presenter = loader.getController();
+            presenter.setDialogStage(dialogStage);
+            presenter.setData(quizTitles.getSelectionModel().getSelectedItem());
+
+
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+
+            StrategyDto strategyDto = presenter.getStrategyDto();
+            if(strategyDto instanceof StrategyAData strategy) {
+                // TODO here we have our strategy to be put for quiz i guess
             }
-            else if(strategyDto instanceof StrategyBData) {
-                System.out.println("B");
+            else if (strategyDto instanceof StrategyBData) {
+
             }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
         }
+    }
+
+    public void setStage(Stage primaryStage) {
+        this.stage = primaryStage;
     }
 }
