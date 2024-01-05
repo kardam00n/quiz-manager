@@ -84,50 +84,51 @@ public class QuizController {
 
 
 
-    // TODO uncomment
-//    @PostMapping("/addQuiz")
-//    public void addQuiz(@RequestBody MultipartFile file) {
-//        System.out.println("received file with name: " + file.getName());
-//        try {
-//            File transferFile = new File("received.xlsx");
-//            file.transferTo(transferFile);
-//            List<Record> records = FileManager.importFile(transferFile);
-//            Quiz quiz = new Quiz(file.getName(), records, new CorrectAnswersRewardingStrategy()); //temporarily added preset strategy
-//            quizService.addQuiz(quiz);
-//        } catch (IOException e) {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-//        }
-//    }
-
-
-    // TODO testing
+    // TODO dodać zapisywanie i obsługę błędów (czy mamy sprawdzanie, czy są wszystkie kolumny i czy nie ma jakichś
+    //  niepotrzebnych? Dodanie quizu ma być możliwe tylko, jeśli jest on poprawny w pełni!!!!
     @PostMapping("/addQuiz")
     public void addQuiz(@RequestBody MultipartFile file) {
         System.out.println("received file with name: " + file.getName());
-//        try {
-//            File transferFile = new File("received.xlsx");
-//            file.transferTo(transferFile);
-//            List<Record> records = FileManager.importFile(transferFile);
-//            Quiz quiz = new Quiz(file.getName(), records, new CorrectAnswersRewardingStrategy()); //temporarily added preset strategy
-//            quizService.addQuiz(quiz);
-//        } catch (IOException e) {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-//        }
         try {
-            String uploadDir = ".";
-            File directory = new File(uploadDir);
-            if (!directory.exists()) {
-                directory.mkdirs();
-            }
-
-            Path filePath = Paths.get(uploadDir + File.separator + file.getOriginalFilename());
-            Files.copy(file.getInputStream(), filePath);
-
-
+            File transferFile = new File("received.xlsx");
+            file.transferTo(transferFile);
+            List<Record> records = FileManager.importFile(transferFile);
+            Quiz quiz = new Quiz(file.getName(), records, new CorrectAnswersRewardingStrategy()); //temporarily added preset strategy
+            quizService.addQuiz(quiz);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
+
+
+    // TODO to jest tylko do testów "na brudno!!!!"
+//    @PostMapping("/addQuiz")
+//    public void addQuiz(@RequestBody MultipartFile file) {
+//        System.out.println("received file with name: " + file.getName());
+////        try {
+////            File transferFile = new File("received.xlsx");
+////            file.transferTo(transferFile);
+////            List<Record> records = FileManager.importFile(transferFile);
+////            Quiz quiz = new Quiz(file.getName(), records, new CorrectAnswersRewardingStrategy()); //temporarily added preset strategy
+////            quizService.addQuiz(quiz);
+////        } catch (IOException e) {
+////            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+////        }
+//        try {
+//            String uploadDir = ".";
+//            File directory = new File(uploadDir);
+//            if (!directory.exists()) {
+//                directory.mkdirs();
+//            }
+//
+//            Path filePath = Paths.get(uploadDir + File.separator + file.getOriginalFilename());
+//            Files.copy(file.getInputStream(), filePath);
+//
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public record RecordDto(String nickname, int score, Timestamp startTimestamp,Timestamp endTimestamp, String prize) {
     }

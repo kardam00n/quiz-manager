@@ -81,7 +81,6 @@ public class QuizView implements Initializable {
                     quizTitles.getItems().addAll(next);
                     if (!quizTitles.getItems().isEmpty()){
                         quizTitles.getSelectionModel().select(0);
-                        System.out.println(quizTitles.getSelectionModel().getSelectedItem());
                     }
 
 
