@@ -67,6 +67,9 @@ public class QuizService {
     public Observable<List<PrizeTypeDto>> getPrizeTypes(){
         return service.getPrizeTypes();
     }
+    public Observable<List<PrizeDto>> getPrizes(){
+        return service.getPrizes();
+    }
 
     public Observable<ResponseBody> uploadPrize(PrizeDto prizeDto) {
         return service.uploadPrize(prizeDto);

@@ -19,12 +19,17 @@ public class CorrectAnswersRewardingStrategy extends RewardingStrategy{
     )
     @MapKeyColumn(name = "record_score")
     private Map<Integer, PrizeType> prizeTypeMap;
+    int correctAnswersToPass;
 
-    public CorrectAnswersRewardingStrategy(String name, PrizeType prizeTypeIfPassed, PrizeType prizeTypeIfFailed, Map<Integer, PrizeType> prizeTypeMap) {
+    public CorrectAnswersRewardingStrategy(String name, PrizeType prizeTypeIfPassed, PrizeType prizeTypeIfFailed, Map<Integer, PrizeType> prizeTypeMap, int correctAnswersToPass) {
         super(name, prizeTypeIfPassed, prizeTypeIfFailed);
         this.prizeTypeMap = prizeTypeMap;
+        this.correctAnswersToPass = correctAnswersToPass;
     }
 
+    public int getCorrectAnswersToPass() {
+        return correctAnswersToPass;
+    }
 
     public Map<Integer, PrizeType> getPrizeTypeMap() {
         return prizeTypeMap;

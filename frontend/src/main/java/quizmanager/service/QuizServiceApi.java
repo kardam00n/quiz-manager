@@ -24,12 +24,14 @@ public interface QuizServiceApi {
     Observable<List<RecordDto>> getQuiz(@Path("name") String name);
 
 
-    @GET("/sth")
+    @GET("/prizeTypes/all")
     Observable<List<PrizeTypeDto>> getPrizeTypes();
+    @GET("/prizes/all")
+    Observable<List<PrizeDto>> getPrizes();
 
-    @POST("/sth2")
+    @POST("/prizes/add")
     Observable<ResponseBody> uploadPrize(@Body PrizeDto prizeDto);
 
-    @POST("sth3")
+    @POST("prizeTypes/add")
     Observable<ResponseBody> uploadPrizeType(@Body PrizeTypeDto prizeTypeDto);
 }

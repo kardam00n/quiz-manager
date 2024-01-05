@@ -43,9 +43,16 @@ public class RewardingManager {
     public void assignPrizesCorrectAnswers(Quiz quiz, Prize nonePrize) {
         RewardingStrategy rewardingStrategy = quiz.getRewardingStrategy();
         List<Record> records = quiz.getRecordSet();
-        Map<Integer, PrizeType> prizeTypeMap = ((CorrectAnswersRewardingStrategy) rewardingStrategy).getPrizeTypeMap();
+//        Map<Integer, PrizeType> prizeTypeMap = ((CorrectAnswersRewardingStrategy) rewardingStrategy).getPrizeTypeMap();
+        int correctAnswerstoPass = ((CorrectAnswersRewardingStrategy) rewardingStrategy).getCorrectAnswersToPass();
         for (Record record : records) {
-            setPrize(record, prizeTypeMap.get(record.getScore()));
+//            setPrize(record, prizeTypeMap.get(record.getScore()));
+            if(record.getScore() >= correctAnswerstoPass){
+                setPrize(record, rewardingStrategy.getPrizeTypeIfPassed());
+            }
+            else{
+                setPrize(record, rewardingStrategy.getPrizeTypeIfFailed());
+            }
             if(record.getPrize() == null){
                 setPrize(record, nonePrize);
             }

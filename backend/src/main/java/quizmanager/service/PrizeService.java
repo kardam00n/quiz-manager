@@ -29,4 +29,19 @@ public class PrizeService {
         return prizeRepository;
     }
 
+    public List<PrizeType> getAllPrizeTypes() {
+        return prizeTypeRepository.findAll();
+    }
+
+    public List<Prize> getAllPrizes() {
+        return prizeRepository.findAll();
+    }
+
+    public void addPrizeType(PrizeType newPrizeType) {
+        prizeTypeRepository.save(newPrizeType);
+    }
+
+    public void addPrize(Prize newPrize) {
+        prizeRepository.save(newPrize);
+    }
 }
