@@ -6,8 +6,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import quizmanager.model.Quiz;
 import quizmanager.model.Record;
+import quizmanager.model.prize.Prize;
 import quizmanager.model.prize.PrizeType;
 import quizmanager.model.strategy.CorrectAnswersRewardingStrategy;
+import quizmanager.service.PrizeService;
 import quizmanager.service.QuizService;
 import quizmanager.service.RewardingStrategyService;
 import quizmanager.utils.FileManager;
@@ -32,10 +34,12 @@ public class QuizController {
 
     private final QuizService quizService;
     private final RewardingStrategyService rewardingStrategyService;
+    private final PrizeService prizeService;
 
-    public QuizController(QuizService quizService, RewardingStrategyService rewardingStrategyService) {
+    public QuizController(QuizService quizService, RewardingStrategyService rewardingStrategyService, PrizeService prizeService) {
         this.quizService = quizService;
         this.rewardingStrategyService = rewardingStrategyService;
+        this.prizeService = prizeService;
     }
     @GetMapping("/all")
     public List<Quiz> getAllQuizzes(){
@@ -65,7 +69,8 @@ public class QuizController {
     public List<RecordDto> getQuizByName(@PathVariable("name") String name) {
 
         Optional<Quiz> quizOptional = quizService.getQuizByName(name);
-        quizOptional.ifPresent(Quiz::assignPrizes);
+        Prize nonePrize = prizeService.getNonePrize();
+        quizOptional.ifPresent((quiz -> quiz.assignPrizes(nonePrize)));
         List<RecordDto> recordDtoList = new ArrayList<>();
 
         quizOptional.ifPresent(quiz -> {

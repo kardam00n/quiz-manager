@@ -71,7 +71,7 @@ public class Record {
         return prizeList;
     }
 
-    void forcePrize(Prize prize) {
+    public void forcePrize(Prize prize) {
         this.prize = prize;
     }
 

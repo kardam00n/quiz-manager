@@ -1,6 +1,7 @@
 package quizmanager.model.strategy;
 
 import quizmanager.model.Record;
+import quizmanager.model.prize.Prize;
 import quizmanager.model.prize.PrizeType;
 
 import javax.persistence.DiscriminatorValue;
@@ -23,12 +24,15 @@ public class CorrectAnswersRewardingStrategy extends RewardingStrategy{
     }
 
     @Override
-    public void assignPrizes(List<Record> records) {
+    public void assignPrizes(List<Record> records, Prize nonePrize) {
         for (Record record : records) {
             if (record.getScore() >= correctAnswersToPass) {
                 record.setPrize(prizeTypeIfPassed);
             } else {
                 record.setPrize(prizeTypeIfFailed);
+            }
+            if(record.getPrize() == null){
+                record.forcePrize(nonePrize);
             }
         }
     }

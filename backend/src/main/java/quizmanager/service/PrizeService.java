@@ -17,4 +17,12 @@ public class PrizeService {
         this.prizeRepository = prizeRepository;
         this.prizeTypeRepository = prizeTypeRepository;
     }
+
+    public Prize getNonePrize(){
+        return prizeRepository.getPrizeByName("None");
+    }
+
+    public PrizeRepository getPrizeRepository() {
+        return prizeRepository;
+    }
 }
