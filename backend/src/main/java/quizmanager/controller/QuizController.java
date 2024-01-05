@@ -33,19 +33,12 @@ public class QuizController {
 
     private final QuizService quizService;
     private final RewardingStrategyService rewardingStrategyService;
-<<<<<<< Updated upstream
-
-    public QuizController(QuizService quizService, RewardingStrategyService rewardingStrategyService) {
-        this.quizService = quizService;
-        this.rewardingStrategyService = rewardingStrategyService;
-=======
     private final RewardingManager rewardingManager;
 
     public QuizController(QuizService quizService, RewardingStrategyService rewardingStrategyService, RewardingManager rewardingManager) {
         this.quizService = quizService;
         this.rewardingStrategyService = rewardingStrategyService;
         this.rewardingManager = rewardingManager;
->>>>>>> Stashed changes
     }
     @GetMapping("/all")
     public List<Quiz> getAllQuizzes(){
@@ -75,11 +68,8 @@ public class QuizController {
     public List<RecordDto> getQuizByName(@PathVariable("name") String name) {
 
         Optional<Quiz> quizOptional = quizService.getQuizByName(name);
-<<<<<<< Updated upstream
-        quizOptional.ifPresent(Quiz::assignPrizes);
-=======
+
         quizOptional.ifPresent((rewardingManager::assignPrizes));
->>>>>>> Stashed changes
         List<RecordDto> recordDtoList = new ArrayList<>();
 
         quizOptional.ifPresent(quiz -> {

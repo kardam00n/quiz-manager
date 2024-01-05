@@ -44,12 +44,12 @@ public class RewardingManager {
         int correctAnswersToPass = ((CorrectAnswersRewardingStrategy) rewardingStrategy).getCorrectAnswersToPass();
         for (Record record : records) {
             if (record.getScore() >= correctAnswersToPass) {
-                record.setPrize(rewardingStrategy.getPrizeTypeIfPassed());
+                setPrize(record, rewardingStrategy.getPrizeTypeIfPassed());
             } else {
-                record.setPrize(rewardingStrategy.getPrizeTypeIfFailed());
+                setPrize(record, rewardingStrategy.getPrizeTypeIfFailed());
             }
             if(record.getPrize() == null){
-                record.forcePrize(nonePrize);
+                setPrize(record, nonePrize);
             }
         }
     }
