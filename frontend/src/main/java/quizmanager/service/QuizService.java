@@ -4,10 +4,7 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
-import quizmanager.model.PrizeDto;
-import quizmanager.model.PrizeTypeDto;
-import quizmanager.model.QuizListElement;
-import quizmanager.model.RecordDto;
+import quizmanager.model.*;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -78,4 +75,26 @@ public class QuizService {
     public Observable<ResponseBody> uploadPrizeType(PrizeTypeDto prizeTypeDto){
         return service.uploadPrizeType(prizeTypeDto);
     }
+
+    public Observable<List<PrizeTypeDto>> getPrizeList() {
+        return service.getPrizeList();
+    }
+
+    public Observable<StrategyAData> getStrategyAData(String quizTitle) {
+        return service.getStrategyAData(quizTitle);
+    }
+
+    public Observable<StrategyBData> getStrategyBData(String quizTitle) {
+        return service.getStrategyBData(quizTitle);
+    }
+
+    public Observable<ResponseBody> updateStrategyForQuiz(String quizTitle, StrategyAData strategyAdata){
+        return service.updateStrategyForQuiz(quizTitle, strategyAdata);
+    }
+
+    public Observable<ResponseBody> updateStrategyForQuiz(String quizTitle, StrategyBData strategyBdata){
+        return service.updateStrategyForQuiz(quizTitle, strategyBdata);
+    }
+
+
 }
