@@ -9,12 +9,17 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import quizmanager.controller.QuizManagerController;
+import quizmanager.model.PrizeDto;
+import quizmanager.model.PrizeTypeDto;
 import quizmanager.model.RecordDto;
 import quizmanager.model.QuizListElement;
 import quizmanager.service.QuizService;
 
 import java.net.URL;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class QuizView implements Initializable {
@@ -121,6 +126,28 @@ public class QuizView implements Initializable {
 
         }
     }
+
+    @FXML
+    public void addPrize() {
+        PrizeDto prizeDto = new PrizeDto();
+
+        // TODO: proper getPrizeTypes implementation, now only mock data
+        ArrayList<PrizeTypeDto> prizeTypeDtos = new ArrayList<>(Arrays.asList(new PrizeTypeDto("type1"), new PrizeTypeDto("type2")));
+
+        if(appController.showAddPrizeDialog(prizeDto, prizeTypeDtos)) {
+            //upload prize type
+        }
+    }
+
+
+    @FXML
+    public void addPrizeType() {
+        var prizeTypeDto = new PrizeTypeDto();
+        if (appController.showNewPrizeTypeDialog(prizeTypeDto)) {
+            // upload prize type
+        }
+    }
+
 
     public void setAppController(QuizManagerController appController) {
         this.appController = appController;
