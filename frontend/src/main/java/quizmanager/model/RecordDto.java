@@ -3,6 +3,7 @@ package quizmanager.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class RecordDto {
     @SerializedName("nickname")
@@ -18,15 +19,19 @@ public class RecordDto {
     private Timestamp endTimestamp;
 
     @SerializedName("prize")
-    private String prize;
+    private PrizeDto prize;
+
+    @SerializedName("prizeList")
+    private List<PrizeDto> prizeList;
 
 
-    public RecordDto(String nickname, int score, Timestamp startTimestamp,Timestamp endTimestamp, String prize) {
+    public RecordDto(String nickname, int score, Timestamp startTimestamp,Timestamp endTimestamp, PrizeDto prize, List<PrizeDto> prizeList) {
         this.nickname = nickname;
         this.score = score;
         this.startTimestamp = startTimestamp;
         this.endTimestamp = endTimestamp;
         this.prize = prize;
+        this.prizeList = prizeList;
     }
 
     @SuppressWarnings("unused")
@@ -66,13 +71,21 @@ public class RecordDto {
     }
 
     @SuppressWarnings("unused")
-    public String getPrize() {
+    public PrizeDto getPrize() {
         return prize;
     }
 
     @SuppressWarnings("unused")
-    public void setPrize(String prize) {
+    public void setPrize(PrizeDto prize) {
         this.prize = prize;
+    }
+
+    public List<PrizeDto> getPrizeList() {
+        return prizeList;
+    }
+
+    public void setPrizeList(List<PrizeDto> prizeList) {
+        this.prizeList = prizeList;
     }
 }
 

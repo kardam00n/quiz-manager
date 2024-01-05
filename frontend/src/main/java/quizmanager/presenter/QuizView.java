@@ -2,8 +2,6 @@ package quizmanager.presenter;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -15,7 +13,6 @@ import quizmanager.model.PrizeTypeDto;
 import quizmanager.model.RecordDto;
 import quizmanager.model.QuizListElement;
 import quizmanager.util.QuizServiceCalls;
-import javafx.util.Callback;
 import retrofit2.Response;
 
 import java.net.URL;
@@ -102,17 +99,14 @@ public class QuizView implements Initializable {
 
     }
 
-    private static class ButtonCell extends TableCell<RecordDto, Boolean> {
+    private class ButtonCell extends TableCell<RecordDto, Boolean> {
         final Button cellButton = new Button("Zmien nagrode");
 
         ButtonCell(){
 
-            cellButton.setOnAction(new EventHandler<ActionEvent>(){
-
-                @Override
-                public void handle(ActionEvent actionEvent) {
-
-                }
+            cellButton.setOnAction(actionEvent -> {
+                RecordDto recordDto = quizDetailsTable.getItems().get(getTableRow().getIndex());
+                changePrize(recordDto);
             });
         }
 
@@ -125,9 +119,7 @@ public class QuizView implements Initializable {
             }
         }
     }
-    private void changePrize(RecordDto recordDto) {
 
-    }
     private void getAndShowSelectedQuiz(String selectedQuiz) {
 
         QuizServiceCalls.loadQuiz(selectedQuiz, new QuizServiceCalls.SendCallback<>() {
@@ -179,6 +171,11 @@ public class QuizView implements Initializable {
         }
     }
 
+    private void changePrize(RecordDto recordDto) {
+        if(appController.showChangePrizeDialog(recordDto)) {
+            // update record with new prize
+        }
+    }
     @FXML
     public void addPrize() {
         PrizeDto prizeDto = new PrizeDto();
