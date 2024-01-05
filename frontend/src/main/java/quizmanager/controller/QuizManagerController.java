@@ -9,6 +9,7 @@ import quizmanager.model.PrizeDto;
 import quizmanager.model.PrizeTypeDto;
 import quizmanager.model.QuizListElement;
 import quizmanager.presenter.AddPrizePresenter;
+import quizmanager.presenter.AddPrizeTypePresenter;
 import quizmanager.presenter.FormUploadPresenter;
 import quizmanager.presenter.QuizView;
 
@@ -105,6 +106,39 @@ public class QuizManagerController {
             AddPrizePresenter presenter = loader.getController();
             presenter.setDialogStage(dialogStage);
             presenter.setData(prizeDto, prizeTypeDtos);
+
+
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+            return presenter.isApproved();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean showNewPrizeTypeDialog(PrizeTypeDto prizeTypeDto) {
+        try {
+            // Load the fxml file and create a new stage for the dialog
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(QuizManagerController.class.getResource("/view/new_prize_type_dialog.fxml"));
+            BorderPane page = loader.load();
+
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Add new prize type");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the size of the dialog stage
+
+            // Set the presenter for the view
+            AddPrizeTypePresenter presenter = loader.getController();
+            presenter.setDialogStage(dialogStage);
+            presenter.setData(prizeTypeDto);
 
 
             // Show the dialog and wait until the user closes it
