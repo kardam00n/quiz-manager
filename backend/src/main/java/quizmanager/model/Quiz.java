@@ -19,6 +19,8 @@ public class Quiz {
     @JoinColumn(name = "quiz_id")
     private List<Record> recordSet;
 
+    private int maxAnswers;
+
     public Quiz() {
     }
 
@@ -26,6 +28,10 @@ public class Quiz {
         this.name = name;
         this.recordSet = recordSet;
         this.rewardingStrategy = rewardingStrategy;
+    }
+
+    public void assignPrizes() {
+        rewardingStrategy.assignPrizes(recordSet);
     }
 
     public List<Record> getRecordSet() {

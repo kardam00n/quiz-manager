@@ -24,6 +24,10 @@ public class PrizeType {
     public PrizeType() {
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }

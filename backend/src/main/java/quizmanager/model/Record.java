@@ -3,6 +3,7 @@ package quizmanager.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 import quizmanager.model.prize.Prize;
+import quizmanager.model.prize.PrizeType;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -72,6 +73,14 @@ public class Record {
 
     void forcePrize(Prize prize) {
         this.prize = prize;
+    }
+
+    public void setPrize(PrizeType type){
+        for (Prize prize : prizeList) {
+            if (prize.isTypeOf(type)){
+                this.prize = prize;
+            }
+        }
     }
 
     @Override

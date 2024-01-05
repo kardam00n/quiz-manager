@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import quizmanager.model.Quiz;
 import quizmanager.model.Record;
+import quizmanager.model.prize.PrizeType;
 import quizmanager.model.strategy.CorrectAnswersRewardingStrategy;
 import quizmanager.service.QuizService;
 import quizmanager.utils.FileManager;
@@ -93,7 +94,7 @@ public class QuizController {
             File transferFile = new File("received.xlsx");
             file.transferTo(transferFile);
             List<Record> records = FileManager.importFile(transferFile);
-            Quiz quiz = new Quiz(file.getName(), records, new CorrectAnswersRewardingStrategy()); //temporarily added preset strategy
+            Quiz quiz = new Quiz(file.getName(), records, new CorrectAnswersRewardingStrategy("Strat1", new PrizeType("Type1"), new PrizeType("Type2"), 1)); //temporarily added preset strategy
             quizService.addQuiz(quiz);
         } catch (IOException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
