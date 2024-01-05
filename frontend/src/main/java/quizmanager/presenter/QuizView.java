@@ -8,19 +8,21 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import okhttp3.ResponseBody;
 import quizmanager.controller.QuizManagerController;
 import quizmanager.model.RecordDto;
 import quizmanager.model.QuizListElement;
-import quizmanager.util.QuizServiceCalls;
-import retrofit2.Response;
+import quizmanager.service.QuizService;
 
 import java.net.URL;
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class QuizView implements Initializable {
+
+    public QuizView(QuizService service){
+        this.service = service;
+    }
+
 
     private QuizManagerController appController;
 
@@ -50,6 +52,7 @@ public class QuizView implements Initializable {
 
     @FXML
     private ListView<String> quizTitles;
+    private  QuizService service;
 
 
     @Override
@@ -61,63 +64,49 @@ public class QuizView implements Initializable {
         startTimestamp.setCellValueFactory(new PropertyValueFactory<>("startTimestamp"));
         endTimestamp.setCellValueFactory(new PropertyValueFactory<>("endTimestamp"));
         prize.setCellValueFactory(new PropertyValueFactory<>("prize"));
-        QuizServiceCalls.loadQuizTitles(new QuizServiceCalls.SendCallback<>() {
-            @Override
-            public void onSuccess(Response<List<String>> response) {
-                quizTitles.getSelectionModel().selectedItemProperty().addListener(
-                        (observable, oldValue, newValue) -> {
-                            String selectedQuiz = quizTitles
-                                    .getSelectionModel()
-                                    .getSelectedItem();
-                            getAndShowSelectedQuiz(selectedQuiz);
-                        });
-                if (!quizTitles.getItems().isEmpty())
-                    quizTitles.getSelectionModel().select(0);
 
-                List<String> quizList = response.body();
-                quizTitles.getItems().addAll(quizList);
+        // listener working well
+        quizTitles.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    String selectedQuiz = quizTitles
+                            .getSelectionModel()
+                            .getSelectedItem();
+                    getAndShowSelectedQuiz(selectedQuiz);
+                });
 
-            }
 
-            @Override
-            public void onError(Response<List<String>> response) {
-                System.out.println("error " + response.code());
-            }
 
-            @Override
-            public void onFailure(String failureMessage) {
-                System.out.println("failure: " + failureMessage);
-            }
-        });
+        service.loadQuizTitles().subscribe(
+                next -> {
+                    quizTitles.getItems().addAll(next);
+                    if (!quizTitles.getItems().isEmpty()){
+                        quizTitles.getSelectionModel().select(0);
+                        System.out.println(quizTitles.getSelectionModel().getSelectedItem());
+                    }
+
+
+                },
+                System.out::println
+
+
+        );
 
 
     }
 
     private void getAndShowSelectedQuiz(String selectedQuiz) {
 
-        QuizServiceCalls.loadQuiz(selectedQuiz, new QuizServiceCalls.SendCallback<>() {
-            @Override
-            public void onSuccess(Response<List<RecordDto>> response) {
 
-                ObservableList<RecordDto> data = FXCollections.observableArrayList();
+        service.loadQuiz(selectedQuiz).subscribe(
+                next -> {
+                    ObservableList<RecordDto> data = FXCollections.observableArrayList();
+                    data.addAll(next);
+                    quizDetailsTable.setItems(data);
 
-                assert response.body() != null;
-                data.addAll(response.body());
+                },
+                System.out::println);
 
-                quizDetailsTable.setItems(data);
 
-            }
-
-            @Override
-            public void onError(Response<List<RecordDto>> response) {
-                System.out.println("Error: " + response.code());
-            }
-
-            @Override
-            public void onFailure(String failureMessage) {
-                System.out.println("Failure: " + failureMessage);
-            }
-        });
     }
 
 
@@ -125,22 +114,12 @@ public class QuizView implements Initializable {
     public void addQuiz() {
         var quizListElement = new QuizListElement();
         if (appController.showFormUploadDialog(quizListElement)) {
-            QuizServiceCalls.uploadQuiz(quizListElement, new QuizServiceCalls.SendCallback<>() {
-                @Override
-                public void onSuccess(Response<ResponseBody> response) {
-                    quizTitles.getItems().add(quizListElement.getName());
-                }
 
-                @Override
-                public void onError(Response<ResponseBody> response) {
-                    System.out.println("problem while adding new quiz, error code:" + response.code());
-                }
+            service.uploadQuiz(quizListElement).subscribe(
+                    next -> quizTitles.getItems().add(quizListElement.getName()),
+                    System.out::println
+            );
 
-                @Override
-                public void onFailure(String failureMessage) {
-                    System.out.println("problem while adding new quiz, failure message:\n" + failureMessage);
-                }
-            });
         }
     }
 
@@ -149,4 +128,7 @@ public class QuizView implements Initializable {
     }
 
 
+    public void setQuizService(QuizService service) {
+        this.service = service;
+    }
 }

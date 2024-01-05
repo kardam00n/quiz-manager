@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import quizmanager.controller.QuizManagerController;
+import quizmanager.service.QuizService;
 
 import java.util.Objects;
 
@@ -20,14 +21,24 @@ public class QuizManager extends Application {
         primaryStage
                 .getIcons()
                 .add(new Image(Objects.requireNonNull(QuizManager.class.getResourceAsStream("/logo.png"))));
-        QuizManagerController quizManagerController = new QuizManagerController(primaryStage);
+
+
+        // TODO spring? czy wgl tutaj to dependency?
+
+        QuizService service = new QuizService();
+        QuizManagerController quizManagerController = new QuizManagerController(primaryStage, service);
+
+
+
         quizManagerController.initRootLayout();
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent event) {
-                Platform.exit();
-                System.exit(0);
-            }
+
+
+
+
+
+        primaryStage.setOnCloseRequest(event -> {
+            Platform.exit();
+            System.exit(0);
         });
     }
 

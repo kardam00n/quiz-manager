@@ -8,15 +8,18 @@ import javafx.stage.Stage;
 import quizmanager.model.QuizListElement;
 import quizmanager.presenter.FormUploadPresenter;
 import quizmanager.presenter.QuizView;
+import quizmanager.service.QuizService;
 
 import java.io.IOException;
 
 public class QuizManagerController {
     private final Stage primaryStage;
+    private final QuizService service;
 
 
-    public QuizManagerController(Stage primaryStage) {
+    public QuizManagerController(Stage primaryStage, QuizService service) {
         this.primaryStage = primaryStage;
+        this.service = service;
     }
 
 
@@ -24,14 +27,19 @@ public class QuizManagerController {
 
         try {
             // load layout from FXML file
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(QuizManagerController.class.getResource("/view/main_view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/main_view.fxml"));
+//            loader.setLocation(QuizManagerController.class.getResource("/view/main_view.fxml"));
+
+            loader.setControllerFactory(controllerClass -> new QuizView(service));
+
+
             BorderPane rootLayout = loader.load();
 
 
             // set presenter for the view
             QuizView presenter = loader.getController();
             presenter.setAppController(this);
+
 
             // add layout to a scene and show them all
             Scene scene = new Scene(rootLayout);

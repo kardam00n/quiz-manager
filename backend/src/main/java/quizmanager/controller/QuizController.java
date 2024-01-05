@@ -12,6 +12,9 @@ import quizmanager.utils.FileManager;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -81,17 +84,48 @@ public class QuizController {
 
 
 
+    // TODO uncomment
+//    @PostMapping("/addQuiz")
+//    public void addQuiz(@RequestBody MultipartFile file) {
+//        System.out.println("received file with name: " + file.getName());
+//        try {
+//            File transferFile = new File("received.xlsx");
+//            file.transferTo(transferFile);
+//            List<Record> records = FileManager.importFile(transferFile);
+//            Quiz quiz = new Quiz(file.getName(), records, new CorrectAnswersRewardingStrategy()); //temporarily added preset strategy
+//            quizService.addQuiz(quiz);
+//        } catch (IOException e) {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+//        }
+//    }
+
+
+    // TODO testing
     @PostMapping("/addQuiz")
     public void addQuiz(@RequestBody MultipartFile file) {
         System.out.println("received file with name: " + file.getName());
+//        try {
+//            File transferFile = new File("received.xlsx");
+//            file.transferTo(transferFile);
+//            List<Record> records = FileManager.importFile(transferFile);
+//            Quiz quiz = new Quiz(file.getName(), records, new CorrectAnswersRewardingStrategy()); //temporarily added preset strategy
+//            quizService.addQuiz(quiz);
+//        } catch (IOException e) {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+//        }
         try {
-            File transferFile = new File("received.xlsx");
-            file.transferTo(transferFile);
-            List<Record> records = FileManager.importFile(transferFile);
-            Quiz quiz = new Quiz(file.getName(), records, new CorrectAnswersRewardingStrategy()); //temporarily added preset strategy
-            quizService.addQuiz(quiz);
+            String uploadDir = ".";
+            File directory = new File(uploadDir);
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+
+            Path filePath = Paths.get(uploadDir + File.separator + file.getOriginalFilename());
+            Files.copy(file.getInputStream(), filePath);
+
+
         } catch (IOException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            e.printStackTrace();
         }
     }
 
