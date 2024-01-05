@@ -1,9 +1,11 @@
 package quizmanager.utils;
 
+import org.springframework.stereotype.Component;
 import quizmanager.model.Record;
 import quizmanager.model.prize.Prize;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import quizmanager.service.PrizeService;
 
 import java.io.*;
 import java.sql.Timestamp;
@@ -14,12 +16,15 @@ import java.util.List;
 import java.util.Set;
 
 
+@Component
 public class FileManager {
 
-    private FileManager() {
+    private final PrizeService prizeService;
+    private FileManager(PrizeService prizeService) {
+        this.prizeService = prizeService;
     }
 
-    public static List<Record> importFile(File file) throws IOException {
+    public List<Record> importFile(File file) throws IOException {
         List<Record> recordSet = new ArrayList<>();
         FileInputStream fileStream = new FileInputStream(file);
         Workbook workbook = new XSSFWorkbook(fileStream);
@@ -43,7 +48,7 @@ public class FileManager {
         return recordSet;
     }
 
-    public static void exportFile(Set<Record> recordSet, String filePath) throws IOException {
+    public void exportFile(Set<Record> recordSet, String filePath) throws IOException {
         Workbook workbook = new XSSFWorkbook();
         CellStyle dateCellStyle = workbook.createCellStyle();
         dateCellStyle.setDataFormat((short) 22);
@@ -104,12 +109,22 @@ public class FileManager {
         workbook.write(outputStream);
     }
 
-    private static List<Prize> parsePrizeString(String prizeString) {
-        //TODO implement parsing prize string into list of prizes
-        return new ArrayList<Prize>();
+    private List<Prize> parsePrizeString(String prizeString) {
+        List<Prize> result = new ArrayList<Prize>();
+        String[] prizes = prizeString.split(";");
+        for (String prize : prizes) {
+            String name = prize.split("\\(")[0];
+            name = name.substring(0, name.length() - 1);
+            System.out.println("|" + name + "|");
+            Prize foundPrize = prizeService.getPrizeByName(name);
+            if (foundPrize != null) {
+                result.add(foundPrize);
+            }
+        }
+        return result;
     }
 
-    public static String prizeListToString(List<Prize> prizeList) {
+    public String prizeListToString(List<Prize> prizeList) {
         StringBuilder result = new StringBuilder();
         for (Prize prize : prizeList) {
             result.append(prize.toString());

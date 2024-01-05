@@ -21,6 +21,9 @@ public class PrizeService {
         Prize prize = prizeRepository.getPrizeByName("None");
         return prize;
     }
+    public Prize getPrizeByName(String name){
+        return prizeRepository.getPrizeByName(name);
+    }
 
     public PrizeRepository getPrizeRepository() {
         return prizeRepository;

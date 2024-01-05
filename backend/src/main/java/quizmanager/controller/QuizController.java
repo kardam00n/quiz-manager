@@ -35,10 +35,12 @@ public class QuizController {
     private final RewardingStrategyService rewardingStrategyService;
     private final RewardingManager rewardingManager;
 
-    public QuizController(QuizService quizService, RewardingStrategyService rewardingStrategyService, RewardingManager rewardingManager) {
+    private final FileManager fileManager;
+    public QuizController(QuizService quizService, RewardingStrategyService rewardingStrategyService, RewardingManager rewardingManager, FileManager fileManager){
         this.quizService = quizService;
         this.rewardingStrategyService = rewardingStrategyService;
         this.rewardingManager = rewardingManager;
+        this.fileManager = fileManager;
     }
     @GetMapping("/all")
     public List<Quiz> getAllQuizzes(){
@@ -102,8 +104,8 @@ public class QuizController {
             File transferFile = File.createTempFile("received", ".xlsx");
             file.transferTo(transferFile);
             System.out.println("Im here");
-            List<Record> records = FileManager.importFile(transferFile);
-            Quiz quiz = new Quiz(file.getOriginalFilename(), records, rewardingStrategyService.getFirstRewardingStrategy()); //temporarily added preset strategy
+            List<Record> records = fileManager.importFile(transferFile);
+            Quiz quiz = new Quiz(file.getOriginalFilename(), records, rewardingStrategyService.getFirstRewardingStrategy());
             quizService.addQuiz(quiz);
         } catch (IOException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);

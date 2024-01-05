@@ -56,14 +56,10 @@ public class Record {
     }
 
     public Timestamp getStartTimestamp() {
-        System.out.println("\n\n\n\n");
-        System.out.println(startTimestamp);
         return startTimestamp;
     }
 
     public Timestamp getEndTimestamp() {
-        System.out.println("\n\n\n\n");
-        System.out.println(endTimestamp);
         return endTimestamp;
     }
 
