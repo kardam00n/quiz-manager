@@ -2,11 +2,11 @@ package quizmanager.presenter;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import okhttp3.ResponseBody;
 import quizmanager.controller.QuizManagerController;
@@ -15,6 +15,7 @@ import quizmanager.model.PrizeTypeDto;
 import quizmanager.model.RecordDto;
 import quizmanager.model.QuizListElement;
 import quizmanager.util.QuizServiceCalls;
+import javafx.util.Callback;
 import retrofit2.Response;
 
 import java.net.URL;
@@ -49,6 +50,8 @@ public class QuizView implements Initializable {
     @FXML
     private TableColumn<RecordDto, String> prize; // TODO change type
 
+    @FXML
+    private TableColumn<RecordDto, Boolean> prizeChangeButton;
 
     // Quiz title list
 
@@ -65,6 +68,8 @@ public class QuizView implements Initializable {
         startTimestamp.setCellValueFactory(new PropertyValueFactory<>("startTimestamp"));
         endTimestamp.setCellValueFactory(new PropertyValueFactory<>("endTimestamp"));
         prize.setCellValueFactory(new PropertyValueFactory<>("prize"));
+        prizeChangeButton.setCellFactory(recordDtoBooleanTableColumn -> new ButtonCell());
+
         QuizServiceCalls.loadQuizTitles(new QuizServiceCalls.SendCallback<>() {
             @Override
             public void onSuccess(Response<List<String>> response) {
@@ -97,6 +102,32 @@ public class QuizView implements Initializable {
 
     }
 
+    private static class ButtonCell extends TableCell<RecordDto, Boolean> {
+        final Button cellButton = new Button("Zmien nagrode");
+
+        ButtonCell(){
+
+            cellButton.setOnAction(new EventHandler<ActionEvent>(){
+
+                @Override
+                public void handle(ActionEvent actionEvent) {
+
+                }
+            });
+        }
+
+        //Display button if the row is not empty
+        @Override
+        protected void updateItem(Boolean t, boolean empty) {
+            super.updateItem(t, empty);
+            if(!empty){
+                setGraphic(cellButton);
+            }
+        }
+    }
+    private void changePrize(RecordDto recordDto) {
+
+    }
     private void getAndShowSelectedQuiz(String selectedQuiz) {
 
         QuizServiceCalls.loadQuiz(selectedQuiz, new QuizServiceCalls.SendCallback<>() {
