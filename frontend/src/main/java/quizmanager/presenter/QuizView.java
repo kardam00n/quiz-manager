@@ -10,6 +10,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import okhttp3.ResponseBody;
 import quizmanager.controller.QuizManagerController;
+import quizmanager.model.PrizeTypeDto;
 import quizmanager.model.RecordDto;
 import quizmanager.model.QuizListElement;
 import quizmanager.util.QuizServiceCalls;
@@ -143,6 +144,15 @@ public class QuizView implements Initializable {
             });
         }
     }
+
+    @FXML
+    public void addPrizeType() {
+        var prizeTypeDto = new PrizeTypeDto();
+        if (appController.showNewPrizeTypeDialog(prizeTypeDto)) {
+            // upload prize type
+        }
+    }
+
 
     public void setAppController(QuizManagerController appController) {
         this.appController = appController;
