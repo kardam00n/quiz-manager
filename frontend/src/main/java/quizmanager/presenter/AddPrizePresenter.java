@@ -1,5 +1,6 @@
 package quizmanager.presenter;
 
+
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -8,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import quizmanager.model.PrizeDto;
 import quizmanager.model.PrizeTypeDto;
+import rx.Observable;
 
 import java.util.List;
 
@@ -37,6 +39,8 @@ public class AddPrizePresenter {
                         .or(Bindings.isEmpty(prizeDescription.textProperty()))
                         .or(Bindings.isNull(prizeType.valueProperty()))
         );
+
+        prizeType.getSelectionModel().select(0);
     }
 
     @FXML
@@ -67,9 +71,23 @@ public class AddPrizePresenter {
         return approved;
     }
 
-    public void setData(PrizeDto prizeDto, List<PrizeTypeDto> prizeTypeDtoList) {
+    public void setData(PrizeDto prizeDto, Observable<List<PrizeTypeDto>> prizeTypeDtoList) {
         this.prizeDto = prizeDto;
-        this.prizeType.getItems().addAll(prizeTypeDtoList);
+        prizeTypeDtoList.subscribe(
+                next -> {
+                    this.prizeType.getItems().addAll(next);
+                    System.out.println("hi");
+                },
+
+                error -> {},
+                () -> {
+                    if (!prizeType.getItems().isEmpty()){
+                        prizeType.getSelectionModel().select(0);
+                    }
+                }
+        );
+
+
     }
 
 }

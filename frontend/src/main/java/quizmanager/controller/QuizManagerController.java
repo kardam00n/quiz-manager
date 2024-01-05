@@ -13,6 +13,7 @@ import quizmanager.presenter.AddPrizeTypePresenter;
 import quizmanager.presenter.FormUploadPresenter;
 import quizmanager.presenter.QuizView;
 import quizmanager.service.QuizService;
+import rx.Observable;
 
 import java.io.IOException;
 import java.util.List;
@@ -93,7 +94,7 @@ public class QuizManagerController {
         }
     }
 
-    public boolean showAddPrizeDialog(PrizeDto prizeDto, List<PrizeTypeDto> prizeTypeDtos) {
+    public boolean showAddPrizeDialog(PrizeDto prizeDto, Observable<List<PrizeTypeDto>> prizeTypeDtos) {
         try {
             // Load the fxml file and create a new stage for the dialog
             FXMLLoader loader = new FXMLLoader();

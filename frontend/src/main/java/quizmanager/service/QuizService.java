@@ -4,6 +4,8 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import quizmanager.model.PrizeDto;
+import quizmanager.model.PrizeTypeDto;
 import quizmanager.model.QuizListElement;
 import quizmanager.model.RecordDto;
 import retrofit2.Retrofit;
@@ -60,5 +62,13 @@ public class QuizService {
             System.out.println("File" + file + " does not exist");
             return Observable.empty();
         }
+    }
+
+    public Observable<List<PrizeTypeDto>> getPrizeTypes(){
+        return service.getPrizeTypes();
+    }
+
+    public Observable<ResponseBody> uploadPrize(PrizeDto prizeDto) {
+        return service.uploadPrize(prizeDto);
     }
 }

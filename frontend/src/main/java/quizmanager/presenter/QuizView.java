@@ -11,9 +11,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import quizmanager.controller.QuizManagerController;
 import quizmanager.model.PrizeDto;
 import quizmanager.model.PrizeTypeDto;
-import quizmanager.model.RecordDto;
 import quizmanager.model.QuizListElement;
+import quizmanager.model.RecordDto;
 import quizmanager.service.QuizService;
+import rx.Observable;
 
 import java.net.URL;
 import java.sql.Timestamp;
@@ -82,15 +83,13 @@ public class QuizView implements Initializable {
 
 
         service.loadQuizTitles().subscribe(
-                next -> {
-                    quizTitles.getItems().addAll(next);
+                next -> quizTitles.getItems().addAll(next),
+                System.out::println,
+                () -> {
                     if (!quizTitles.getItems().isEmpty()){
                         quizTitles.getSelectionModel().select(0);
                     }
-
-
-                },
-                System.out::println
+                }
 
 
         );
@@ -131,11 +130,8 @@ public class QuizView implements Initializable {
     public void addPrize() {
         PrizeDto prizeDto = new PrizeDto();
 
-        // TODO: proper getPrizeTypes implementation, now only mock data
-        ArrayList<PrizeTypeDto> prizeTypeDtos = new ArrayList<>(Arrays.asList(new PrizeTypeDto("type1"), new PrizeTypeDto("type2")));
-
-        if(appController.showAddPrizeDialog(prizeDto, prizeTypeDtos)) {
-            //upload prize type
+        if(appController.showAddPrizeDialog(prizeDto, service.getPrizeTypes())) {
+            service.uploadPrize(prizeDto);
         }
     }
 
@@ -153,8 +149,4 @@ public class QuizView implements Initializable {
         this.appController = appController;
     }
 
-
-    public void setQuizService(QuizService service) {
-        this.service = service;
-    }
 }
