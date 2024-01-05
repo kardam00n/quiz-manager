@@ -165,7 +165,12 @@ public class QuizView implements Initializable {
         String selectedQuiz = quizTitles.getSelectionModel().getSelectedItem();
         var strategyDto = new StrategyDto();
         if (appController.showStrategyConfigDialog(strategyDto, selectedQuiz)) {
-
+            if(strategyDto instanceof StrategyAData) {
+                System.out.println("A");
+            }
+            else if(strategyDto instanceof StrategyBData) {
+                System.out.println("B");
+            }
         }
     }
 }

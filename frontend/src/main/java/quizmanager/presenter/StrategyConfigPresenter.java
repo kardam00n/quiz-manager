@@ -8,6 +8,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import quizmanager.model.PrizeTypeDto;
+import quizmanager.model.StrategyAData;
+import quizmanager.model.StrategyBData;
 import quizmanager.model.StrategyDto;
 
 public class StrategyConfigPresenter {
@@ -82,7 +84,27 @@ public class StrategyConfigPresenter {
     }
 
     private void updateModel() {
-//        strategyDto.setName(prizeName.getText());
+        StrategyDto selected  = chosenStrategy.getSelectionModel().getSelectedItem();
+        if(selected.getAlgorithmName().equals("one")) {
+            StrategyAData strategyA = new StrategyAData();
+
+
+            var row = (HBox) optionsPane.getChildren().get(1);
+            Spinner<Integer> spinner = (Spinner<Integer>) row.getChildren().get(0);
+            ChoiceBox<PrizeTypeDto> choiceBox1 = (ChoiceBox<PrizeTypeDto>) row.getChildren().get(1);
+            ChoiceBox<PrizeTypeDto> choiceBox2 = (ChoiceBox<PrizeTypeDto>) row.getChildren().get(2);
+
+            strategyA.setAlgorithmName("one");
+            strategyA.setTreshold(spinner.getValue());
+            strategyA.setVictoryPrizeType(choiceBox1.getValue());
+            strategyA.setRestPrizeType(choiceBox2.getValue());
+
+            strategyDto = strategyA;
+        }
+        else if(chosenStrategy.getSelectionModel().getSelectedItem().getAlgorithmName().equals("two")) {
+            StrategyBData strategyB = (StrategyBData) chosenStrategy.getSelectionModel().getSelectedItem();
+        }
+
 //        strategyDto.setDescription(prizeDescription.getText());
 //        strategyDto.setPrizeType(prizeType.getValue());
     }
@@ -100,72 +122,9 @@ public class StrategyConfigPresenter {
     public void setData(StrategyDto strategyDto, String quizTitle) {
         this.strategyDto = strategyDto;
         this.quizTitle = quizTitle;
-//        prizeTypeDtoList.subscribe(
-//                next -> {
-//                    this.prizeType.getItems().addAll(next);
-//                    System.out.println("hi");
-//                },
-//
-//                error -> {},
-//                () -> {
-//                    if (!prizeType.getItems().isEmpty()){
-//                        prizeType.getSelectionModel().select(0);
-//                    }
-//                }
-//        );
 
 
     }
-
-
-//    public void updateControls(){
-//        var selectedStrategy  = strategy.getSelectionModel().getSelectedItem();
-//
-//        // TODO algorithm name
-//        if(selectedStrategy.getAlgorithmName().equals("A")){
-//
-//        }
-//        else if (selectedStrategy.getAlgorithmName().equals("B")){
-//
-//        }
-//
-//    }
-//
-//    public void displayAStrategyControls(){
-//        Label label1 = new Label("Próg w %");
-//        GridPane.setMargin(label1, new Insets(5.0, 5.0, 5.0, 5.0));
-//        TextField treshold = new TextField();
-//        GridPane.setMargin(treshold, new Insets(5.0, 5.0, 5.0, 5.0));
-//        root.addRow(1, label1, treshold);
-//
-//
-//        Label label2 = new Label("Nagroda dla najlepszych");
-//        GridPane.setMargin(label2, new Insets(5.0, 5.0, 5.0, 5.0));
-//        TextField victoryPrizeType = new TextField();
-//        GridPane.setMargin(victoryPrizeType, new Insets(5.0, 5.0, 5.0, 5.0));
-//        root.addRow(2, label2, victoryPrizeType);
-//
-//
-//        Label label3 = new Label("Nagroda dla pozostałych");
-//        GridPane.setMargin(label3, new Insets(5.0, 5.0, 5.0, 5.0));
-//        TextField restPrizeType = new TextField();
-//        GridPane.setMargin(treshold, new Insets(5.0, 5.0, 5.0, 5.0));
-//        root.addRow(3, label3, restPrizeType);
-//
-//
-//        root.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 3);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//    }
-
 
 
     private void displayStrategyAHeader() {

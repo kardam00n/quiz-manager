@@ -185,9 +185,9 @@ public class QuizManagerController {
 
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();
-//            return presenter.isApproved();
+            return presenter.isApproved();
 
-            return true;
+
 
         } catch (IOException e) {
             e.printStackTrace();
