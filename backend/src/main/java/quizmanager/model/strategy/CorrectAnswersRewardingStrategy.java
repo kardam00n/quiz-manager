@@ -22,6 +22,10 @@ public class CorrectAnswersRewardingStrategy extends RewardingStrategy{
         super();
     }
 
+    public int getCorrectAnswersToPass() {
+        return correctAnswersToPass;
+    }
+
     @Override
     public void assignPrizes(List<Record> records) {
         for (Record record : records) {

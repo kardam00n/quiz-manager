@@ -33,5 +33,21 @@ public abstract class RewardingStrategy {
 
     }
 
+<<<<<<< Updated upstream
     public abstract void assignPrizes(List<Record> records);
+=======
+    public String getName() {
+        return name;
+    }
+
+    public PrizeType getPrizeTypeIfPassed() {
+        return prizeTypeIfPassed;
+    }
+
+    public PrizeType getPrizeTypeIfFailed() {
+        return prizeTypeIfFailed;
+    }
+
+    public abstract void assignPrizes(List<Record> records, Prize nonePrize);
+>>>>>>> Stashed changes
 }

@@ -30,12 +30,19 @@ public class Quiz {
         this.rewardingStrategy = rewardingStrategy;
     }
 
+<<<<<<< Updated upstream
     public void assignPrizes() {
         rewardingStrategy.assignPrizes(recordSet);
     }
 
+=======
+>>>>>>> Stashed changes
     public List<Record> getRecordSet() {
         return recordSet;
+    }
+
+    public RewardingStrategy getRewardingStrategy() {
+        return rewardingStrategy;
     }
 
     @Override

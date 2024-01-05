@@ -11,6 +11,7 @@ import quizmanager.model.strategy.CorrectAnswersRewardingStrategy;
 import quizmanager.service.QuizService;
 import quizmanager.service.RewardingStrategyService;
 import quizmanager.utils.FileManager;
+import quizmanager.utils.RewardingManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,10 +33,19 @@ public class QuizController {
 
     private final QuizService quizService;
     private final RewardingStrategyService rewardingStrategyService;
+<<<<<<< Updated upstream
 
     public QuizController(QuizService quizService, RewardingStrategyService rewardingStrategyService) {
         this.quizService = quizService;
         this.rewardingStrategyService = rewardingStrategyService;
+=======
+    private final RewardingManager rewardingManager;
+
+    public QuizController(QuizService quizService, RewardingStrategyService rewardingStrategyService, RewardingManager rewardingManager) {
+        this.quizService = quizService;
+        this.rewardingStrategyService = rewardingStrategyService;
+        this.rewardingManager = rewardingManager;
+>>>>>>> Stashed changes
     }
     @GetMapping("/all")
     public List<Quiz> getAllQuizzes(){
@@ -65,7 +75,11 @@ public class QuizController {
     public List<RecordDto> getQuizByName(@PathVariable("name") String name) {
 
         Optional<Quiz> quizOptional = quizService.getQuizByName(name);
+<<<<<<< Updated upstream
         quizOptional.ifPresent(Quiz::assignPrizes);
+=======
+        quizOptional.ifPresent((rewardingManager::assignPrizes));
+>>>>>>> Stashed changes
         List<RecordDto> recordDtoList = new ArrayList<>();
 
         quizOptional.ifPresent(quiz -> {
@@ -93,13 +107,13 @@ public class QuizController {
     //  niepotrzebnych? Dodanie quizu ma być możliwe tylko, jeśli jest on poprawny w pełni!!!!
     @PostMapping("/addQuiz")
     public void addQuiz(@RequestBody MultipartFile file) {
-        System.out.println("received file with name: " + file.getName());
+        System.out.println("received file with name: " + file.getOriginalFilename());
         try {
             File transferFile = File.createTempFile("received", ".xlsx");
             file.transferTo(transferFile);
             System.out.println("Im here");
             List<Record> records = FileManager.importFile(transferFile);
-            Quiz quiz = new Quiz(file.getName(), records, rewardingStrategyService.getFirstRewardingStrategy()); //temporarily added preset strategy
+            Quiz quiz = new Quiz(file.getOriginalFilename(), records, rewardingStrategyService.getFirstRewardingStrategy()); //temporarily added preset strategy
             quizService.addQuiz(quiz);
         } catch (IOException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);

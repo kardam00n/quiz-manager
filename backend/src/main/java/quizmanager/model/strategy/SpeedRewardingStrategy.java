@@ -24,6 +24,14 @@ public class SpeedRewardingStrategy extends RewardingStrategy{
         super();
     }
 
+    public float getTopSpeedPercentage() {
+        return topSpeedPercentage;
+    }
+
+    public int getMaxAnswers() {
+        return maxAnswers;
+    }
+
     //PASS HERE RECORD SORTED BY SPEED
     @Override
     public void assignPrizes(List<Record> records) {

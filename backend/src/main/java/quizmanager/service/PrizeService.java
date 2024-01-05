@@ -17,4 +17,16 @@ public class PrizeService {
         this.prizeRepository = prizeRepository;
         this.prizeTypeRepository = prizeTypeRepository;
     }
+<<<<<<< Updated upstream
+=======
+
+    public Prize getNonePrize(){
+        Prize prize = prizeRepository.getPrizeByName("None");
+        return prize;
+    }
+
+    public PrizeRepository getPrizeRepository() {
+        return prizeRepository;
+    }
+>>>>>>> Stashed changes
 }
