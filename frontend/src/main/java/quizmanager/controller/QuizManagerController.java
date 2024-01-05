@@ -5,11 +5,15 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import quizmanager.model.PrizeDto;
+import quizmanager.model.PrizeTypeDto;
 import quizmanager.model.QuizListElement;
+import quizmanager.presenter.AddPrizePresenter;
 import quizmanager.presenter.FormUploadPresenter;
 import quizmanager.presenter.QuizView;
 
 import java.io.IOException;
+import java.util.List;
 
 public class QuizManagerController {
     private final Stage primaryStage;
@@ -68,6 +72,39 @@ public class QuizManagerController {
             FormUploadPresenter presenter = loader.getController();
             presenter.setDialogStage(dialogStage);
             presenter.setData(quizListElement);
+
+
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+            return presenter.isApproved();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean showAddPrizeDialog(PrizeDto prizeDto, List<PrizeTypeDto> prizeTypeDtos) {
+        try {
+            // Load the fxml file and create a new stage for the dialog
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(QuizManagerController.class.getResource("/view/add_prize_dialog.fxml"));
+            BorderPane page = loader.load();
+
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Add new prize");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the size of the dialog stage
+
+            // Set the presenter for the view
+            AddPrizePresenter presenter = loader.getController();
+            presenter.setDialogStage(dialogStage);
+            presenter.setData(prizeDto, prizeTypeDtos);
 
 
             // Show the dialog and wait until the user closes it

@@ -2,7 +2,6 @@ package quizmanager.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 
 public class RecordDto {
