@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 public class Record {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String nickname;
 
@@ -56,14 +56,10 @@ public class Record {
     }
 
     public Timestamp getStartTimestamp() {
-        System.out.println("\n\n\n\n");
-        System.out.println(startTimestamp);
         return startTimestamp;
     }
 
     public Timestamp getEndTimestamp() {
-        System.out.println("\n\n\n\n");
-        System.out.println(endTimestamp);
         return endTimestamp;
     }
 
@@ -81,6 +77,10 @@ public class Record {
                 this.prize = prize;
             }
         }
+    }
+
+    public int getId() {
+        return id;
     }
 
     @Override
