@@ -2,7 +2,6 @@ package quizmanager.model.strategy;
 
 import quizmanager.model.Record;
 import quizmanager.model.prize.PrizeType;
-import quizmanager.model.prize.Prize;
 
 import javax.persistence.*;
 import java.util.List;
@@ -34,5 +33,5 @@ public abstract class RewardingStrategy {
 
     }
 
-    public abstract void assignPrizes(List<Record> records, Prize nonePrize);
+    public abstract void assignPrizes(List<Record> records);
 }

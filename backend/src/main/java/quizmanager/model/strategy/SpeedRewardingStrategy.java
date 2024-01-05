@@ -2,7 +2,6 @@ package quizmanager.model.strategy;
 
 import quizmanager.model.Record;
 import quizmanager.model.prize.PrizeType;
-import quizmanager.model.prize.Prize;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -27,7 +26,7 @@ public class SpeedRewardingStrategy extends RewardingStrategy{
 
     //PASS HERE RECORD SORTED BY SPEED
     @Override
-    public void assignPrizes(List<Record> records, Prize nonePrize) {
+    public void assignPrizes(List<Record> records) {
         int howManytoPass = (int) Math.floor((topSpeedPercentage * records.size()));
         int counter = 0;
         for(Record record: records){
@@ -37,9 +36,6 @@ public class SpeedRewardingStrategy extends RewardingStrategy{
             }
             else{
                 record.setPrize(prizeTypeIfFailed);
-            }
-            if(record.getPrize() == null){
-                record.forcePrize(nonePrize);
             }
         }
 

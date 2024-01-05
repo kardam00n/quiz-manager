@@ -12,6 +12,4 @@ public interface PrizeRepository extends JpaRepository<Prize, Integer> {
     @Query("select prize.name from Prize prize")
     List<String> getPrizesNames();
 
-    Prize getPrizeByName(String name);
-
 }

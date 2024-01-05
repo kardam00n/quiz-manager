@@ -1,6 +1,5 @@
 package quizmanager.model;
 
-import quizmanager.model.prize.Prize;
 import quizmanager.model.strategy.RewardingStrategy;
 
 import javax.persistence.*;
@@ -31,8 +30,8 @@ public class Quiz {
         this.rewardingStrategy = rewardingStrategy;
     }
 
-    public void assignPrizes(Prize nonePrize) {
-        rewardingStrategy.assignPrizes(recordSet, nonePrize);
+    public void assignPrizes() {
+        rewardingStrategy.assignPrizes(recordSet);
     }
 
     public List<Record> getRecordSet() {
