@@ -8,10 +8,8 @@ import javafx.stage.Stage;
 import quizmanager.model.PrizeDto;
 import quizmanager.model.PrizeTypeDto;
 import quizmanager.model.QuizListElement;
-import quizmanager.presenter.AddPrizePresenter;
-import quizmanager.presenter.AddPrizeTypePresenter;
-import quizmanager.presenter.FormUploadPresenter;
-import quizmanager.presenter.QuizView;
+import quizmanager.model.StrategyDto;
+import quizmanager.presenter.*;
 import quizmanager.service.QuizService;
 import rx.Observable;
 
@@ -51,14 +49,12 @@ public class QuizManagerController {
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             primaryStage.show();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
 
     }
-
 
 
     public boolean showFormUploadDialog(QuizListElement quizListElement) {
@@ -153,6 +149,45 @@ public class QuizManagerController {
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();
             return presenter.isApproved();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    public boolean showStrategyConfigDialog(StrategyDto strategyDto, String quizTitle) {
+        try {
+            // Load the fxml file and create a new stage for the dialog
+            FXMLLoader loader = new FXMLLoader();
+
+            loader.setLocation(QuizManagerController.class.getResource("/view/strategy_config_dialog.fxml"));
+
+
+            BorderPane page = loader.load();
+
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Konfiguracja strategii [" +quizTitle + "]" );
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the size of the dialog stage
+
+            // Set the presenter for the view
+            StrategyConfigPresenter presenter = loader.getController();
+            presenter.setDialogStage(dialogStage);
+            presenter.setData(strategyDto, quizTitle);
+
+
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+//            return presenter.isApproved();
+
+            return true;
 
         } catch (IOException e) {
             e.printStackTrace();

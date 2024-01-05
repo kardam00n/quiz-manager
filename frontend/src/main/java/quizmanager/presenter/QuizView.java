@@ -1,18 +1,18 @@
 package quizmanager.presenter;
 
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import quizmanager.controller.QuizManagerController;
-import quizmanager.model.PrizeDto;
-import quizmanager.model.PrizeTypeDto;
-import quizmanager.model.QuizListElement;
-import quizmanager.model.RecordDto;
+import quizmanager.model.*;
 import quizmanager.service.QuizService;
 
 import java.net.URL;
@@ -20,6 +20,8 @@ import java.sql.Timestamp;
 import java.util.ResourceBundle;
 
 public class QuizView implements Initializable {
+
+
 
     public QuizView(QuizService service) {
         this.service = service;
@@ -44,9 +46,11 @@ public class QuizView implements Initializable {
     @FXML
     private TableColumn<RecordDto, Timestamp> endTimestamp;
 
-
     @FXML
     private TableColumn<RecordDto, String> prize; // TODO change type
+
+    @FXML
+    private Button configButton;
 
 
     // Quiz title list
@@ -87,6 +91,10 @@ public class QuizView implements Initializable {
 
 
         );
+
+
+        configButton.disableProperty().bind(quizTitles.getSelectionModel().selectedItemProperty().isNull());
+
 
 
     }
@@ -151,4 +159,13 @@ public class QuizView implements Initializable {
         this.appController = appController;
     }
 
+    @FXML
+    private void configureStrategy(ActionEvent actionEvent) {
+
+        String selectedQuiz = quizTitles.getSelectionModel().getSelectedItem();
+        var strategyDto = new StrategyDto();
+        if (appController.showStrategyConfigDialog(strategyDto, selectedQuiz)) {
+
+        }
+    }
 }

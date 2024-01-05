@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="344.0" prefWidth="493.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="quizmanager.presenter.StrategyConfigPresenter">
+    <bottom>
+        <HBox alignment="BOTTOM_RIGHT" spacing="5.0" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets left="5.0" right="5.0" top="5.0" />
+            </BorderPane.margin>
+            <Button mnemonicParsing="false" onAction="#handleCancelAction" prefWidth="60.0" text="Cancel">
+                <HBox.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                </HBox.margin>
+            </Button>
+            <Button fx:id="okButton" mnemonicParsing="false" onAction="#handleOkAction" prefWidth="60.0" text="OK">
+                <HBox.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                </HBox.margin>
+            </Button>
+        </HBox>
+    </bottom>
+    <opaqueInsets>
+        <Insets />
+    </opaqueInsets>
+   <center>
+       <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+           <VBox fx:id="optionsPane" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+               <HBox fx:id="lastRow" alignment="CENTER">
+                   <Button fx:id="addRowButton" mnemonicParsing="false" onAction="#addRow" text="Dodaj opcje" />
+               </HBox>
+            <padding>
+               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+           </VBox>
+       </ScrollPane>
+   </center>
+   <top>
+       <HBox alignment="CENTER" prefHeight="66.0" prefWidth="406.0" BorderPane.alignment="CENTER">
+           <Label alignment="CENTER" maxHeight="1.7976931348623157E308" prefHeight="66.0" prefWidth="167.0" text="Wybrana strategia:" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
+           <ChoiceBox fx:id="chosenStrategy" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+       </HBox>
+   </top>
+</BorderPane>
