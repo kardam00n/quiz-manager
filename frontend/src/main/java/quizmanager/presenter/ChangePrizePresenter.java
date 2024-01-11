@@ -59,4 +59,5 @@ public class ChangePrizePresenter {
     public void setData(RecordDto recordDto) {
         this.recordDto = recordDto;
         prizeSelector.getItems().addAll(recordDto.getPrizeList());
+    }
 }
