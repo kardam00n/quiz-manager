@@ -11,26 +11,26 @@ import java.util.List;
 
 public interface QuizServiceApi {
     @Multipart
-    @POST("/quizzes/addQuiz")
+    @POST("/quizzes/")
     Observable<ResponseBody> postQuiz(@Part MultipartBody.Part filePart);
 
 
     @GET("/quizzes/names")
     Observable<List<String>> getQuizTitles();
 
-    @GET("/quizzes/getQuiz/{name}")
+    @GET("/quizzes/{name}")
     Observable<List<RecordDto>> getQuiz(@Path("name") String name);
 
 
-    @GET("/prizeTypes/all")
+    @GET("/prizeTypes/")
     Observable<List<PrizeTypeDto>> getPrizeTypes();
-    @GET("/prizes/all")
+    @GET("/prizes/")
     Observable<List<PrizeDto>> getPrizes();
 
-    @POST("/prizes/add")
+    @POST("/prizes/")
     Observable<ResponseBody> uploadPrize(@Body PrizeDto prizeDto);
 
-    @POST("prizeTypes/add")
+    @POST("prizeTypes/")
     Observable<ResponseBody> uploadPrizeType(@Body PrizeTypeDto prizeTypeDto);
 
 

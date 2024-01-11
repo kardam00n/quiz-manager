@@ -27,7 +27,7 @@ public class PrizeController {
 
     @PostMapping("/")
     public void addPrize(@RequestBody PrizeDto prizeDto) {
-        Prize newPrize = new Prize(prizeDto.getPrizeTypes().stream().map(prizeTypeDto -> new PrizeType(prizeTypeDto.getName())).toList(), prizeDto.getName(), prizeDto.getDescription());
+        Prize newPrize = new Prize(prizeDto.prizeTypes().stream().map(prizeTypeDto -> new PrizeType(prizeTypeDto.name())).toList(), prizeDto.name(), prizeDto.description());
         prizeService.addPrize(newPrize);
     }
 }

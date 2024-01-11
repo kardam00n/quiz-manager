@@ -31,7 +31,7 @@ public class PrizeTypeController {
 
     @PostMapping("/")
     public void addPrizeType(@RequestBody PrizeTypeDto prizeTypeDto) {
-            PrizeType newPrizeType = new PrizeType(prizeTypeDto.getName());
+            PrizeType newPrizeType = new PrizeType(prizeTypeDto.name());
             prizeService.addPrizeType(newPrizeType);
     }
 }
