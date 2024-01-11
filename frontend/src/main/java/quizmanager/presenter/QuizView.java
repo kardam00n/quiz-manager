@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
@@ -57,6 +58,8 @@ public class QuizView implements Initializable {
     @FXML
     private Button configButton;
 
+    @FXML
+    private TableColumn<RecordDto, Boolean> prizeChangeButton;
 
     // Quiz title list
 
@@ -74,6 +77,7 @@ public class QuizView implements Initializable {
         startTimestamp.setCellValueFactory(new PropertyValueFactory<>("startTimestamp"));
         endTimestamp.setCellValueFactory(new PropertyValueFactory<>("endTimestamp"));
         prize.setCellValueFactory(new PropertyValueFactory<>("prize"));
+        prizeChangeButton.setCellFactory(recordDtoBooleanTableColumn -> new ButtonCell());
 
         // listener working well
         quizTitles.getSelectionModel().selectedItemProperty().addListener(
@@ -102,6 +106,27 @@ public class QuizView implements Initializable {
 
 
 
+    }
+
+    private class ButtonCell extends TableCell<RecordDto, Boolean> {
+        final Button cellButton = new Button("Zmien nagrode");
+
+        ButtonCell(){
+
+            cellButton.setOnAction(actionEvent -> {
+                RecordDto recordDto = quizDetailsTable.getItems().get(getTableRow().getIndex());
+                changePrize(recordDto);
+            });
+        }
+
+        //Display button if the row is not empty
+        @Override
+        protected void updateItem(Boolean t, boolean empty) {
+            super.updateItem(t, empty);
+            if(!empty){
+                setGraphic(cellButton);
+            }
+        }
     }
 
     private void getAndShowSelectedQuiz(String selectedQuiz) {
@@ -133,6 +158,12 @@ public class QuizView implements Initializable {
         }
     }
 
+    private void changePrize(RecordDto recordDto) {
+        if(appController.showChangePrizeDialog(recordDto)) {
+            quizDetailsTable.refresh();
+            //update record in db
+        }
+    }
     @FXML
     public void addPrize() {
         PrizeDto prizeDto = new PrizeDto();
@@ -228,8 +259,8 @@ public class QuizView implements Initializable {
     public void setStage(Stage primaryStage) {
         this.stage = primaryStage;
     }
-    
-    
-    
-    
+
+
+
+
 }

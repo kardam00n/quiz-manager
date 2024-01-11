@@ -1,31 +1,31 @@
 package quizmanager.model;
 
-import com.google.gson.annotations.SerializedName;
+import quizmanager.model.prize.PrizeDto;
 
 import java.sql.Timestamp;
 import java.util.List;
 
 public class RecordDto {
-    @SerializedName("nickname")
+
     private String nickname;
 
-    @SerializedName("score")
+
     private int score;
 
-    @SerializedName("startTimestamp")
+
     private Timestamp startTimestamp;
 
-    @SerializedName("endTimestamp")
+
     private Timestamp endTimestamp;
 
-    @SerializedName("prize")
+
     private PrizeDto prize;
 
-    @SerializedName("prizeList")
+
     private List<PrizeDto> prizeList;
 
 
-    public RecordDto(String nickname, int score, Timestamp startTimestamp,Timestamp endTimestamp, PrizeDto prize, List<PrizeDto> prizeList) {
+    public RecordDto(String nickname, int score, Timestamp startTimestamp, Timestamp endTimestamp, PrizeDto prize, List<PrizeDto> prizeList) {
         this.nickname = nickname;
         this.score = score;
         this.startTimestamp = startTimestamp;

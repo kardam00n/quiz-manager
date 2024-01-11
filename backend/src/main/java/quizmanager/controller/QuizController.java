@@ -7,6 +7,8 @@ import org.springframework.web.server.ResponseStatusException;
 import quizmanager.model.Quiz;
 import quizmanager.model.Record;
 import quizmanager.model.prize.PrizeType;
+import quizmanager.model.RecordDto;
+import quizmanager.model.prize.PrizeDto;
 import quizmanager.model.strategy.CorrectAnswersRewardingStrategy;
 import quizmanager.service.QuizService;
 import quizmanager.service.RewardingStrategyService;
@@ -76,8 +78,11 @@ public class QuizController {
                             record.getScore(),
                             record.getStartTimestamp(),
                             record.getEndTimestamp(),
-                            record.getPrize().toString()))
-                    .collect(Collectors.toList());
+                            new PrizeDto(record.getPrize()),
+                            record.getPrizeList().stream()
+                                    .map(PrizeDto::new)
+                                    .toList()))
+                    .toList();
             recordDtoList.addAll(records);
         });
 
@@ -107,36 +112,6 @@ public class QuizController {
         }
     }
 
-
-    // TODO to jest tylko do testów "na brudno!!!!"
-//    @PostMapping("/addQuiz")
-//    public void addQuiz(@RequestBody MultipartFile file) {
-//        System.out.println("received file with name: " + file.getName());
-////        try {
-////            File transferFile = new File("received.xlsx");
-////            file.transferTo(transferFile);
-////            List<Record> records = FileManager.importFile(transferFile);
-////            Quiz quiz = new Quiz(file.getName(), records, new CorrectAnswersRewardingStrategy()); //temporarily added preset strategy
-////            quizService.addQuiz(quiz);
-////        } catch (IOException e) {
-////            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-////        }
-//        try {
-//            String uploadDir = ".";
-//            File directory = new File(uploadDir);
-//            if (!directory.exists()) {
-//                directory.mkdirs();
-//            }
-//
-//            Path filePath = Paths.get(uploadDir + File.separator + file.getOriginalFilename());
-//            Files.copy(file.getInputStream(), filePath);
-//
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+//    public record RecordDto(String nickname, int score, Timestamp startTimestamp,Timestamp endTimestamp, String prize) {
 //    }
-
-    public record RecordDto(String nickname, int score, Timestamp startTimestamp,Timestamp endTimestamp, String prize) {
-    }
 }

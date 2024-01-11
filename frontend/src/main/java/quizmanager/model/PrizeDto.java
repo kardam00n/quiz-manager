@@ -30,7 +30,7 @@ public class PrizeDto {
         this.description = description;
     }
 
-    public void setPrizeType(List<PrizeTypeDto> prizeTypes) {
+    public void setPrizeTypes(List<PrizeTypeDto> prizeTypes) {
         this.prizeTypes = prizeTypes;
     }
 
@@ -48,6 +48,6 @@ public class PrizeDto {
 
     @Override
     public String toString() {
-        return name + "(" + description + ")";
+        return name + " (" + description + ")";
     }
 }
