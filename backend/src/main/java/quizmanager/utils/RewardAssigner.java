@@ -14,6 +14,7 @@ import quizmanager.service.PrizeService;
 import quizmanager.service.RecordService;
 
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class RewardAssigner implements Visitor {
@@ -35,16 +36,16 @@ public class RewardAssigner implements Visitor {
 
     public void assignPrizesCorrectAnswers(CorrectAnswersRewardingStrategy rewardingStrategy, Quiz quiz, Prize nonePrize) {
         List<Record> records = quiz.getRecordSet();
-//        Map<Integer, PrizeType> prizeTypeMap = CorrectAnswersRewardingStrategy rewardingStrategy.getPrizeTypeMap();
-        int correctAnswerstoPass = rewardingStrategy.getCorrectAnswersToPass();
+        Map<Integer, PrizeType> prizeTypeMap = rewardingStrategy.getPrizeTypeMap();
+//        int correctAnswerstoPass = rewardingStrategy.getCorrectAnswersToPass();
         for (Record record : records) {
-//            setPrize(record, prizeTypeMap.get(record.getScore()));
-            if(record.getScore() >= correctAnswerstoPass){
-                setPrize(record, rewardingStrategy.getPrizeTypeIfPassed());
-            }
-            else{
-                setPrize(record, rewardingStrategy.getPrizeTypeIfFailed());
-            }
+            setPrize(record, prizeTypeMap.get(record.getScore()));
+//            if(record.getScore() >= correctAnswerstoPass){
+//                setPrize(record, rewardingStrategy.getPrizeTypeIfPassed());
+//            }
+//            else{
+//                setPrize(record, rewardingStrategy.getPrizeTypeIfFailed());
+//            }
             if(record.getPrize() == null){
                 setPrize(record, nonePrize);
             }
@@ -81,6 +82,8 @@ public class RewardAssigner implements Visitor {
     }
 
     public void setPrize(Record record, Prize prize){
+
         recordService.updatePrizeId(record.getId(), prize.getId());
+        record.forcePrize(prize);
     }
 }
