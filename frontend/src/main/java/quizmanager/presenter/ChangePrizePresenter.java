@@ -4,6 +4,8 @@ import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import quizmanager.model.PrizeDto;
 import quizmanager.model.RecordDto;
@@ -14,7 +16,7 @@ public class ChangePrizePresenter {
     ChoiceBox<PrizeDto> prizeSelector;
 
     @FXML
-    private Button addButton;
+    private Button changeButton;
 
     private Stage dialogStage;
 
@@ -24,7 +26,7 @@ public class ChangePrizePresenter {
 
     @FXML
     private void initialize() {
-        addButton.disableProperty().bind(
+        changeButton.disableProperty().bind(
                 Bindings.isNull(prizeSelector.valueProperty()));
     }
 
@@ -34,7 +36,7 @@ public class ChangePrizePresenter {
     }
 
     @FXML
-    private void handleAddAction() {
+    private void handleChangeAction() {
         updateModel();
         approved = true;
         dialogStage.close();
@@ -57,5 +59,4 @@ public class ChangePrizePresenter {
     public void setData(RecordDto recordDto) {
         this.recordDto = recordDto;
         prizeSelector.getItems().addAll(recordDto.getPrizeList());
-    }
 }

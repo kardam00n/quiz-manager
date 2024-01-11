@@ -28,7 +28,7 @@
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                 </HBox.margin>
             </Button>
-            <Button fx:id="addButton" mnemonicParsing="false" onAction="#handleAddAction" prefWidth="60.0" text="Add">
+            <Button fx:id="changeButton" mnemonicParsing="false" onAction="#handleChangeAction" prefWidth="60.0" text="Change">
                 <HBox.margin>
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                 </HBox.margin>

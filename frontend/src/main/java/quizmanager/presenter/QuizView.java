@@ -173,7 +173,8 @@ public class QuizView implements Initializable {
 
     private void changePrize(RecordDto recordDto) {
         if(appController.showChangePrizeDialog(recordDto)) {
-            // update record with new prize
+            quizDetailsTable.refresh();
+            //update record in db
         }
     }
     @FXML
