@@ -29,7 +29,6 @@ public class Prize {
     }
 
 
-
     public List<PrizeType> getTypes() {
         return types;
     }
