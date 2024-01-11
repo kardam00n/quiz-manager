@@ -1,6 +1,5 @@
 package quizmanager.presenter;
 
-import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -167,47 +166,17 @@ public class QuizView implements Initializable {
     }
 
     @FXML
-    private void configureStrategy(ActionEvent actionEvent) {
+    private void configureStrategy() {
         try {
-            // Load the fxml file and create a new stage for the dialog
+
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(QuizManagerController.class.getResource("/view/strategy_config_dialog.fxml"));
-            loader.setControllerFactory(controllerClass -> new StrategyConfigPresenter(service));
-            BorderPane page = loader.load();
+            BorderPane page = loadDialogView(loader);
 
-            // Create the dialog Stage.
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("Konfiguracja strategii [" + quizTitles.getSelectionModel().getSelectedItem() + "]" );
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(stage);
-            Scene scene = new Scene(page);
-            dialogStage.setScene(scene);
-
-            // Set the size of the dialog stage
-
-            // Set the presenter for the view
-            StrategyConfigPresenter presenter = loader.getController();
-            presenter.setDialogStage(dialogStage);
-            presenter.setData(quizTitles.getSelectionModel().getSelectedItem());
-
-
-            // Show the dialog and wait until the user closes it
+            Stage dialogStage = createDialogStage(page);
+            StrategyConfigPresenter presenter = setViewPresenter(loader, dialogStage);
             dialogStage.showAndWait();
 
-            StrategyDto strategyDto = presenter.getStrategyDto();
-            if(strategyDto instanceof StrategyAData strategy) {
-                service.updateStrategyForQuiz(quizTitles.getSelectionModel().getSelectedItem(), strategy).subscribe(
-                        System.out::println,
-                        System.out::println
-                );
-            }
-            else if (strategyDto instanceof StrategyBData strategy) {
-                service.updateStrategyForQuiz(quizTitles.getSelectionModel().getSelectedItem(), strategy).subscribe(
-                        System.out::println,
-                        System.out::println
-                );
-
-            }
+            updateStrategyForQuiz(presenter);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -215,7 +184,53 @@ public class QuizView implements Initializable {
         }
     }
 
+    private void updateStrategyForQuiz(StrategyConfigPresenter presenter) {
+        StrategyDto strategyDto = presenter.getStrategyDto();
+        if(strategyDto instanceof StrategyAData strategy) {
+            service.updateStrategyForQuiz(quizTitles.getSelectionModel().getSelectedItem(), strategy).subscribe(
+                    System.out::println,
+                    System.out::println
+            );
+        }
+        else if (strategyDto instanceof StrategyBData strategy) {
+            service.updateStrategyForQuiz(quizTitles.getSelectionModel().getSelectedItem(), strategy).subscribe(
+                    System.out::println,
+                    System.out::println
+            );
+
+        }
+    }
+
+    private StrategyConfigPresenter setViewPresenter(FXMLLoader loader, Stage dialogStage) {
+        StrategyConfigPresenter presenter = loader.getController();
+        presenter.setDialogStage(dialogStage);
+        presenter.setData(quizTitles.getSelectionModel().getSelectedItem());
+        return presenter;
+    }
+
+    private Stage createDialogStage(BorderPane page) {
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Konfiguracja strategii [" + quizTitles.getSelectionModel().getSelectedItem() + "]" );
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(stage);
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+        return dialogStage;
+    }
+
+    private BorderPane loadDialogView(FXMLLoader loader) throws IOException {
+        loader.setLocation(QuizManagerController.class.getResource("/view/strategy_config_dialog.fxml"));
+        loader.setControllerFactory(controllerClass -> new StrategyConfigPresenter(service));
+        BorderPane page = loader.load();
+        return page;
+    }
+
+
     public void setStage(Stage primaryStage) {
         this.stage = primaryStage;
     }
+    
+    
+    
+    
 }
