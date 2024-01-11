@@ -6,6 +6,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import quizmanager.model.Quiz;
 import quizmanager.model.Record;
+import quizmanager.model.RecordDto;
+import quizmanager.model.prize.PrizeDto;
 import quizmanager.model.strategy.CorrectAnswersRewardingStrategy;
 import quizmanager.service.QuizService;
 import quizmanager.utils.FileManager;
@@ -67,8 +69,11 @@ public class QuizController {
                             record.getScore(),
                             record.getStartTimestamp(),
                             record.getEndTimestamp(),
-                            record.getPrize().toString()))
-                    .collect(Collectors.toList());
+                            new PrizeDto(record.getPrize()),
+                            record.getPrizeList().stream()
+                                    .map(PrizeDto::new)
+                                    .toList()))
+                    .toList();
             recordDtoList.addAll(records);
         });
 
@@ -95,6 +100,6 @@ public class QuizController {
         }
     }
 
-    public record RecordDto(String nickname, int score, Timestamp startTimestamp,Timestamp endTimestamp, String prize) {
-    }
+//    public record RecordDto(String nickname, int score, Timestamp startTimestamp,Timestamp endTimestamp, String prize) {
+//    }
 }

@@ -9,6 +9,9 @@ import javafx.stage.Stage;
 import quizmanager.model.PrizeDto;
 import quizmanager.model.PrizeTypeDto;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class AddPrizePresenter {
@@ -54,7 +57,7 @@ public class AddPrizePresenter {
     private void updateModel() {
         prizeDto.setName(prizeName.getText());
         prizeDto.setDescription(prizeDescription.getText());
-        prizeDto.setPrizeType(prizeType.getValue());
+        prizeDto.setPrizeTypes(new ArrayList<>(Collections.singletonList(prizeType.getValue())));
     }
 
 
