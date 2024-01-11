@@ -8,7 +8,6 @@ import javafx.stage.Stage;
 import quizmanager.model.PrizeDto;
 import quizmanager.model.PrizeTypeDto;
 import quizmanager.model.QuizListElement;
-import quizmanager.model.StrategyDto;
 import quizmanager.presenter.*;
 import quizmanager.service.QuizService;
 import rx.Observable;
@@ -159,7 +158,7 @@ public class QuizManagerController {
     }
 
 
-//    public boolean showStrategyConfigDialog(StrategyDto strategyDto, String quizTitle) {
+//    public boolean showStrategyConfigDialog(RewardingStrategyDto strategyDto, String quizTitle) {
 //        try {
 //            // Load the fxml file and create a new stage for the dialog
 //            FXMLLoader loader = new FXMLLoader();

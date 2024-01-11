@@ -1,6 +1,5 @@
 package quizmanager.service;
 
-import javafx.collections.ObservableList;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import quizmanager.model.*;
@@ -38,16 +37,16 @@ public interface QuizServiceApi {
     Observable<List<PrizeTypeDto>> getPrizeList();
 
     @GET("sth/{quiz}")
-    Observable<StrategyAData> getStrategyAData(@Path("quiz") String quizName);
+    Observable<SpeedRewardingRewardingStrategy> getStrategyAData(@Path("quiz") String quizName);
 
     @GET("sth/{quiz}")
-    Observable<StrategyBData> getStrategyBData(@Path("quiz") String quizName);
+    Observable<CorrectAnswersRewarding> getStrategyBData(@Path("quiz") String quizName);
 
 
     @PUT("sth/{quiz}")
-    Observable<ResponseBody> updateStrategyForQuiz(@Path("quiz") String quiz, @Body StrategyAData strategy);
+    Observable<ResponseBody> updateStrategyForQuiz(@Path("quiz") String quiz, @Body SpeedRewardingRewardingStrategy strategy);
 
     @PUT("sth/{quiz}")
-    Observable<ResponseBody> updateStrategyForQuiz(@Path("quiz") String quiz, @Body StrategyBData strategy);
+    Observable<ResponseBody> updateStrategyForQuiz(@Path("quiz") String quiz, @Body CorrectAnswersRewarding strategy);
 
 }

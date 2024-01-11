@@ -1,11 +1,11 @@
 package quizmanager.model;
 
-public class StrategyDto {
-    public StrategyDto() {
+public class RewardingStrategyDto {
+    public RewardingStrategyDto() {
 
     }
 
-    public StrategyDto(String n) {
+    public RewardingStrategyDto(String n) {
         algorithmName= n;
     }
 
@@ -17,7 +17,7 @@ public class StrategyDto {
 
     @Override
     public String toString() {
-        return "StrategyDto{" +
+        return "RewardingStrategyDto{" +
                 "algorithmName='" + algorithmName + '\'' +
                 '}';
     }

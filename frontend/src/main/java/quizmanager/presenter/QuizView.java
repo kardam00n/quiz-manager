@@ -2,7 +2,6 @@ package quizmanager.presenter;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -185,14 +184,14 @@ public class QuizView implements Initializable {
     }
 
     private void updateStrategyForQuiz(StrategyConfigPresenter presenter) {
-        StrategyDto strategyDto = presenter.getStrategyDto();
-        if(strategyDto instanceof StrategyAData strategy) {
+        RewardingStrategyDto rewardingStrategyDto = presenter.getStrategyDto();
+        if(rewardingStrategyDto instanceof SpeedRewardingRewardingStrategy strategy) {
             service.updateStrategyForQuiz(quizTitles.getSelectionModel().getSelectedItem(), strategy).subscribe(
                     System.out::println,
                     System.out::println
             );
         }
-        else if (strategyDto instanceof StrategyBData strategy) {
+        else if (rewardingStrategyDto instanceof CorrectAnswersRewarding strategy) {
             service.updateStrategyForQuiz(quizTitles.getSelectionModel().getSelectedItem(), strategy).subscribe(
                     System.out::println,
                     System.out::println

@@ -80,20 +80,20 @@ public class QuizService {
         return service.getPrizeList();
     }
 
-    public Observable<StrategyAData> getStrategyAData(String quizTitle) {
+    public Observable<SpeedRewardingRewardingStrategy> getStrategyAData(String quizTitle) {
         return service.getStrategyAData(quizTitle);
     }
 
-    public Observable<StrategyBData> getStrategyBData(String quizTitle) {
+    public Observable<CorrectAnswersRewarding> getStrategyBData(String quizTitle) {
         return service.getStrategyBData(quizTitle);
     }
 
-    public Observable<ResponseBody> updateStrategyForQuiz(String quizTitle, StrategyAData strategyAdata){
-        return service.updateStrategyForQuiz(quizTitle, strategyAdata);
+    public Observable<ResponseBody> updateStrategyForQuiz(String quizTitle, SpeedRewardingRewardingStrategy speedRewardingStrategyAdata){
+        return service.updateStrategyForQuiz(quizTitle, speedRewardingStrategyAdata);
     }
 
-    public Observable<ResponseBody> updateStrategyForQuiz(String quizTitle, StrategyBData strategyBdata){
-        return service.updateStrategyForQuiz(quizTitle, strategyBdata);
+    public Observable<ResponseBody> updateStrategyForQuiz(String quizTitle, CorrectAnswersRewarding correctAnswersRewardingStrategyBdata){
+        return service.updateStrategyForQuiz(quizTitle, correctAnswersRewardingStrategyBdata);
     }
 
 

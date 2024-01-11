@@ -3,7 +3,7 @@ package quizmanager.model;
 import java.util.HashMap;
 import java.util.Map;
 
-public class StrategyBData extends StrategyDto{
+public class CorrectAnswersRewarding extends RewardingStrategyDto {
     private Map<Integer, PrizeTypeDto> data = new HashMap<>();
 
     public Map<Integer, PrizeTypeDto> getData() {

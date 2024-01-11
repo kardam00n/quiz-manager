@@ -1,15 +1,15 @@
 package quizmanager.model;
 
-public class StrategyAData extends StrategyDto{
+public class SpeedRewardingRewardingStrategy extends RewardingStrategyDto {
 
-    private Integer treshold;
+    private Integer threshold;
 
-    public Integer getTreshold() {
-        return treshold;
+    public Integer getThreshold() {
+        return threshold;
     }
 
-    public void setTreshold(Integer treshold) {
-        this.treshold = treshold;
+    public void setThreshold(Integer threshold) {
+        this.threshold = threshold;
     }
 
     public PrizeTypeDto getVictoryPrizeType() {

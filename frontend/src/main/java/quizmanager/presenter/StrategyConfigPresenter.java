@@ -10,10 +10,9 @@ import javafx.scene.control.Spinner;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import quizmanager.model.PrizeTypeDto;
-import quizmanager.model.StrategyAData;
-import quizmanager.model.StrategyBData;
-import quizmanager.model.StrategyDto;
+import quizmanager.model.*;
+import quizmanager.model.CorrectAnswersRewarding;
+import quizmanager.model.RewardingStrategyDto;
 import quizmanager.service.QuizService;
 
 public class StrategyConfigPresenter {
@@ -24,7 +23,7 @@ public class StrategyConfigPresenter {
 
 
     @FXML
-    private ChoiceBox<StrategyDto> chosenStrategy;
+    private ChoiceBox<RewardingStrategyDto> chosenStrategy;
 
 
     @FXML
@@ -40,7 +39,7 @@ public class StrategyConfigPresenter {
 
     private boolean approved;
 
-    private StrategyDto strategyDto = new StrategyDto();
+    private RewardingStrategyDto rewardingStrategyDto = new RewardingStrategyDto();
     private String quizTitle;
     private QuizService service;
 
@@ -49,10 +48,10 @@ public class StrategyConfigPresenter {
     private void initialize() {
 
 
-        chosenStrategy.getItems().addAll(new StrategyDto("one"), new StrategyDto("two"));
+        chosenStrategy.getItems().addAll(new RewardingStrategyDto("one"), new RewardingStrategyDto("two"));
         chosenStrategy.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
-                    StrategyDto selectedStrategy = chosenStrategy
+                    RewardingStrategyDto selectedStrategy = chosenStrategy
                             .getSelectionModel()
                             .getSelectedItem();
 
@@ -89,9 +88,9 @@ public class StrategyConfigPresenter {
     }
 
     private void updateModel() {
-        StrategyDto selected = chosenStrategy.getSelectionModel().getSelectedItem();
+        RewardingStrategyDto selected = chosenStrategy.getSelectionModel().getSelectedItem();
         if (selected.getAlgorithmName().equals("one")) {
-            StrategyAData strategyA = new StrategyAData();
+            SpeedRewardingRewardingStrategy strategyA = new SpeedRewardingRewardingStrategy();
 
 
             var row = (HBox) optionsPane.getChildren().get(1);
@@ -100,13 +99,13 @@ public class StrategyConfigPresenter {
             ChoiceBox<PrizeTypeDto> choiceBox2 = (ChoiceBox<PrizeTypeDto>) row.getChildren().get(2);
 
             strategyA.setAlgorithmName("one");
-            strategyA.setTreshold(spinner.getValue());
+            strategyA.setThreshold(spinner.getValue());
             strategyA.setVictoryPrizeType(choiceBox1.getValue());
             strategyA.setRestPrizeType(choiceBox2.getValue());
 
-            strategyDto = strategyA;
+            rewardingStrategyDto = strategyA;
         } else if (selected.getAlgorithmName().equals("two")) {
-            StrategyBData strategyB = new StrategyBData();
+            CorrectAnswersRewarding strategyB = new CorrectAnswersRewarding();
 
 
             int index = 0;
@@ -122,7 +121,7 @@ public class StrategyConfigPresenter {
                 index++;
             }
 
-            strategyDto = strategyB;
+            rewardingStrategyDto = strategyB;
         }
 
     }
@@ -186,7 +185,7 @@ public class StrategyConfigPresenter {
         service.getStrategyAData(quizTitle).subscribe(
                 next ->
                 {
-                    spinner.getValueFactory().setValue(next.getTreshold());
+                    spinner.getValueFactory().setValue(next.getThreshold());
                     victoryPrizeCategory.getItems().addAll(next.getVictoryPrizeType());
                     restPrizeCategory.getItems().addAll(next.getRestPrizeType());
                 },
@@ -273,8 +272,8 @@ public class StrategyConfigPresenter {
         displayStrategyBRow();
     }
 
-    public StrategyDto getStrategyDto() {
-        return strategyDto;
+    public RewardingStrategyDto getStrategyDto() {
+        return rewardingStrategyDto;
     }
 
 }
