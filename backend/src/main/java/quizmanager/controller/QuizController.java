@@ -11,7 +11,6 @@ import quizmanager.model.strategy.CorrectAnswersRewardingStrategy;
 import quizmanager.service.QuizService;
 import quizmanager.service.RewardingStrategyService;
 import quizmanager.utils.FileManager;
-import quizmanager.utils.RewardingManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,13 +32,11 @@ public class QuizController {
 
     private final QuizService quizService;
     private final RewardingStrategyService rewardingStrategyService;
-    private final RewardingManager rewardingManager;
 
     private final FileManager fileManager;
-    public QuizController(QuizService quizService, RewardingStrategyService rewardingStrategyService, RewardingManager rewardingManager, FileManager fileManager){
+    public QuizController(QuizService quizService, RewardingStrategyService rewardingStrategyService, FileManager fileManager){
         this.quizService = quizService;
         this.rewardingStrategyService = rewardingStrategyService;
-        this.rewardingManager = rewardingManager;
         this.fileManager = fileManager;
     }
     @GetMapping("/all")
@@ -70,8 +67,6 @@ public class QuizController {
     public List<RecordDto> getQuizByName(@PathVariable("name") String name) {
 
         Optional<Quiz> quizOptional = quizService.getQuizByName(name);
-
-        quizOptional.ifPresent((rewardingManager::assignPrizes));
         List<RecordDto> recordDtoList = new ArrayList<>();
 
         quizOptional.ifPresent(quiz -> {

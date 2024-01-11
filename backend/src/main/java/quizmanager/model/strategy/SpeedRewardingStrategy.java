@@ -1,6 +1,8 @@
 package quizmanager.model.strategy;
 
+import quizmanager.model.Quiz;
 import quizmanager.model.Record;
+import quizmanager.model.prize.Prize;
 import quizmanager.model.prize.PrizeType;
 
 import javax.persistence.DiscriminatorValue;
@@ -30,6 +32,11 @@ public class SpeedRewardingStrategy extends RewardingStrategy{
 
     public int getMaxAnswers() {
         return maxAnswers;
+    }
+
+    @Override
+    public void accept(Visitor visitor, Quiz quiz, Prize nonePrize) {
+        visitor.assignPrizesSpeed(this, quiz, nonePrize);
     }
 
     //PASS HERE RECORD SORTED BY SPEED

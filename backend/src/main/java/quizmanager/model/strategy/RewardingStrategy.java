@@ -1,5 +1,6 @@
 package quizmanager.model.strategy;
 
+import quizmanager.model.Quiz;
 import quizmanager.model.Record;
 import quizmanager.model.prize.Prize;
 import quizmanager.model.prize.PrizeType;
@@ -33,6 +34,8 @@ public abstract class RewardingStrategy {
     public RewardingStrategy() {
 
     }
+
+    public abstract void accept(Visitor visitor, Quiz quiz, Prize nonePrize);
 
     public String getName() {
         return name;

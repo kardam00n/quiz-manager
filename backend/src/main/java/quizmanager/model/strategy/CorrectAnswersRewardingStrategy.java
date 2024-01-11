@@ -1,6 +1,8 @@
 package quizmanager.model.strategy;
 
+import quizmanager.model.Quiz;
 import quizmanager.model.Record;
+import quizmanager.model.prize.Prize;
 import quizmanager.model.prize.PrizeType;
 
 import javax.persistence.*;
@@ -29,6 +31,11 @@ public class CorrectAnswersRewardingStrategy extends RewardingStrategy{
 
     public int getCorrectAnswersToPass() {
         return correctAnswersToPass;
+    }
+
+    @Override
+    public void accept(Visitor visitor, Quiz quiz, Prize nonePrize) {
+        visitor.assignPrizesCorrectAnswers(this, quiz, nonePrize);
     }
 
     public Map<Integer, PrizeType> getPrizeTypeMap() {

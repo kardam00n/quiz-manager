@@ -1,7 +1,6 @@
 package quizmanager.utils;
 
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import quizmanager.model.Quiz;
 import quizmanager.model.Record;
@@ -10,20 +9,19 @@ import quizmanager.model.prize.PrizeType;
 import quizmanager.model.strategy.CorrectAnswersRewardingStrategy;
 import quizmanager.model.strategy.RewardingStrategy;
 import quizmanager.model.strategy.SpeedRewardingStrategy;
+import quizmanager.model.strategy.Visitor;
 import quizmanager.service.PrizeService;
 import quizmanager.service.RecordService;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
-import java.util.Map;
 
 @Component
-public class RewardingManager {
+public class RewardAssigner implements Visitor {
 
     private final PrizeService prizeService;
     private final RecordService recordService;
 
-    public RewardingManager(PrizeService prizeService, RecordService recordService) {
+    public RewardAssigner(PrizeService prizeService, RecordService recordService) {
         this.prizeService = prizeService;
         this.recordService = recordService;
     }
@@ -32,19 +30,13 @@ public class RewardingManager {
         RewardingStrategy rewardingStrategy = quiz.getRewardingStrategy();
         Prize nonePrize = prizeService.getNonePrize();
 
-        if(rewardingStrategy instanceof SpeedRewardingStrategy) {
-            assignPrizesSpeed(quiz, nonePrize);
-        }
-        if(rewardingStrategy instanceof CorrectAnswersRewardingStrategy) {
-            assignPrizesCorrectAnswers(quiz, nonePrize);
-        }
+        rewardingStrategy.accept(this, quiz, nonePrize);
     }
 
-    public void assignPrizesCorrectAnswers(Quiz quiz, Prize nonePrize) {
-        RewardingStrategy rewardingStrategy = quiz.getRewardingStrategy();
+    public void assignPrizesCorrectAnswers(CorrectAnswersRewardingStrategy rewardingStrategy, Quiz quiz, Prize nonePrize) {
         List<Record> records = quiz.getRecordSet();
-//        Map<Integer, PrizeType> prizeTypeMap = ((CorrectAnswersRewardingStrategy) rewardingStrategy).getPrizeTypeMap();
-        int correctAnswerstoPass = ((CorrectAnswersRewardingStrategy) rewardingStrategy).getCorrectAnswersToPass();
+//        Map<Integer, PrizeType> prizeTypeMap = CorrectAnswersRewardingStrategy rewardingStrategy.getPrizeTypeMap();
+        int correctAnswerstoPass = rewardingStrategy.getCorrectAnswersToPass();
         for (Record record : records) {
 //            setPrize(record, prizeTypeMap.get(record.getScore()));
             if(record.getScore() >= correctAnswerstoPass){
@@ -59,11 +51,10 @@ public class RewardingManager {
         }
     }
 
-    public void assignPrizesSpeed(Quiz quiz, Prize nonePrize){
-        RewardingStrategy rewardingStrategy = quiz.getRewardingStrategy();
+    public void assignPrizesSpeed(SpeedRewardingStrategy rewardingStrategy, Quiz quiz, Prize nonePrize){
         List<Record> records = quiz.getRecordSet();
-        float topSpeedPercentage = ((SpeedRewardingStrategy) rewardingStrategy).getTopSpeedPercentage();
-        int maxAnswers = ((SpeedRewardingStrategy) rewardingStrategy).getMaxAnswers();
+        float topSpeedPercentage = rewardingStrategy.getTopSpeedPercentage();
+        int maxAnswers = rewardingStrategy.getMaxAnswers();
 
         int howManytoPass = (int) Math.floor((topSpeedPercentage * records.size()));
         int counter = 0;
