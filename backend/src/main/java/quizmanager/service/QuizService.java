@@ -27,6 +27,7 @@ public class QuizService {
     }
 
     public void addQuiz(Quiz quiz) {
+        rewardAssigner.assignPrizes(quiz);
         quizRepository.save(quiz);
     }
 
@@ -35,7 +36,7 @@ public class QuizService {
     }
     public Optional<Quiz> getQuizByName(String name) {
         Optional<Quiz> quizByName = quizRepository.getQuizByName(name);
-        quizByName.ifPresent(rewardAssigner::assignPrizes);
+//        quizByName.ifPresent(rewardAssigner::assignPrizes);
         return quizByName;
     }
 }

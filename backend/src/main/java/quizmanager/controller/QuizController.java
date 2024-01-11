@@ -92,7 +92,7 @@ public class QuizController {
 
     // TODO dodać zapisywanie i obsługę błędów (czy mamy sprawdzanie, czy są wszystkie kolumny i czy nie ma jakichś
     //  niepotrzebnych? Dodanie quizu ma być możliwe tylko, jeśli jest on poprawny w pełni!!!!
-    @PostMapping("/")
+    @PostMapping("")
     public void addQuiz(@RequestBody MultipartFile file) {
         System.out.println("received file with name: " + file.getOriginalFilename());
         try {
