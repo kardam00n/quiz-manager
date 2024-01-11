@@ -4,8 +4,6 @@ import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import quizmanager.model.PrizeDto;
 import quizmanager.model.RecordDto;
