@@ -15,7 +15,7 @@ import quizmanager.model.CorrectAnswersRewardingStrategy;
 import quizmanager.model.RewardingStrategyDto;
 import quizmanager.service.QuizService;
 
-public class StrategyConfigPresenter {
+public class StrategyConfigPresenter{
 
     public StrategyConfigPresenter(QuizService service) {
         this.service = service;
@@ -55,9 +55,9 @@ public class StrategyConfigPresenter {
                             .getSelectionModel()
                             .getSelectedItem();
 
-                    if (selectedStrategy.getAlgorithmName().equals("one")) {
+                    if (selectedStrategy.getName().equals("one")) {
                         displayStrategyAControls();
-                    } else if (selectedStrategy.getAlgorithmName().equals("two")) {
+                    } else if (selectedStrategy.getName().equals("two")) {
                         displayBStrategyControls();
                     }
 
@@ -89,7 +89,7 @@ public class StrategyConfigPresenter {
 
     private void updateModel() {
         RewardingStrategyDto selected = chosenStrategy.getSelectionModel().getSelectedItem();
-        if (selected.getAlgorithmName().equals("one")) {
+        if (selected.getName().equals("one")) {
             SpeedRewardingStrategy strategyA = new SpeedRewardingStrategy();
 
 
@@ -98,13 +98,13 @@ public class StrategyConfigPresenter {
             ChoiceBox<PrizeTypeDto> choiceBox1 = (ChoiceBox<PrizeTypeDto>) row.getChildren().get(1);
             ChoiceBox<PrizeTypeDto> choiceBox2 = (ChoiceBox<PrizeTypeDto>) row.getChildren().get(2);
 
-            strategyA.setAlgorithmName("one");
-            strategyA.setThreshold(spinner.getValue());
-            strategyA.setVictoryPrizeType(choiceBox1.getValue());
-            strategyA.setRestPrizeType(choiceBox2.getValue());
+            strategyA.setName("one");
+            strategyA.setTopSpeedPercentage(spinner.getValue());
+            strategyA.setPrizeTypeIfPassed(choiceBox1.getValue());
+            strategyA.setPrizeTypeIfFailed(choiceBox2.getValue());
 
             rewardingStrategyDto = strategyA;
-        } else if (selected.getAlgorithmName().equals("two")) {
+        } else if (selected.getName().equals("two")) {
             CorrectAnswersRewardingStrategy strategyB = new CorrectAnswersRewardingStrategy();
 
 
@@ -114,7 +114,7 @@ public class StrategyConfigPresenter {
                     if (index > 0 && index < optionsPane.getChildren().size() - 1) {
                         Spinner<Integer> spinner = (Spinner<Integer>) hBox.getChildren().get(0);
                         ChoiceBox<PrizeTypeDto> choiceBox = (ChoiceBox<PrizeTypeDto>) hBox.getChildren().get(1);
-                        strategyB.getData().put(spinner.getValue(), choiceBox.getValue());
+                        strategyB.getPrizeTypeMap().put(spinner.getValue(), choiceBox.getValue());
                     }
 
                 }
@@ -169,7 +169,7 @@ public class StrategyConfigPresenter {
         hBox.setAlignment(Pos.CENTER);
         hBox.setSpacing(20.0);
 
-        Spinner<Integer> spinner = new Spinner<>(0, Integer.MAX_VALUE, 0);
+        Spinner<Float> spinner = new Spinner<>(0.0f, 1.0f,0.1f, 0.05f);
         spinner.setMaxWidth(130.0);
         spinner.setMinWidth(130.0);
         ChoiceBox<PrizeTypeDto> victoryPrizeCategory = new ChoiceBox<>();
@@ -185,9 +185,9 @@ public class StrategyConfigPresenter {
         service.getStrategyAData(quizTitle).subscribe(
                 next ->
                 {
-                    spinner.getValueFactory().setValue(next.getThreshold());
-                    victoryPrizeCategory.getItems().addAll(next.getVictoryPrizeType());
-                    restPrizeCategory.getItems().addAll(next.getRestPrizeType());
+                    spinner.getValueFactory().setValue(next.getTopSpeedPercentage());
+                    victoryPrizeCategory.getItems().addAll(next.getPrizeTypeIfPassed());
+                    restPrizeCategory.getItems().addAll(next.getPrizeTypeIfFailed());
                 },
                 error -> {
                     System.out.println("sth went wrong... (poprawimy na kolejne laby :>)");
@@ -224,7 +224,7 @@ public class StrategyConfigPresenter {
         optionsPane.getChildren().add(optionsPane.getChildren().size() - 1, title);
 
         service.getStrategyBData(quizTitle).subscribe(
-                next -> next.getData().forEach(this::displayStrategyBRow),
+                next -> next.getPrizeTypeMap().forEach(this::displayStrategyBRow),
 
                 error -> {
                     System.out.println("sth went wrong");

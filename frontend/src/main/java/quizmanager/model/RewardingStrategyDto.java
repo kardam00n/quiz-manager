@@ -1,28 +1,54 @@
 package quizmanager.model;
 
 public class RewardingStrategyDto {
+
+    String name;
+    PrizeTypeDto prizeTypeIfPassed;
+    PrizeTypeDto prizeTypeIfFailed;
     public RewardingStrategyDto() {
 
     }
 
-    public RewardingStrategyDto(String n) {
-        algorithmName= n;
+    public RewardingStrategyDto(String name) {
+        this.name = name;
     }
 
-    String algorithmName;
+    public RewardingStrategyDto(String name, PrizeTypeDto prizeTypeIfPassed, PrizeTypeDto prizeTypeIfFailed) {
+        this.name = name;
+        this.prizeTypeIfPassed = prizeTypeIfPassed;
+        this.prizeTypeIfFailed = prizeTypeIfFailed;
+    }
 
-    public void setAlgorithmName(String algorithmName) {
-        this.algorithmName = algorithmName;
+    public String getName() {
+        return name;
+    }
+
+    public PrizeTypeDto getPrizeTypeIfPassed() {
+        return prizeTypeIfPassed;
+    }
+
+    public PrizeTypeDto getPrizeTypeIfFailed() {
+        return prizeTypeIfFailed;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPrizeTypeIfPassed(PrizeTypeDto prizeTypeIfPassed) {
+        this.prizeTypeIfPassed = prizeTypeIfPassed;
+    }
+
+    public void setPrizeTypeIfFailed(PrizeTypeDto prizeTypeIfFailed) {
+        this.prizeTypeIfFailed = prizeTypeIfFailed;
     }
 
     @Override
     public String toString() {
         return "RewardingStrategyDto{" +
-                "algorithmName='" + algorithmName + '\'' +
+                "name='" + name + '\'' +
+                ", prizeTypeIfPassed=" + prizeTypeIfPassed +
+                ", prizeTypeIfFailed=" + prizeTypeIfFailed +
                 '}';
-    }
-
-    public String getAlgorithmName() {
-        return algorithmName;
     }
 }

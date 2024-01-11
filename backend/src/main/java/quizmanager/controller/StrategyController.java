@@ -2,21 +2,22 @@ package quizmanager.controller;
 
 
 import org.springframework.web.bind.annotation.*;
+import quizmanager.model.strategy.CorrectAnswersRewardingStrategy;
 import quizmanager.model.strategy.RewardingStrategy;
 import quizmanager.model.strategy.SpeedRewardingStrategy;
 
 @RestController
 @RequestMapping("/strategies")
 public class StrategyController {
-    @GetMapping("/{quizName}")
+    @GetMapping("/speed/{quizName}")
     public SpeedRewardingStrategy getSpeedRewardingStrategy(@PathVariable("quizName") String quizName) {
 
         // TODO
         return null;
     }
 
-    @GetMapping("/{quizName}")
-    public SpeedRewardingStrategy getCorrectAnswersStrategy (@PathVariable("quizName") String quizName) {
+    @GetMapping("/correct/{quizName}")
+    public CorrectAnswersRewardingStrategy getCorrectAnswersStrategy (@PathVariable("quizName") String quizName) {
 
         // TODO
         return null;

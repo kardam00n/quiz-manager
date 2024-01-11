@@ -2,32 +2,32 @@ package quizmanager.model;
 
 public class SpeedRewardingStrategy extends RewardingStrategyDto {
 
-    private Integer threshold;
+    private float topSpeedPercentage;
 
-    public Integer getThreshold() {
-        return threshold;
+    private int maxAnswers;
+
+    public SpeedRewardingStrategy() {
     }
 
-    public void setThreshold(Integer threshold) {
-        this.threshold = threshold;
+    public SpeedRewardingStrategy(String name, PrizeTypeDto prizeTypeIfPassed, PrizeTypeDto prizeTypeIfFailed, float topSpeedPercentage, int maxAnswers) {
+        super(name, prizeTypeIfPassed, prizeTypeIfFailed);
+        this.topSpeedPercentage = topSpeedPercentage;
+        this.maxAnswers = maxAnswers;
     }
 
-    public PrizeTypeDto getVictoryPrizeType() {
-        return victoryPrizeType;
+    public float getTopSpeedPercentage() {
+        return topSpeedPercentage;
     }
 
-    public void setVictoryPrizeType(PrizeTypeDto victoryPrizeType) {
-        this.victoryPrizeType = victoryPrizeType;
+    public void setTopSpeedPercentage(float topSpeedPercentage) {
+        this.topSpeedPercentage = topSpeedPercentage;
     }
 
-    public PrizeTypeDto getRestPrizeType() {
-        return restPrizeType;
+    public int getMaxAnswers() {
+        return maxAnswers;
     }
 
-    public void setRestPrizeType(PrizeTypeDto restPrizeType) {
-        this.restPrizeType = restPrizeType;
+    public void setMaxAnswers(int maxAnswers) {
+        this.maxAnswers = maxAnswers;
     }
-
-    PrizeTypeDto victoryPrizeType;
-    PrizeTypeDto restPrizeType;
 }
