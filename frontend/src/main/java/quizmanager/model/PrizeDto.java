@@ -5,6 +5,9 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class PrizeDto {
+
+    @SerializedName("id")
+    private int id;
     @SerializedName("name")
     private String name;
 
@@ -16,10 +19,15 @@ public class PrizeDto {
 
     public PrizeDto() {}
 
-    public PrizeDto(String name, String description, List<PrizeTypeDto> prizeTypes) {
+    public PrizeDto(int id, String name, String description, List<PrizeTypeDto> prizeTypes) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.prizeTypes = prizeTypes;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setName(String name) {
@@ -32,6 +40,10 @@ public class PrizeDto {
 
     public void setPrizeTypes(List<PrizeTypeDto> prizeTypes) {
         this.prizeTypes = prizeTypes;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {

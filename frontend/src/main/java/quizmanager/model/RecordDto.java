@@ -6,6 +6,10 @@ import java.sql.Timestamp;
 import java.util.List;
 
 public class RecordDto {
+
+    @SerializedName("id")
+    private int id;
+
     @SerializedName("nickname")
     private String nickname;
 
@@ -25,7 +29,8 @@ public class RecordDto {
     private List<PrizeDto> prizeList;
 
 
-    public RecordDto(String nickname, int score, Timestamp startTimestamp,Timestamp endTimestamp, PrizeDto prize, List<PrizeDto> prizeList) {
+    public RecordDto(int id, String nickname, int score, Timestamp startTimestamp,Timestamp endTimestamp, PrizeDto prize, List<PrizeDto> prizeList) {
+        this.id = id;
         this.nickname = nickname;
         this.score = score;
         this.startTimestamp = startTimestamp;
@@ -34,6 +39,10 @@ public class RecordDto {
         this.prizeList = prizeList;
     }
 
+    @SuppressWarnings("unused")
+    public int getId() {
+        return id;
+    }
     @SuppressWarnings("unused")
     public String getNickname() {
         return nickname;
@@ -80,6 +89,10 @@ public class RecordDto {
         this.prize = prize;
     }
 
+    @SuppressWarnings("unused")
+    public void setId(int id) {
+        this.id = id;
+    }
     public List<PrizeDto> getPrizeList() {
         return prizeList;
     }

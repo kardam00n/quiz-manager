@@ -31,6 +31,10 @@ public class PrizeDto {
         this.prizeTypes = prizeTypes;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -41,6 +45,10 @@ public class PrizeDto {
 
     public void setPrizeType(List<PrizeTypeDto> prizeTypes) {
         this.prizeTypes = prizeTypes;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {

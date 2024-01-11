@@ -7,20 +7,17 @@ import java.util.List;
 
 public class RecordDto {
 
-    private String nickname;
+    private int id;
 
+    private String nickname;
 
     private int score;
 
-
     private Timestamp startTimestamp;
-
 
     private Timestamp endTimestamp;
 
-
     private PrizeDto prize;
-
 
     private List<PrizeDto> prizeList;
 
@@ -34,48 +31,52 @@ public class RecordDto {
         this.prizeList = prizeList;
     }
 
-    @SuppressWarnings("unused")
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getNickname() {
         return nickname;
     }
 
-    @SuppressWarnings("unused")
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
 
-    @SuppressWarnings("unused")
     public Integer getScore() {
         return score;
     }
 
-    @SuppressWarnings("unused")
     public void setScore(int score) {
         this.score = score;
     }
-    @SuppressWarnings("unused")
+
     public Timestamp getStartTimestamp() {
         return startTimestamp;
     }
-    @SuppressWarnings("unused")
+
     public void setStartTimestamp(Timestamp startTimestamp) {
         this.startTimestamp = startTimestamp;
     }
-    @SuppressWarnings("unused")
+
     public Timestamp getEndTimestamp() {
         return endTimestamp;
     }
-    @SuppressWarnings("unused")
+
     public void setEndTimestamp(Timestamp endTimestamp) {
         this.endTimestamp = endTimestamp;
     }
 
-    @SuppressWarnings("unused")
+
     public PrizeDto getPrize() {
         return prize;
     }
 
-    @SuppressWarnings("unused")
     public void setPrize(PrizeDto prize) {
         this.prize = prize;
     }
