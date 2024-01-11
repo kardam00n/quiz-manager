@@ -1,6 +1,6 @@
 package quizmanager.model;
 
-public class SpeedRewardingRewardingStrategy extends RewardingStrategyDto {
+public class SpeedRewardingStrategy extends RewardingStrategyDto {
 
     private Integer threshold;
 

@@ -11,7 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import quizmanager.model.*;
-import quizmanager.model.CorrectAnswersRewarding;
+import quizmanager.model.CorrectAnswersRewardingStrategy;
 import quizmanager.model.RewardingStrategyDto;
 import quizmanager.service.QuizService;
 
@@ -90,7 +90,7 @@ public class StrategyConfigPresenter {
     private void updateModel() {
         RewardingStrategyDto selected = chosenStrategy.getSelectionModel().getSelectedItem();
         if (selected.getAlgorithmName().equals("one")) {
-            SpeedRewardingRewardingStrategy strategyA = new SpeedRewardingRewardingStrategy();
+            SpeedRewardingStrategy strategyA = new SpeedRewardingStrategy();
 
 
             var row = (HBox) optionsPane.getChildren().get(1);
@@ -105,7 +105,7 @@ public class StrategyConfigPresenter {
 
             rewardingStrategyDto = strategyA;
         } else if (selected.getAlgorithmName().equals("two")) {
-            CorrectAnswersRewarding strategyB = new CorrectAnswersRewarding();
+            CorrectAnswersRewardingStrategy strategyB = new CorrectAnswersRewardingStrategy();
 
 
             int index = 0;

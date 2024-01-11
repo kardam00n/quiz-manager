@@ -19,13 +19,13 @@ public class PrizeController {
         this.prizeService = prizeService;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public List<PrizeDto> getAllPrizes(){
         return prizeService.getAllPrizes()
                 .stream().map(prize -> new PrizeDto(prize.getName(), prize.getDescription(), prize.getTypes().stream().map(prizeType -> new PrizeTypeDto(prizeType.getName())).toList())).toList();
     }
 
-    @PostMapping("/")
+    @PostMapping
     public void addPrize(@RequestBody PrizeDto prizeDto) {
         Prize newPrize = new Prize(prizeDto.prizeTypes().stream().map(prizeTypeDto -> new PrizeType(prizeTypeDto.name())).toList(), prizeDto.name(), prizeDto.description());
         prizeService.addPrize(newPrize);

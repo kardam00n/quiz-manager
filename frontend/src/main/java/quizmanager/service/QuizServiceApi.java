@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface QuizServiceApi {
     @Multipart
-    @POST("/quizzes/")
+    @POST("/quizzes")
     Observable<ResponseBody> postQuiz(@Part MultipartBody.Part filePart);
 
 
@@ -21,32 +21,33 @@ public interface QuizServiceApi {
     Observable<List<RecordDto>> getQuiz(@Path("name") String name);
 
 
-    @GET("/prizeTypes/")
+    @GET("/prizeTypes")
     Observable<List<PrizeTypeDto>> getPrizeTypes();
-    @GET("/prizes/")
+    @GET("/prizes")
     Observable<List<PrizeDto>> getPrizes();
 
-    @POST("/prizes/")
+    @POST("/prizes")
     Observable<ResponseBody> uploadPrize(@Body PrizeDto prizeDto);
 
-    @POST("prizeTypes/")
+    @POST("/prizeTypes")
     Observable<ResponseBody> uploadPrizeType(@Body PrizeTypeDto prizeTypeDto);
 
 
-    @GET("sth4/")
+    // TODO co ja tu mialem na myśli ...
+    @GET("/strategies")
     Observable<List<PrizeTypeDto>> getPrizeList();
 
-    @GET("sth/{quiz}")
-    Observable<SpeedRewardingRewardingStrategy> getStrategyAData(@Path("quiz") String quizName);
+    @GET("/strategies/{quizName}")
+    Observable<SpeedRewardingStrategy> getSpeedRewardingStrategy(@Path("quizName") String quizName);
 
-    @GET("sth/{quiz}")
-    Observable<CorrectAnswersRewarding> getStrategyBData(@Path("quiz") String quizName);
+    @GET("/strategies/{quizName}")
+    Observable<CorrectAnswersRewardingStrategy> getCorrectAnswersStrategy(@Path("quizName") String quizName);
 
 
-    @PUT("sth/{quiz}")
-    Observable<ResponseBody> updateStrategyForQuiz(@Path("quiz") String quiz, @Body SpeedRewardingRewardingStrategy strategy);
+    @PUT("/strategies/{quizName}")
+    Observable<ResponseBody> updateStrategyForQuiz(@Path("quizName") String quizName, @Body SpeedRewardingStrategy strategy);
 
-    @PUT("sth/{quiz}")
-    Observable<ResponseBody> updateStrategyForQuiz(@Path("quiz") String quiz, @Body CorrectAnswersRewarding strategy);
+    @PUT("/strategies/{quizName}")
+    Observable<ResponseBody> updateStrategyForQuiz(@Path("quizName") String quizName, @Body CorrectAnswersRewardingStrategy strategy);
 
 }

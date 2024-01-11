@@ -185,13 +185,13 @@ public class QuizView implements Initializable {
 
     private void updateStrategyForQuiz(StrategyConfigPresenter presenter) {
         RewardingStrategyDto rewardingStrategyDto = presenter.getStrategyDto();
-        if(rewardingStrategyDto instanceof SpeedRewardingRewardingStrategy strategy) {
+        if(rewardingStrategyDto instanceof SpeedRewardingStrategy strategy) {
             service.updateStrategyForQuiz(quizTitles.getSelectionModel().getSelectedItem(), strategy).subscribe(
                     System.out::println,
                     System.out::println
             );
         }
-        else if (rewardingStrategyDto instanceof CorrectAnswersRewarding strategy) {
+        else if (rewardingStrategyDto instanceof CorrectAnswersRewardingStrategy strategy) {
             service.updateStrategyForQuiz(quizTitles.getSelectionModel().getSelectedItem(), strategy).subscribe(
                     System.out::println,
                     System.out::println

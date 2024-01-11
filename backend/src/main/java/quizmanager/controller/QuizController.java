@@ -39,7 +39,7 @@ public class QuizController {
         this.rewardingStrategyService = rewardingStrategyService;
         this.fileManager = fileManager;
     }
-    @GetMapping("/")
+    @GetMapping
     public List<Quiz> getAllQuizzes(){
         return quizService.getQuizzes();
     }
