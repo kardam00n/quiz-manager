@@ -37,6 +37,10 @@ public abstract class RewardingStrategy {
 
     public abstract void accept(Visitor visitor, Quiz quiz, Prize nonePrize);
 
+    public int getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }

@@ -30,8 +30,10 @@ public class PrizeTypeController {
     }
 
     @PostMapping
-    public void addPrizeType(@RequestBody PrizeTypeDto prizeTypeDto) {
-            PrizeType newPrizeType = new PrizeType(prizeTypeDto.name());
+    public void addPrizeType(@RequestBody List<PrizeTypeDto> prizeTypeDto) {
+        for (PrizeTypeDto prizeType : prizeTypeDto) {
+            PrizeType newPrizeType = new PrizeType(prizeType.name());
             prizeService.addPrizeType(newPrizeType);
+        }
     }
 }

@@ -5,30 +5,40 @@ import org.springframework.web.bind.annotation.*;
 import quizmanager.model.strategy.CorrectAnswersRewardingStrategy;
 import quizmanager.model.strategy.RewardingStrategy;
 import quizmanager.model.strategy.SpeedRewardingStrategy;
+import quizmanager.service.RewardingStrategyService;
 
 @RestController
 @RequestMapping("/strategies")
 public class StrategyController {
-    @GetMapping("/speed/{quizName}")
-    public SpeedRewardingStrategy getSpeedRewardingStrategy(@PathVariable("quizName") String quizName) {
+    private final RewardingStrategyService rewardingStrategyService;
 
-        // TODO
-        return null;
+    public StrategyController(RewardingStrategyService rewardingStrategyService) {
+        this.rewardingStrategyService = rewardingStrategyService;
     }
 
-    @GetMapping("/correct/{quizName}")
-    public CorrectAnswersRewardingStrategy getCorrectAnswersStrategy (@PathVariable("quizName") String quizName) {
+    @GetMapping("/speed")
+    public SpeedRewardingStrategy getSpeedRewardingStrategy() {
 
-        // TODO
-        return null;
+        return rewardingStrategyService.getSpeedRewardingStrategy();
+    }
+
+    @GetMapping("/correct")
+    public CorrectAnswersRewardingStrategy getCorrectAnswersStrategy () {
+
+        return rewardingStrategyService.getCorrectAnswersRewardingStrategy();
     }
 
     @PutMapping("/{quizName}")
-    public SpeedRewardingStrategy updateStrategyForQuiz (@PathVariable("quizName") String quizName, @RequestBody RewardingStrategy strategy) {
+    public void updateStrategyForQuiz (@PathVariable("quizName") String quizName, @RequestBody RewardingStrategy strategy) {
 
+        if(quizName.equals("CORR_ANS")){
+            rewardingStrategyService.updateCorrectAnswersRewardingStrategy(strategy);
+        }
+        else if(quizName.equals("SPEED")){
+            rewardingStrategyService.updateSpeedRewardingStrategy(strategy);
+        }
         // TODO https://new-spike.net/abstract-request-body/
         //  jakby się nie dało, to 2 * Put po jednym na klasę
-        return null;
     }
 
 
