@@ -61,7 +61,7 @@ public class AddPrizePresenter {
     private void updateModel() {
         prizeDto.setName(prizeName.getText());
         prizeDto.setDescription(prizeDescription.getText());
-        prizeDto.setPrizeType((List<PrizeTypeDto>) prizeType.getValue());
+        prizeDto.setPrizeTypes((List<PrizeTypeDto>) prizeType.getValue());
     }
 
 

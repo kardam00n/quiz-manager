@@ -22,12 +22,12 @@ public class PrizeController {
     @GetMapping
     public List<PrizeDto> getAllPrizes(){
         return prizeService.getAllPrizes()
-                .stream().map(prize -> new PrizeDto(prize.getName(), prize.getDescription(), prize.getTypes().stream().map(prizeType -> new PrizeTypeDto(prizeType.getName())).toList())).toList();
+                .stream().map(PrizeDto::new).toList();
     }
 
     @PostMapping
     public void addPrize(@RequestBody PrizeDto prizeDto) {
-        Prize newPrize = new Prize(prizeDto.prizeTypes().stream().map(prizeTypeDto -> new PrizeType(prizeTypeDto.name())).toList(), prizeDto.name(), prizeDto.description());
+        Prize newPrize = prizeDto.toPrize();
         prizeService.addPrize(newPrize);
     }
 }

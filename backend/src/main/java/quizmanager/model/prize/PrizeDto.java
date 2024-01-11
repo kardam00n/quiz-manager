@@ -5,6 +5,7 @@ import java.util.List;
 
 public class PrizeDto {
 
+    private int id;
     private String name;
 
 
@@ -16,13 +17,15 @@ public class PrizeDto {
     public PrizeDto() {}
 
     public PrizeDto(Prize prize) {
+        this.id = prize.getId();
         this.name = prize.getName();
         this.description = prize.getDescription();
         this.prizeTypes = prize.getTypes().stream()
                 .map(PrizeTypeDto::new)
                 .toList();
     }
-    public PrizeDto(String name, String description, List<PrizeTypeDto> prizeTypes) {
+    public PrizeDto(int id, String name, String description, List<PrizeTypeDto> prizeTypes) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.prizeTypes = prizeTypes;
@@ -50,6 +53,10 @@ public class PrizeDto {
 
     public List<PrizeTypeDto> getPrizeTypes() {
         return prizeTypes;
+    }
+
+    public Prize toPrize() {
+        return new Prize(prizeTypes.stream().map(prizeTypeDto -> new PrizeType(prizeTypeDto.getName())).toList(), name, description);
     }
 
     @Override
