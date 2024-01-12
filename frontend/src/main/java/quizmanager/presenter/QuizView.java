@@ -181,14 +181,17 @@ public class QuizView implements Initializable {
     public void addPrize() {
         PrizeDto prizeDto = new PrizeDto();
 
-        if (appController.showAddPrizeDialog(prizeDto, service.getPrizeTypes())) {
+//        if (appController.showAddPrizeDialog(prizeDto, service.getPrizeTypes())) {
+        if (appController.showAddPrizeDialog(prizeDto)) {
             service.uploadPrize(prizeDto)
                     .subscribeOn(Schedulers.io())
                     .observeOn(Schedulers.from(Platform::runLater))
                     .subscribe(
                     next -> {
                     },
-                    System.out::println
+                    error -> {
+                        prizeDto.getPrizeTypes().forEach(e -> System.out.println(e));
+                    }
             );
 
 

@@ -2,6 +2,8 @@ package quizmanager.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class PrizeDto {
@@ -15,15 +17,14 @@ public class PrizeDto {
     private String description;
 
     @SerializedName("type")
-    private List<PrizeTypeDto> prizeTypes;
+    private List<PrizeTypeDto> prizeTypes = new ArrayList<>();
 
     public PrizeDto() {}
 
-    public PrizeDto(int id, String name, String description, List<PrizeTypeDto> prizeTypes) {
+    public PrizeDto(int id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.prizeTypes = prizeTypes;
     }
 
     public void setId(int id) {
@@ -38,9 +39,7 @@ public class PrizeDto {
         this.description = description;
     }
 
-    public void setPrizeTypes(List<PrizeTypeDto> prizeTypes) {
-        this.prizeTypes = prizeTypes;
-    }
+
 
     public int getId() {
         return id;
@@ -56,6 +55,14 @@ public class PrizeDto {
 
     public List<PrizeTypeDto> getPrizeTypes() {
         return prizeTypes;
+    }
+
+    public void addType(String typeName) {
+        prizeTypes.add(new PrizeTypeDto(typeName));
+    }
+
+    public void removeType(String typeName){
+        prizeTypes.removeIf(type -> typeName.equals(type.getName()));
     }
 
     @Override

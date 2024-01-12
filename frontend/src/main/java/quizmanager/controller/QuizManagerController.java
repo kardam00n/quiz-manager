@@ -2,7 +2,6 @@ package quizmanager.controller;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -11,9 +10,7 @@ import quizmanager.model.PrizeTypeDto;
 import quizmanager.model.QuizListElement;
 import quizmanager.presenter.*;
 import quizmanager.service.QuizService;
-import rx.Observable;
 import quizmanager.model.RecordDto;
-import quizmanager.presenter.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -94,11 +91,13 @@ public class QuizManagerController {
         }
     }
 
-    public boolean showAddPrizeDialog(PrizeDto prizeDto, Observable<List<PrizeTypeDto>> prizeTypeDtos) {
+    public boolean showAddPrizeDialog(PrizeDto prizeDto) {
         try {
             // Load the fxml file and create a new stage for the dialog
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(QuizManagerController.class.getResource("/view/add_prize_dialog.fxml"));
+            loader.setControllerFactory(controllerClass -> new AddPrizePresenter(service));
+
             BorderPane page = loader.load();
 
             // Create the dialog Stage.
@@ -114,7 +113,7 @@ public class QuizManagerController {
             // Set the presenter for the view
             AddPrizePresenter presenter = loader.getController();
             presenter.setDialogStage(dialogStage);
-            presenter.setData(prizeDto, prizeTypeDtos);
+            presenter.setData(prizeDto);
 
 
             // Show the dialog and wait until the user closes it
