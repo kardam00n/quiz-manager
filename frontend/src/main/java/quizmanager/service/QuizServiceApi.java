@@ -6,6 +6,7 @@ import quizmanager.model.*;
 import retrofit2.http.*;
 import rx.Observable;
 
+import javax.management.ConstructorParameters;
 import java.util.List;
 
 public interface QuizServiceApi {
@@ -49,5 +50,8 @@ public interface QuizServiceApi {
 
     @PUT("/strategies/{quizName}")
     Observable<ResponseBody> updateStrategyForQuiz(@Path("quizName") String quizName, @Body CorrectAnswersRewardingStrategy strategy);
+
+    @PUT("/records")
+    Observable<ResponseBody> updateRecord(@Query("recordId") int recordId, @Query("prizeId") int prizeId);
 
 }

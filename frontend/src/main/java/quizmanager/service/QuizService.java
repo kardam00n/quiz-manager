@@ -29,8 +29,6 @@ public class QuizService {
     }
 
 
-
-
     public Observable<List<String>> loadQuizTitles() {
         return service.getQuizTitles();
     }
@@ -96,5 +94,8 @@ public class QuizService {
         return service.updateStrategyForQuiz(quizTitle, correctAnswersRewardingStrategyBdata);
     }
 
+    public Observable<ResponseBody> updateRecord(int recordId, int prizeId) {
+        return service.updateRecord(recordId, prizeId);
+    }
 
 }

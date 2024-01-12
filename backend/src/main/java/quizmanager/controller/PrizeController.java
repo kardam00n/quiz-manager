@@ -3,11 +3,8 @@ package quizmanager.controller;
 import org.springframework.web.bind.annotation.*;
 
 import quizmanager.model.prize.PrizeDto;
-import quizmanager.model.prize.PrizeTypeDto;
 import quizmanager.service.PrizeService;
 import quizmanager.model.prize.Prize;
-import quizmanager.model.prize.PrizeType;
-
 import java.util.List;
 
 @RestController

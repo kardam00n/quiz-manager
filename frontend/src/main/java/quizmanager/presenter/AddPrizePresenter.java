@@ -11,9 +11,6 @@ import quizmanager.model.PrizeDto;
 import quizmanager.model.PrizeTypeDto;
 import rx.Observable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class AddPrizePresenter {
