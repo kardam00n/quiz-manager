@@ -70,7 +70,7 @@ public class QuizService {
         return service.uploadPrize(prizeDto);
     }
 
-    public Observable<ResponseBody> uploadPrizeType(PrizeTypeDto prizeTypeDto){
+    public Observable<ResponseBody> uploadPrizeType(List<PrizeTypeDto> prizeTypeDto){
         return service.uploadPrizeType(prizeTypeDto);
     }
 

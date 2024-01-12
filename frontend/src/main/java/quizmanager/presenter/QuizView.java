@@ -22,6 +22,8 @@ import quizmanager.service.QuizService;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class QuizView implements Initializable {
@@ -174,16 +176,19 @@ public class QuizView implements Initializable {
                     },
                     System.out::println
             );
+
+
         }
     }
 
 
     @FXML
     public void addPrizeType() {
-        var prizeTypeDto = new PrizeTypeDto();
+        var prizeTypeDto = new ArrayList<PrizeTypeDto>();
         if (appController.showNewPrizeTypeDialog(prizeTypeDto)) {
             service.uploadPrizeType(prizeTypeDto).subscribe(
                     next -> {
+
                     },
                     System.out::println
             );

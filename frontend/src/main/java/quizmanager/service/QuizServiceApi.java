@@ -31,7 +31,7 @@ public interface QuizServiceApi {
     Observable<ResponseBody> uploadPrize(@Body PrizeDto prizeDto);
 
     @POST("/prizeTypes")
-    Observable<ResponseBody> uploadPrizeType(@Body PrizeTypeDto prizeTypeDto);
+    Observable<ResponseBody> uploadPrizeType(@Body List<PrizeTypeDto> prizeTypeDto);
 
 
     // TODO co ja tu mialem na myśli ...

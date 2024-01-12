@@ -8,11 +8,17 @@
       <module name="mi-pt-1300-siankoteam.frontend" target="17" />
       <module name="mi-pt-1300-siankoteam.frontend.main" target="17" />
       <module name="mi-pt-1300-siankoteam.frontend.test" target="17" />
+      <module name="proj.backend" target="17" />
       <module name="Proj.backend" target="17" />
+      <module name="proj.backend.main" target="17" />
       <module name="Proj.backend.main" target="17" />
+      <module name="proj.backend.test" target="17" />
       <module name="Proj.backend.test" target="17" />
+      <module name="proj.frontend" target="17" />
       <module name="Proj.frontend" target="17" />
+      <module name="proj.frontend.main" target="17" />
       <module name="Proj.frontend.main" target="17" />
+      <module name="proj.frontend.test" target="17" />
       <module name="Proj.frontend.test" target="17" />
       <module name="Proj.s_backend" target="17" />
       <module name="SiankoTeam.backend" target="17" />

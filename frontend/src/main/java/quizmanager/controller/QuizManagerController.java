@@ -127,16 +127,23 @@ public class QuizManagerController {
         }
     }
 
-    public boolean showNewPrizeTypeDialog(PrizeTypeDto prizeTypeDto) {
+    public boolean showNewPrizeTypeDialog(List<PrizeTypeDto> prizeTypeDto) {
         try {
+
+
+
+
             // Load the fxml file and create a new stage for the dialog
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(QuizManagerController.class.getResource("/view/new_prize_type_dialog.fxml"));
+            loader.setControllerFactory(controllerClass -> new AddPrizeTypePresenter(service));
+
             BorderPane page = loader.load();
 
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Add new prize type");
+            dialogStage.setResizable(false);
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
