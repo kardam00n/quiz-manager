@@ -103,8 +103,7 @@ public class AddPrizeTypePresenter {
     }
 
     private void updateModel() {
-        int fromIdx = pulledPositionCount <= 0 ? 0 : pulledPositionCount -1;
-        var sth = (currentCategories.getItems().subList(fromIdx, pulledPositionCount + newPositionCount.getValue()));
+        var sth = (currentCategories.getItems().subList(pulledPositionCount, pulledPositionCount + newPositionCount.getValue()));
         sth.forEach(e -> prizeTypeDto.add(new PrizeTypeDto(e)));
     }
 
