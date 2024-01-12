@@ -188,9 +188,10 @@ public class QuizView implements Initializable {
                     .observeOn(Schedulers.from(Platform::runLater))
                     .subscribe(
                     next -> {
+                        // TODO info że dodano nagrodę
                     },
                     error -> {
-                        prizeDto.getPrizeTypes().forEach(e -> System.out.println(e));
+                        System.out.println(error);
                     }
             );
 

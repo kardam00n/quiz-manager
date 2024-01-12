@@ -69,6 +69,6 @@ public class PrizeDto {
 
     @Override
     public String toString() {
-        return name + "(" + description + ") [" + prizeTypes + "]";
+        return id + name + "(" + description + ") [" + prizeTypes + "]";
     }
 }

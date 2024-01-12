@@ -24,6 +24,7 @@ public class PrizeController {
 
     @PostMapping
     public void addPrize(@RequestBody PrizeDto prizeDto) {
+        System.out.println(prizeDto);
         Prize newPrize = prizeDto.toPrize();
         prizeService.addPrize(newPrize);
     }

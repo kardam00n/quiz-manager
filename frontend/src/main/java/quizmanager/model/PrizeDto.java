@@ -8,15 +8,15 @@ import java.util.List;
 
 public class PrizeDto {
 
-    @SerializedName("id")
+//    @SerializedName("id")
     private int id;
-    @SerializedName("name")
+//    @SerializedName("name")
     private String name;
 
-    @SerializedName("description")
+//    @SerializedName("description")
     private String description;
 
-    @SerializedName("type")
+//    @SerializedName("type")
     private List<PrizeTypeDto> prizeTypes = new ArrayList<>();
 
     public PrizeDto() {}
