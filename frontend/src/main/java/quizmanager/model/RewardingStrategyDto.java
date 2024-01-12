@@ -45,10 +45,6 @@ public class RewardingStrategyDto {
 
     @Override
     public String toString() {
-        return "RewardingStrategyDto{" +
-                "name='" + name + '\'' +
-                ", prizeTypeIfPassed=" + prizeTypeIfPassed +
-                ", prizeTypeIfFailed=" + prizeTypeIfFailed +
-                '}';
+        return name;
     }
 }

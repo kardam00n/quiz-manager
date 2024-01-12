@@ -50,16 +50,16 @@ public class StrategyConfigPresenter{
     private void initialize() {
 
 
-        chosenStrategy.getItems().addAll(new RewardingStrategyDto("one"), new RewardingStrategyDto("two"));
+        chosenStrategy.getItems().addAll(new RewardingStrategyDto("SPEED"), new RewardingStrategyDto("CORR_ANS"));
         chosenStrategy.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     RewardingStrategyDto selectedStrategy = chosenStrategy
                             .getSelectionModel()
                             .getSelectedItem();
 
-                    if (selectedStrategy.getName().equals("one")) {
+                    if (selectedStrategy.getName().equals("SPEED")) {
                         displayStrategyAControls();
-                    } else if (selectedStrategy.getName().equals("two")) {
+                    } else if (selectedStrategy.getName().equals("CORR_ANS")) {
                         displayBStrategyControls();
                     }
 
@@ -91,7 +91,7 @@ public class StrategyConfigPresenter{
 
     private void updateModel() {
         RewardingStrategyDto selected = chosenStrategy.getSelectionModel().getSelectedItem();
-        if (selected.getName().equals("one")) {
+        if (selected.getName().equals("SPEED")) {
             SpeedRewardingStrategy strategyA = new SpeedRewardingStrategy();
 
 
@@ -100,13 +100,13 @@ public class StrategyConfigPresenter{
             ChoiceBox<PrizeTypeDto> choiceBox1 = (ChoiceBox<PrizeTypeDto>) row.getChildren().get(1);
             ChoiceBox<PrizeTypeDto> choiceBox2 = (ChoiceBox<PrizeTypeDto>) row.getChildren().get(2);
 
-            strategyA.setName("one");
+            strategyA.setName("SPEED");
             strategyA.setTopSpeedPercentage(spinner.getValue());
             strategyA.setPrizeTypeIfPassed(choiceBox1.getValue());
             strategyA.setPrizeTypeIfFailed(choiceBox2.getValue());
 
             rewardingStrategyDto = strategyA;
-        } else if (selected.getName().equals("two")) {
+        } else if (selected.getName().equals("CORR_ANS")) {
             CorrectAnswersRewardingStrategy strategyB = new CorrectAnswersRewardingStrategy();
 
 
