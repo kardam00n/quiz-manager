@@ -1,6 +1,7 @@
 package quizmanager.presenter;
 
 
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -10,6 +11,7 @@ import javafx.stage.Stage;
 import quizmanager.model.PrizeDto;
 import quizmanager.model.PrizeTypeDto;
 import rx.Observable;
+import rx.schedulers.Schedulers;
 
 import java.util.List;
 
@@ -73,7 +75,10 @@ public class AddPrizePresenter {
 
     public void setData(PrizeDto prizeDto, Observable<List<PrizeTypeDto>> prizeTypeDtoList) {
         this.prizeDto = prizeDto;
-        prizeTypeDtoList.subscribe(
+        prizeTypeDtoList
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.from(Platform::runLater))
+                .subscribe(
                 next -> {
                     this.prizeType.getItems().addAll(next);
                     System.out.println("hi");

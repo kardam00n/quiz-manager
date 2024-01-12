@@ -1,5 +1,6 @@
 package quizmanager.presenter;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -18,6 +19,7 @@ import javafx.stage.Stage;
 import quizmanager.controller.QuizManagerController;
 import quizmanager.model.*;
 import quizmanager.service.QuizService;
+import rx.schedulers.Schedulers;
 
 import java.io.IOException;
 import java.net.URL;
@@ -91,7 +93,10 @@ public class QuizView implements Initializable {
                 });
 
 
-        service.loadQuizTitles().subscribe(
+        service.loadQuizTitles()
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.from(Platform::runLater))
+                .subscribe(
                 next -> quizTitles.getItems().addAll(next),
                 System.out::println,
                 () -> {
@@ -134,7 +139,10 @@ public class QuizView implements Initializable {
     private void getAndShowSelectedQuiz(String selectedQuiz) {
 
 
-        service.loadQuiz(selectedQuiz).subscribe(
+        service.loadQuiz(selectedQuiz)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.from(Platform::runLater))
+                .subscribe(
                 next -> {
                     ObservableList<RecordDto> data = FXCollections.observableArrayList();
                     data.addAll(next);
@@ -152,7 +160,10 @@ public class QuizView implements Initializable {
         var quizListElement = new QuizListElement();
         if (appController.showFormUploadDialog(quizListElement)) {
 
-            service.uploadQuiz(quizListElement).subscribe(
+            service.uploadQuiz(quizListElement)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(Schedulers.from(Platform::runLater))
+                    .subscribe(
                     next -> quizTitles.getItems().add(quizListElement.getName()),
                     System.out::println
             );
@@ -171,7 +182,10 @@ public class QuizView implements Initializable {
         PrizeDto prizeDto = new PrizeDto();
 
         if (appController.showAddPrizeDialog(prizeDto, service.getPrizeTypes())) {
-            service.uploadPrize(prizeDto).subscribe(
+            service.uploadPrize(prizeDto)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(Schedulers.from(Platform::runLater))
+                    .subscribe(
                     next -> {
                     },
                     System.out::println
@@ -186,7 +200,10 @@ public class QuizView implements Initializable {
     public void addPrizeType() {
         var prizeTypeDto = new ArrayList<PrizeTypeDto>();
         if (appController.showNewPrizeTypeDialog(prizeTypeDto)) {
-            service.uploadPrizeType(prizeTypeDto).subscribe(
+            service.uploadPrizeType(prizeTypeDto)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(Schedulers.from(Platform::runLater))
+                    .subscribe(
                     next -> {
 
                     },
@@ -222,13 +239,19 @@ public class QuizView implements Initializable {
     private void updateStrategyForQuiz(StrategyConfigPresenter presenter) {
         RewardingStrategyDto rewardingStrategyDto = presenter.getStrategyDto();
         if(rewardingStrategyDto instanceof SpeedRewardingStrategy strategy) {
-            service.updateStrategyForQuiz(quizTitles.getSelectionModel().getSelectedItem(), strategy).subscribe(
+            service.updateStrategyForQuiz(quizTitles.getSelectionModel().getSelectedItem(), strategy)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(Schedulers.from(Platform::runLater))
+                    .subscribe(
                     System.out::println,
                     System.out::println
             );
         }
         else if (rewardingStrategyDto instanceof CorrectAnswersRewardingStrategy strategy) {
-            service.updateStrategyForQuiz(quizTitles.getSelectionModel().getSelectedItem(), strategy).subscribe(
+            service.updateStrategyForQuiz(quizTitles.getSelectionModel().getSelectedItem(), strategy)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(Schedulers.from(Platform::runLater))
+                    .subscribe(
                     System.out::println,
                     System.out::println
             );

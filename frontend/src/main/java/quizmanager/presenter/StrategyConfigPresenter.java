@@ -1,5 +1,6 @@
 package quizmanager.presenter;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -14,6 +15,7 @@ import quizmanager.model.*;
 import quizmanager.model.CorrectAnswersRewardingStrategy;
 import quizmanager.model.RewardingStrategyDto;
 import quizmanager.service.QuizService;
+import rx.schedulers.Schedulers;
 
 public class StrategyConfigPresenter{
 
@@ -182,7 +184,10 @@ public class StrategyConfigPresenter{
         hBox.getChildren().addAll(spinner, victoryPrizeCategory, restPrizeCategory);
 
 
-        service.getStrategyAData(quizTitle).subscribe(
+        service.getStrategyAData(quizTitle)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.from(Platform::runLater))
+                .subscribe(
                 next ->
                 {
                     spinner.getValueFactory().setValue(next.getTopSpeedPercentage());
@@ -223,7 +228,10 @@ public class StrategyConfigPresenter{
 
         optionsPane.getChildren().add(optionsPane.getChildren().size() - 1, title);
 
-        service.getStrategyBData(quizTitle).subscribe(
+        service.getStrategyBData(quizTitle)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.from(Platform::runLater))
+                .subscribe(
                 next -> next.getPrizeTypeMap().forEach(this::displayStrategyBRow),
 
                 error -> {

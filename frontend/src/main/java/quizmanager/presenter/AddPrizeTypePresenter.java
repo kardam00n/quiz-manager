@@ -1,5 +1,6 @@
 package quizmanager.presenter;
 
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -11,6 +12,7 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import quizmanager.model.PrizeTypeDto;
 import quizmanager.service.QuizService;
+import rx.schedulers.Schedulers;
 
 import java.util.List;
 
@@ -65,6 +67,8 @@ public class AddPrizeTypePresenter {
 
 
         service.getPrizeTypes()
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.from(Platform::runLater))
                 .subscribe(
                         next -> {
                             next.forEach(e -> currentCategories.getItems().add(e.getName()));
