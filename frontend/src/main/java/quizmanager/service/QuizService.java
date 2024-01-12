@@ -79,11 +79,11 @@ public class QuizService {
     }
 
     public Observable<SpeedRewardingStrategy> getStrategyAData(String quizTitle) {
-        return service.getSpeedRewardingStrategy(quizTitle);
+        return service.getSpeedRewardingStrategy();
     }
 
     public Observable<CorrectAnswersRewardingStrategy> getStrategyBData(String quizTitle) {
-        return service.getCorrectAnswersStrategy(quizTitle);
+        return service.getCorrectAnswersStrategy();
     }
 
     public Observable<ResponseBody> updateStrategyForQuiz(String quizTitle, SpeedRewardingStrategy speedRewardingStrategyAdata){
