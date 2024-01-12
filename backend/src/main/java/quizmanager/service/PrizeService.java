@@ -3,10 +3,12 @@ package quizmanager.service;
 import org.springframework.stereotype.Service;
 import quizmanager.model.prize.Prize;
 import quizmanager.model.prize.PrizeType;
+import quizmanager.model.prize.PrizeTypeDto;
 import quizmanager.repository.PrizeRepository;
 import quizmanager.repository.PrizeTypeRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PrizeService {
@@ -39,6 +41,9 @@ public class PrizeService {
 
     public void addPrizeType(PrizeType newPrizeType) {
         prizeTypeRepository.save(newPrizeType);
+    }
+    public Optional<PrizeType> getPrizeTypeByName(String name){
+        return prizeTypeRepository.findByName(name);
     }
 
     public void addPrize(Prize newPrize) {

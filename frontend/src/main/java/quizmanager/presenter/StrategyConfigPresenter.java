@@ -45,21 +45,24 @@ public class StrategyConfigPresenter{
     private String quizTitle;
     private QuizService service;
 
+    private static final String SpeedStrategyName = "SPEED";
+    private static final String CorrectAnswersStrategyName = "CORR_ANS";
+
 
     @FXML
     private void initialize() {
 
 
-        chosenStrategy.getItems().addAll(new RewardingStrategyDto("one"), new RewardingStrategyDto("two"));
+        chosenStrategy.getItems().addAll(new RewardingStrategyDto(SpeedStrategyName), new RewardingStrategyDto(CorrectAnswersStrategyName));
         chosenStrategy.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     RewardingStrategyDto selectedStrategy = chosenStrategy
                             .getSelectionModel()
                             .getSelectedItem();
 
-                    if (selectedStrategy.getName().equals("one")) {
+                    if (selectedStrategy.getName().equals(SpeedStrategyName)) {
                         displayStrategyAControls();
-                    } else if (selectedStrategy.getName().equals("two")) {
+                    } else if (selectedStrategy.getName().equals(CorrectAnswersStrategyName)) {
                         displayBStrategyControls();
                     }
 
@@ -91,7 +94,7 @@ public class StrategyConfigPresenter{
 
     private void updateModel() {
         RewardingStrategyDto selected = chosenStrategy.getSelectionModel().getSelectedItem();
-        if (selected.getName().equals("one")) {
+        if (selected.getName().equals(SpeedStrategyName)) {
             SpeedRewardingStrategy strategyA = new SpeedRewardingStrategy();
 
 
@@ -100,15 +103,16 @@ public class StrategyConfigPresenter{
             ChoiceBox<PrizeTypeDto> choiceBox1 = (ChoiceBox<PrizeTypeDto>) row.getChildren().get(1);
             ChoiceBox<PrizeTypeDto> choiceBox2 = (ChoiceBox<PrizeTypeDto>) row.getChildren().get(2);
 
-            strategyA.setName("one");
+            strategyA.setName(SpeedStrategyName);
             strategyA.setTopSpeedPercentage(spinner.getValue());
             strategyA.setPrizeTypeIfPassed(choiceBox1.getValue());
             strategyA.setPrizeTypeIfFailed(choiceBox2.getValue());
 
             rewardingStrategyDto = strategyA;
-        } else if (selected.getName().equals("two")) {
+        } else if (selected.getName().equals(CorrectAnswersStrategyName)) {
             CorrectAnswersRewardingStrategy strategyB = new CorrectAnswersRewardingStrategy();
 
+            strategyB.setName(CorrectAnswersStrategyName);
 
             int index = 0;
             for (var node : optionsPane.getChildren()) {

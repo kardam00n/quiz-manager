@@ -38,11 +38,11 @@ public interface QuizServiceApi {
     @GET("/strategies")
     Observable<List<PrizeTypeDto>> getPrizeList();
 
-    @GET("/strategies/{quizName}")
-    Observable<SpeedRewardingStrategy> getSpeedRewardingStrategy(@Path("quizName") String quizName);
+    @GET("/strategies/speed")
+    Observable<SpeedRewardingStrategy> getSpeedRewardingStrategy();
 
-    @GET("/strategies/{quizName}")
-    Observable<CorrectAnswersRewardingStrategy> getCorrectAnswersStrategy(@Path("quizName") String quizName);
+    @GET("/strategies/correct")
+    Observable<CorrectAnswersRewardingStrategy> getCorrectAnswersStrategy();
 
 
     @PUT("/strategies/{quizName}")

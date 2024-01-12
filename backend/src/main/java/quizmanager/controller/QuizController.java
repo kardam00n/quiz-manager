@@ -64,6 +64,7 @@ public class QuizController {
         quizOptional.ifPresent(quiz -> {
             List<RecordDto> records = quiz.getRecordSet().stream()
                     .map(record -> new RecordDto(
+                            record.getId(),
                             record.getNickname(),
                             record.getScore(),
                             record.getStartTimestamp(),

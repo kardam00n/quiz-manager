@@ -22,7 +22,8 @@ public class RecordDto {
     private List<PrizeDto> prizeList;
 
 
-    public RecordDto(String nickname, int score, Timestamp startTimestamp, Timestamp endTimestamp, PrizeDto prize, List<PrizeDto> prizeList) {
+    public RecordDto(int id, String nickname, int score, Timestamp startTimestamp, Timestamp endTimestamp, PrizeDto prize, List<PrizeDto> prizeList) {
+        this.id = id;
         this.nickname = nickname;
         this.score = score;
         this.startTimestamp = startTimestamp;

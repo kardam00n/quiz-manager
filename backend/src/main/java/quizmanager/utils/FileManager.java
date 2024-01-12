@@ -118,7 +118,9 @@ public class FileManager {
             System.out.println("|" + name + "|");
             Prize foundPrize = prizeService.getPrizeByName(name);
             if (foundPrize != null) {
-                result.add(foundPrize);
+                if(!result.contains(foundPrize)){
+                    result.add(foundPrize);
+                }
             }
         }
         return result;
