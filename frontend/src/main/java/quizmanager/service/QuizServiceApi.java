@@ -6,7 +6,6 @@ import quizmanager.model.*;
 import retrofit2.http.*;
 import rx.Observable;
 
-import javax.management.ConstructorParameters;
 import java.util.List;
 
 public interface QuizServiceApi {
@@ -21,9 +20,9 @@ public interface QuizServiceApi {
     @GET("/quizzes/{name}")
     Observable<List<RecordDto>> getQuiz(@Path("name") String name);
 
-
     @GET("/prizeTypes")
     Observable<List<PrizeTypeDto>> getPrizeTypes();
+
     @GET("/prizes")
     Observable<List<PrizeDto>> getPrizes();
 
@@ -33,10 +32,6 @@ public interface QuizServiceApi {
     @POST("/prizeTypes")
     Observable<ResponseBody> uploadPrizeType(@Body List<PrizeTypeDto> prizeTypeDto);
 
-
-    // TODO co ja tu mialem na myśli ...
-    @GET("/strategies")
-    Observable<List<PrizeTypeDto>> getPrizeList();
 
     @GET("/strategies/speed")
     Observable<SpeedRewardingStrategy> getSpeedRewardingStrategy();

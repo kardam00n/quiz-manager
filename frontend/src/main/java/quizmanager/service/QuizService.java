@@ -12,10 +12,14 @@ import rx.Observable;
 
 import java.io.File;
 import java.util.List;
+import java.util.Objects;
 
+
+@SuppressWarnings("unused")
 public class QuizService {
     private final QuizServiceApi service;
     private final static String BASE_URL = "http://localhost:8080";
+
 
     public QuizService() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -46,14 +50,10 @@ public class QuizService {
             MultipartBody.Part filePart = MultipartBody.Part.createFormData
                     ("file",
                             quizListElement.getName(),
-                            RequestBody.create(
-                                    MediaType.parse("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"),
-                                    file
-                            )
+                            RequestBody.create(Objects.requireNonNull(MediaType.parse("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")), file)
                     );
             return  service.postQuiz(filePart);
         } else {
-            // TODO cos madrzejszego xd
             System.out.println("File" + file + " does not exist");
             return Observable.empty();
         }
@@ -74,9 +74,7 @@ public class QuizService {
         return service.uploadPrizeType(prizeTypeDto);
     }
 
-    public Observable<List<PrizeTypeDto>> getPrizeList() {
-        return service.getPrizeList();
-    }
+
 
     public Observable<SpeedRewardingStrategy> getStrategyAData(String quizTitle) {
         return service.getSpeedRewardingStrategy();
@@ -86,12 +84,12 @@ public class QuizService {
         return service.getCorrectAnswersStrategy();
     }
 
-    public Observable<ResponseBody> updateStrategyForQuiz(String quizTitle, SpeedRewardingStrategy speedRewardingStrategyAdata){
-        return service.updateStrategyForQuiz(quizTitle, speedRewardingStrategyAdata);
+    public Observable<ResponseBody> updateStrategyForQuiz(String quizTitle, SpeedRewardingStrategy speedRewardingStrategy){
+        return service.updateStrategyForQuiz(quizTitle, speedRewardingStrategy);
     }
 
-    public Observable<ResponseBody> updateStrategyForQuiz(String quizTitle, CorrectAnswersRewardingStrategy correctAnswersRewardingStrategyBdata){
-        return service.updateStrategyForQuiz(quizTitle, correctAnswersRewardingStrategyBdata);
+    public Observable<ResponseBody> updateStrategyForQuiz(String quizTitle, CorrectAnswersRewardingStrategy correctAnswersRewardingStrategy){
+        return service.updateStrategyForQuiz(quizTitle, correctAnswersRewardingStrategy);
     }
 
     public Observable<ResponseBody> updateRecord(int recordId, int prizeId) {

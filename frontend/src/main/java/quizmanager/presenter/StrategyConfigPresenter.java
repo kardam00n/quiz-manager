@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -11,14 +12,15 @@ import javafx.scene.control.Spinner;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import quizmanager.model.*;
 import quizmanager.model.CorrectAnswersRewardingStrategy;
+import quizmanager.model.PrizeTypeDto;
 import quizmanager.model.RewardingStrategyDto;
+import quizmanager.model.SpeedRewardingStrategy;
 import quizmanager.service.QuizService;
 import rx.schedulers.Schedulers;
 
 @SuppressWarnings("unused")
-public class StrategyConfigPresenter{
+public class StrategyConfigPresenter {
 
     public StrategyConfigPresenter(QuizService service) {
         this.service = service;
@@ -70,7 +72,7 @@ public class StrategyConfigPresenter{
 
         // TODO
 //        okButton.disableProperty().bind(
-//                Bindings.isEmpty(treshold.textProperty())
+//                Bindings.isEmpty(threshold.textProperty())
 //                        .or(Bindings.isEmpty(victoryPrizeType.textProperty()))
 //                        .or(Bindings.isNull(strategy.valueProperty()))
 //                        .or(Bindings.isEmpty(restPrizeType.textProperty()))
@@ -93,20 +95,7 @@ public class StrategyConfigPresenter{
     private void updateModel() {
         RewardingStrategyDto selected = chosenStrategy.getSelectionModel().getSelectedItem();
         if (selected.getName().equals(SpeedStrategyName)) {
-            SpeedRewardingStrategy strategyA = new SpeedRewardingStrategy();
-
-
-            var row = (HBox) optionsPane.getChildren().get(1);
-            Spinner<Integer> spinner = (Spinner<Integer>) row.getChildren().get(0);
-            ChoiceBox<PrizeTypeDto> choiceBox1 = (ChoiceBox<PrizeTypeDto>) row.getChildren().get(1);
-            ChoiceBox<PrizeTypeDto> choiceBox2 = (ChoiceBox<PrizeTypeDto>) row.getChildren().get(2);
-
-            strategyA.setName(SpeedStrategyName);
-            strategyA.setTopSpeedPercentage(spinner.getValue());
-            strategyA.setPrizeTypeIfPassed(choiceBox1.getValue());
-            strategyA.setPrizeTypeIfFailed(choiceBox2.getValue());
-
-            rewardingStrategyDto = strategyA;
+            rewardingStrategyDto = getSpeedRewardingStrategy();
         } else if (selected.getName().equals(CorrectAnswersStrategyName)) {
             CorrectAnswersRewardingStrategy strategyB = new CorrectAnswersRewardingStrategy();
 
@@ -116,9 +105,17 @@ public class StrategyConfigPresenter{
             for (var node : optionsPane.getChildren()) {
                 if (node instanceof HBox hBox) {
                     if (index > 0 && index < optionsPane.getChildren().size() - 1) {
-                        Spinner<Integer> spinner = (Spinner<Integer>) hBox.getChildren().get(0);
-                        ChoiceBox<PrizeTypeDto> choiceBox = (ChoiceBox<PrizeTypeDto>) hBox.getChildren().get(1);
-                        strategyB.getPrizeTypeMap().put(spinner.getValue(), choiceBox.getValue());
+
+                        Node first = hBox.getChildren().get(0);
+                        Node second = hBox.getChildren().get(1);
+                        if ((first instanceof Spinner<?> spinner) && second instanceof ChoiceBox<?> choiceBox) {
+                            Integer spinnerValue = (Integer) (spinner.getValue());
+                            PrizeTypeDto choiceBoxValue = (PrizeTypeDto) (choiceBox.getValue());
+
+                            strategyB.getPrizeTypeMap().put(spinnerValue, choiceBoxValue);
+
+                        }
+
                     }
 
                 }
@@ -128,6 +125,37 @@ public class StrategyConfigPresenter{
             rewardingStrategyDto = strategyB;
         }
 
+    }
+
+    private SpeedRewardingStrategy getSpeedRewardingStrategy() {
+        SpeedRewardingStrategy strategyA = new SpeedRewardingStrategy();
+
+
+        var row = (HBox) optionsPane.getChildren().get(1);
+
+
+        Node spinnerNode = row.getChildren().get(0);
+        Node choiceBox1Node = row.getChildren().get(1);
+        Node choiceBox2Node = row.getChildren().get(2);
+
+        if (
+                (
+                        spinnerNode instanceof Spinner<?> spinner)
+                        && (choiceBox1Node instanceof ChoiceBox<?> choiceBox1)
+                        && (choiceBox2Node instanceof ChoiceBox<?> choiceBox2)
+        ) {
+            Integer spinnerValue = (Integer) (spinner.getValue());
+            PrizeTypeDto choiceBox1Value = (PrizeTypeDto) (choiceBox1.getValue());
+            PrizeTypeDto choiceBox2Value = (PrizeTypeDto) (choiceBox2.getValue());
+
+
+            strategyA.setName(SpeedStrategyName);
+            strategyA.setTopSpeedPercentage(spinnerValue);
+            strategyA.setPrizeTypeIfPassed(choiceBox1Value);
+            strategyA.setPrizeTypeIfFailed(choiceBox2Value);
+
+        }
+        return strategyA;
     }
 
 
@@ -173,7 +201,7 @@ public class StrategyConfigPresenter{
         hBox.setAlignment(Pos.CENTER);
         hBox.setSpacing(20.0);
 
-        Spinner<Float> spinner = new Spinner<>(0.0f, 1.0f,0.1f, 0.05f);
+        Spinner<Float> spinner = new Spinner<>(0.0f, 1.0f, 0.1f, 0.05f);
         spinner.setMaxWidth(130.0);
         spinner.setMinWidth(130.0);
         ChoiceBox<PrizeTypeDto> victoryPrizeCategory = new ChoiceBox<>();
@@ -190,14 +218,14 @@ public class StrategyConfigPresenter{
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.from(Platform::runLater))
                 .subscribe(
-                next ->
-                {
-                    spinner.getValueFactory().setValue(next.getTopSpeedPercentage());
-                    victoryPrizeCategory.getItems().addAll(next.getPrizeTypeIfPassed());
-                    restPrizeCategory.getItems().addAll(next.getPrizeTypeIfFailed());
-                },
-                error -> System.out.println("sth went wrong... (poprawimy na kolejne laby :>)")
-        );
+                        next ->
+                        {
+                            spinner.getValueFactory().setValue(next.getTopSpeedPercentage());
+                            victoryPrizeCategory.getItems().addAll(next.getPrizeTypeIfPassed());
+                            restPrizeCategory.getItems().addAll(next.getPrizeTypeIfFailed());
+                        },
+                        error -> System.out.println("sth went wrong... (poprawimy na kolejne laby :>)")
+                );
 
         optionsPane.getChildren().add(optionsPane.getChildren().size() - 1, hBox);
     }
@@ -232,10 +260,10 @@ public class StrategyConfigPresenter{
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.from(Platform::runLater))
                 .subscribe(
-                next -> next.getPrizeTypeMap().forEach(this::displayStrategyBRow),
+                        next -> next.getPrizeTypeMap().forEach(this::displayStrategyBRow),
 
-                error -> System.out.println("sth went wrong")
-        );
+                        error -> System.out.println("sth went wrong")
+                );
 
     }
 
