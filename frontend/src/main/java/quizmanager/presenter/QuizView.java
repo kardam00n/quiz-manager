@@ -147,7 +147,6 @@ public class QuizView implements Initializable {
                     ObservableList<RecordDto> data = FXCollections.observableArrayList();
                     data.addAll(next);
                     quizDetailsTable.setItems(data);
-
                 },
                 System.out::println);
 
@@ -174,7 +173,13 @@ public class QuizView implements Initializable {
     private void changePrize(RecordDto recordDto) {
         if(appController.showChangePrizeDialog(recordDto)) {
             quizDetailsTable.refresh();
-            service.updateRecord(recordDto.getId(), recordDto.getPrize().getId());
+            service.updateRecord(recordDto.getId(), recordDto.getPrize().getId()).subscribe(
+                    next -> {
+
+                        System.out.println("OK");
+                    },
+                    error -> System.out.println(error)
+            );
         }
     }
     @FXML

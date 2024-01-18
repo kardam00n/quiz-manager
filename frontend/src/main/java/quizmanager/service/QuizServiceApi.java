@@ -52,6 +52,6 @@ public interface QuizServiceApi {
     Observable<ResponseBody> updateStrategyForQuiz(@Path("quizName") String quizName, @Body CorrectAnswersRewardingStrategy strategy);
 
     @PUT("/records")
-    Observable<ResponseBody> updateRecord(@Query("recordId") int recordId, @Query("prizeId") int prizeId);
+    Observable<ResponseBody> updateRecord(@Query(value = "recordId") int recordId, @Query(value = "prizeId") int prizeId);
 
 }
