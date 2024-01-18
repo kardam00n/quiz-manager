@@ -1,0 +1,63 @@
+.root {
+    -primary-color: #3372c4;
+    -background-color: #ffffff;
+    -text-color: #464646;
+}
+
+#vertical_menu {
+    -fx-background-color: -background-color;
+}
+
+#app_title {
+    -fx-background-color: -primary-color;
+    -fx-padding: 20 20 20 20;
+    -fx-text-fill: white;
+    -fx-font-family: C059;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+}
+
+#navbar {
+    -fx-padding: 30 20 20 20;
+}
+
+.nav_button {
+    -fx-background-color: transparent;
+    -fx-text-fill: -text-color;
+    -fx-background-insets: 0;
+    -fx-background-radius: 5;
+    -fx-alignment: left;
+    -fx-padding: 15 0 15 10;
+}
+
+.nav_button:hover {
+    -fx-background-color: -primary-color;
+    -fx-text-fill: white;
+
+}
+
+.nav_button:hover .font_icon {
+    -fx-fill: white;
+}
+
+
+.font_icon {
+    -fx-fill: -text-color;
+}
+
+
+#dark_mode_label {
+    -fx-text-fill: -text-color;
+}
+
+#dark_mode_icon {
+    -fx-fill: -text-color;
+}
+
+#dark_mode_toggle{
+    -fx-background-color: transparent ;
+}
+
+#dark_mode_toggle_icon {
+    -fx-fill: -text-color;
+}
