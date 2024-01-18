@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class PrizeTypeDto {
 
-    @SerializedName("name")
     private String name;
 
     public PrizeTypeDto() {}
