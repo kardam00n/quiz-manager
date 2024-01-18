@@ -1,5 +1,6 @@
 package quizmanager.model.prize;
 
+@SuppressWarnings("unused")
 public class PrizeTypeDto {
 
 

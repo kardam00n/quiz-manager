@@ -1,14 +1,14 @@
 package quizmanager.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
 import quizmanager.model.prize.Prize;
 import quizmanager.model.prize.PrizeType;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.List;
+
+@SuppressWarnings("unused")
 @Entity
 public class Record {
     @Id
@@ -32,7 +32,7 @@ public class Record {
     @JoinColumn(name = "prize_id")
     private Prize prize = null;
 
-    public Record(String nickname, Timestamp startTimestamp,Timestamp endTimestamp, int score, List<Prize> prizeList) {
+    public Record(String nickname, Timestamp startTimestamp, Timestamp endTimestamp, int score, List<Prize> prizeList) {
         this.nickname = nickname;
         this.startTimestamp = startTimestamp;
         this.endTimestamp = endTimestamp;
@@ -71,9 +71,9 @@ public class Record {
         this.prize = prize;
     }
 
-    public void setPrize(PrizeType type){
+    public void setPrize(PrizeType type) {
         for (Prize prize : prizeList) {
-            if (prize.isTypeOf(type)){
+            if (prize.isTypeOf(type)) {
                 this.prize = prize;
             }
         }

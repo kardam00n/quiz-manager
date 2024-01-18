@@ -9,6 +9,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.util.List;
 
+@SuppressWarnings("unused")
 @Entity
 @DiscriminatorValue("SPEED")
 public class SpeedRewardingStrategy extends RewardingStrategy{
@@ -42,10 +43,10 @@ public class SpeedRewardingStrategy extends RewardingStrategy{
     //PASS HERE RECORD SORTED BY SPEED
     @Override
     public void assignPrizes(List<Record> records) {
-        int howManytoPass = (int) Math.floor((topSpeedPercentage * records.size()));
+        int howManyToPass = (int) Math.floor((topSpeedPercentage * records.size()));
         int counter = 0;
         for(Record record: records){
-            if(record.getScore() == maxAnswers && counter < howManytoPass){
+            if(record.getScore() == maxAnswers && counter < howManyToPass){
                 record.setPrize(prizeTypeIfPassed);
                 counter += 1;
             }

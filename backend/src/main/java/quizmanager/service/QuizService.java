@@ -35,8 +35,6 @@ public class QuizService {
         return quizRepository.getQuizzesNames();
     }
     public Optional<Quiz> getQuizByName(String name) {
-        Optional<Quiz> quizByName = quizRepository.getQuizByName(name);
-//        quizByName.ifPresent(rewardAssigner::assignPrizes);
-        return quizByName;
+        return quizRepository.getQuizByName(name);
     }
 }

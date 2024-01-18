@@ -37,51 +37,44 @@ public class RewardAssigner implements Visitor {
     public void assignPrizesCorrectAnswers(CorrectAnswersRewardingStrategy rewardingStrategy, Quiz quiz, Prize nonePrize) {
         List<Record> records = quiz.getRecordSet();
         Map<Integer, PrizeType> prizeTypeMap = rewardingStrategy.getPrizeTypeMap();
-//        int correctAnswerstoPass = rewardingStrategy.getCorrectAnswersToPass();
         for (Record record : records) {
             setPrize(record, prizeTypeMap.get(record.getScore()));
-//            if(record.getScore() >= correctAnswerstoPass){
-//                setPrize(record, rewardingStrategy.getPrizeTypeIfPassed());
-//            }
-//            else{
-//                setPrize(record, rewardingStrategy.getPrizeTypeIfFailed());
-//            }
-            if(record.getPrize() == null){
+
+            if (record.getPrize() == null) {
                 setPrize(record, nonePrize);
             }
         }
     }
 
-    public void assignPrizesSpeed(SpeedRewardingStrategy rewardingStrategy, Quiz quiz, Prize nonePrize){
+    public void assignPrizesSpeed(SpeedRewardingStrategy rewardingStrategy, Quiz quiz, Prize nonePrize) {
         List<Record> records = quiz.getRecordSet();
         float topSpeedPercentage = rewardingStrategy.getTopSpeedPercentage();
         int maxAnswers = rewardingStrategy.getMaxAnswers();
 
-        int howManytoPass = (int) Math.floor((topSpeedPercentage * records.size()));
+        int howManyToPass = (int) Math.floor((topSpeedPercentage * records.size()));
         int counter = 0;
-        for(Record record: records){
-            if(record.getScore() == maxAnswers && counter < howManytoPass){
+        for (Record record : records) {
+            if (record.getScore() == maxAnswers && counter < howManyToPass) {
                 setPrize(record, rewardingStrategy.getPrizeTypeIfPassed());
                 counter += 1;
-            }
-            else{
+            } else {
                 setPrize(record, rewardingStrategy.getPrizeTypeIfFailed());
             }
-            if(record.getPrize() == null){
+            if (record.getPrize() == null) {
                 setPrize(record, nonePrize);
             }
         }
     }
 
-    public void setPrize(Record record, PrizeType prizeType){
+    public void setPrize(Record record, PrizeType prizeType) {
         for (Prize prize : record.getPrizeList()) {
-            if (prize.isTypeOf(prizeType)){
+            if (prize.isTypeOf(prizeType)) {
                 setPrize(record, prize);
             }
         }
     }
 
-    public void setPrize(Record record, Prize prize){
+    public void setPrize(Record record, Prize prize) {
 
         recordService.updatePrizeId(record.getId(), prize.getId());
         record.forcePrize(prize);

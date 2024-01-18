@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 @Entity
 @DiscriminatorValue("CORR_ANS")
 public class CorrectAnswersRewardingStrategy extends RewardingStrategy{

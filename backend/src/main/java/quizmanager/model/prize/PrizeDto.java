@@ -3,6 +3,7 @@ package quizmanager.model.prize;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class PrizeDto {
 
     private int id;
@@ -62,13 +63,6 @@ public class PrizeDto {
     public List<PrizeTypeDto> getPrizeTypes() {
         return prizeTypes;
     }
-
-//    public Prize toPrize() {
-//        return new Prize(prizeTypes.stream().map(prizeTypeDto -> new PrizeType(prizeTypeDto.getName())).toList(), name, description);
-//    }
-
-//    public Prize toPrize() {
-//    }
 
 
     @Override

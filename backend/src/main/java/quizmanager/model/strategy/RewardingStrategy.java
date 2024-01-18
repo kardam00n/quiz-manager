@@ -8,6 +8,7 @@ import quizmanager.model.prize.PrizeType;
 import javax.persistence.*;
 import java.util.List;
 
+@SuppressWarnings("unused")
 @Entity
 @DiscriminatorColumn(name="STRAT_TYPE")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)

@@ -4,9 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import java.util.Collection;
 import java.util.List;
 
+@SuppressWarnings("unused")
 @Entity
 public class PrizeType {
     @Id

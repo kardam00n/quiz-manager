@@ -5,6 +5,7 @@ import quizmanager.model.prize.PrizeDto;
 import java.sql.Timestamp;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class RecordDto {
 
     private int id;

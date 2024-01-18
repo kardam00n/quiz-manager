@@ -3,6 +3,7 @@ package quizmanager.model.prize;
 import javax.persistence.*;
 import java.util.List;
 
+@SuppressWarnings("unused")
 @Entity
 public class Prize {
     @Id
@@ -22,8 +23,6 @@ public class Prize {
     public Prize() {
     }
 
-
-    // TODO TEST
     public Prize(String name, String description) {
         this.name = name;
         this.description = description;

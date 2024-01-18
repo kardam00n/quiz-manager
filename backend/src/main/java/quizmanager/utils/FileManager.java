@@ -1,16 +1,18 @@
 package quizmanager.utils;
 
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
 import quizmanager.model.Record;
 import quizmanager.model.prize.Prize;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import quizmanager.service.PrizeService;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -53,7 +55,6 @@ public class FileManager {
         CellStyle dateCellStyle = workbook.createCellStyle();
         dateCellStyle.setDataFormat((short) 22);
 
-        int columns = 5;
         Sheet sheet = workbook.createSheet("quiz results");
 
         Row header = sheet.createRow(0);
@@ -110,7 +111,7 @@ public class FileManager {
     }
 
     private List<Prize> parsePrizeString(String prizeString) {
-        List<Prize> result = new ArrayList<Prize>();
+        List<Prize> result = new ArrayList<>();
         String[] prizes = prizeString.split(";");
         for (String prize : prizes) {
             String name = prize.split("\\(")[0];
