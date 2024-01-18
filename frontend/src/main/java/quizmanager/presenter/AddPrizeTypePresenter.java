@@ -74,9 +74,7 @@ public class AddPrizeTypePresenter {
                             next.forEach(e -> currentCategories.getItems().add(e.getName()));
                             pulledPositionCount = next.size();
                         },
-                        error -> {
-                            System.out.println(error);
-                        }
+                        System.out::println
                 );
 
 

@@ -1,7 +1,7 @@
 package quizmanager.model;
 
-import com.google.gson.annotations.SerializedName;
 
+@SuppressWarnings("unused")
 public class PrizeTypeDto {
 
     private String name;

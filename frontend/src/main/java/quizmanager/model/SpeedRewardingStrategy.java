@@ -1,5 +1,8 @@
 package quizmanager.model;
 
+
+@SuppressWarnings("unused")
+
 public class SpeedRewardingStrategy extends RewardingStrategyDto {
 
     private float topSpeedPercentage;

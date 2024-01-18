@@ -17,6 +17,7 @@ import quizmanager.model.RewardingStrategyDto;
 import quizmanager.service.QuizService;
 import rx.schedulers.Schedulers;
 
+@SuppressWarnings("unused")
 public class StrategyConfigPresenter{
 
     public StrategyConfigPresenter(QuizService service) {
@@ -33,9 +34,6 @@ public class StrategyConfigPresenter{
     @FXML
     private Button addRowButton;
 
-    @FXML
-    private Button okButton;
-
 
     private Stage dialogStage;
 
@@ -43,7 +41,7 @@ public class StrategyConfigPresenter{
 
     private RewardingStrategyDto rewardingStrategyDto = new RewardingStrategyDto();
     private String quizTitle;
-    private QuizService service;
+    private final QuizService service;
 
     private static final String SpeedStrategyName = "SPEED";
     private static final String CorrectAnswersStrategyName = "CORR_ANS";
@@ -198,9 +196,7 @@ public class StrategyConfigPresenter{
                     victoryPrizeCategory.getItems().addAll(next.getPrizeTypeIfPassed());
                     restPrizeCategory.getItems().addAll(next.getPrizeTypeIfFailed());
                 },
-                error -> {
-                    System.out.println("sth went wrong... (poprawimy na kolejne laby :>)");
-                }
+                error -> System.out.println("sth went wrong... (poprawimy na kolejne laby :>)")
         );
 
         optionsPane.getChildren().add(optionsPane.getChildren().size() - 1, hBox);
@@ -238,9 +234,7 @@ public class StrategyConfigPresenter{
                 .subscribe(
                 next -> next.getPrizeTypeMap().forEach(this::displayStrategyBRow),
 
-                error -> {
-                    System.out.println("sth went wrong");
-                }
+                error -> System.out.println("sth went wrong")
         );
 
     }

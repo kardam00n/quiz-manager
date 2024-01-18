@@ -4,6 +4,8 @@ package quizmanager.model;
 import java.sql.Timestamp;
 import java.util.List;
 
+@SuppressWarnings("unused")
+
 public class RecordDto {
 
     private final int id;
@@ -36,24 +38,20 @@ public class RecordDto {
         return id;
     }
 
-    @SuppressWarnings("unused")
     public String getNickname() {
         return nickname;
     }
 
-    @SuppressWarnings("unused")
     public Integer getScore() {
         return score;
     }
 
 
-    @SuppressWarnings("unused")
     public Timestamp getStartTimestamp() {
         return startTimestamp;
     }
 
 
-    @SuppressWarnings("unused")
     public Timestamp getEndTimestamp() {
         return endTimestamp;
     }

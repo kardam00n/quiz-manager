@@ -7,10 +7,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
@@ -25,7 +21,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class QuizView implements Initializable {
@@ -116,7 +111,7 @@ public class QuizView implements Initializable {
     }
 
     private class ButtonCell extends TableCell<RecordDto, Boolean> {
-        final Button cellButton = new Button("Zmien nagrode");
+        final Button cellButton = new Button("Zmień nagrodę");
 
         ButtonCell(){
 
@@ -174,11 +169,8 @@ public class QuizView implements Initializable {
         if(appController.showChangePrizeDialog(recordDto)) {
             quizDetailsTable.refresh();
             service.updateRecord(recordDto.getId(), recordDto.getPrize().getId()).subscribe(
-                    next -> {
-
-                        System.out.println("OK");
-                    },
-                    error -> System.out.println(error)
+                    next -> System.out.println("OK"),
+                    System.out::println
             );
         }
     }
@@ -193,11 +185,9 @@ public class QuizView implements Initializable {
                     .observeOn(Schedulers.from(Platform::runLater))
                     .subscribe(
                     next -> {
-                        // TODO info że dodano nagrodę
+
                     },
-                    error -> {
-                        System.out.println(error);
-                    }
+                            System.out::println
             );
 
 
@@ -240,8 +230,7 @@ public class QuizView implements Initializable {
             updateStrategyForQuiz(presenter);
 
         } catch (IOException e) {
-            e.printStackTrace();
-
+            System.out.println("Message: " + e.getMessage() + ", Cause: " + e.getCause());
         }
     }
 
@@ -289,8 +278,7 @@ public class QuizView implements Initializable {
         loader.setLocation(QuizManagerController.class.getResource("/view/strategy_config_dialog.fxml"));
         loader.setControllerFactory(controllerClass -> new StrategyConfigPresenter(service));
 
-        BorderPane page = loader.load();
-        return page;
+        return loader.load();
     }
 
 

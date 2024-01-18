@@ -1,5 +1,6 @@
 package quizmanager.controller;
 
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -8,9 +9,9 @@ import javafx.stage.Stage;
 import quizmanager.model.PrizeDto;
 import quizmanager.model.PrizeTypeDto;
 import quizmanager.model.QuizListElement;
+import quizmanager.model.RecordDto;
 import quizmanager.presenter.*;
 import quizmanager.service.QuizService;
-import quizmanager.model.RecordDto;
 
 import java.io.IOException;
 import java.util.List;
@@ -51,7 +52,9 @@ public class QuizManagerController {
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Message: " + e.getMessage() + ", Cause: " + e.getCause());
+            Platform.exit();
+            System.exit(0);
         }
 
 
@@ -86,7 +89,7 @@ public class QuizManagerController {
             return presenter.isApproved();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Message: " + e.getMessage() + ", Cause: " + e.getCause());
             return false;
         }
     }
@@ -121,15 +124,13 @@ public class QuizManagerController {
             return presenter.isApproved();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Message: " + e.getMessage() + ", Cause: " + e.getCause());
             return false;
         }
     }
 
     public boolean showNewPrizeTypeDialog(List<PrizeTypeDto> prizeTypeDto) {
         try {
-
-
 
 
             // Load the fxml file and create a new stage for the dialog
@@ -161,7 +162,7 @@ public class QuizManagerController {
             return presenter.isApproved();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Message: " + e.getMessage() + ", Cause: " + e.getCause());
             return false;
         }
     }
@@ -194,50 +195,10 @@ public class QuizManagerController {
             return presenter.isApproved();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Message: " + e.getMessage() + ", Cause: " + e.getCause());
             return false;
         }
     }
 
-
-//    public boolean showStrategyConfigDialog(RewardingStrategyDto strategyDto, String quizTitle) {
-//        try {
-//            // Load the fxml file and create a new stage for the dialog
-//            FXMLLoader loader = new FXMLLoader();
-//
-//            loader.setLocation(QuizManagerController.class.getResource("/view/strategy_config_dialog.fxml"));
-//
-//
-//            BorderPane page = loader.load();
-//
-//            // Create the dialog Stage.
-//            Stage dialogStage = new Stage();
-//            dialogStage.setTitle("Konfiguracja strategii [" +quizTitle + "]" );
-//            dialogStage.initModality(Modality.WINDOW_MODAL);
-//            dialogStage.initOwner(primaryStage);
-//            Scene scene = new Scene(page);
-//            dialogStage.setScene(scene);
-//
-//            // Set the size of the dialog stage
-//
-//            // Set the presenter for the view
-//            StrategyConfigPresenter presenter = loader.getController();
-//            presenter.setDialogStage(dialogStage);
-//            presenter.setData(strategyDto, quizTitle);
-//
-//
-//            // Show the dialog and wait until the user closes it
-//            dialogStage.showAndWait();
-//
-//
-//            return presenter.isApproved();
-//
-//
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
 
 }
