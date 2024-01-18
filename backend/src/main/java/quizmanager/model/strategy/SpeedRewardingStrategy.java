@@ -17,7 +17,7 @@ public class SpeedRewardingStrategy extends RewardingStrategy{
     private float topSpeedPercentage;
     private int maxAnswers;
 
-    public SpeedRewardingStrategy(String name, PrizeType prizeTypeIfPassed, PrizeType prizeTypeIfFailed, int topSpeedPercentage, int maxAnswers) {
+    public SpeedRewardingStrategy(String name, PrizeType prizeTypeIfPassed, PrizeType prizeTypeIfFailed, float topSpeedPercentage, int maxAnswers) {
         super(name, prizeTypeIfPassed, prizeTypeIfFailed);
         this.topSpeedPercentage = topSpeedPercentage;
         this.maxAnswers = maxAnswers;

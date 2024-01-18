@@ -23,7 +23,10 @@ public class RewardingStrategyService {
     }
 
     public SpeedRewardingStrategy getSpeedRewardingStrategy(){
-        return rewardingStrategyRepository.findSpeedRewardingStrategy();
+
+        SpeedRewardingStrategy speedRewardingStrategy = rewardingStrategyRepository.findSpeedRewardingStrategy();
+        System.out.println(speedRewardingStrategy.getName());
+        return speedRewardingStrategy;
     }
     public void updateCorrectAnswersRewardingStrategy(RewardingStrategy strategy1){
         CorrectAnswersRewardingStrategy strategy = (CorrectAnswersRewardingStrategy) strategy1;

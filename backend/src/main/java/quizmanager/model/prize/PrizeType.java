@@ -14,9 +14,6 @@ public class PrizeType {
     private int id;
     private String name;
 
-    @ManyToMany(mappedBy = "types")
-    private List<Prize> prizes;
-
     public PrizeType(String name) {
         this.name = name;
     }
@@ -30,15 +27,6 @@ public class PrizeType {
 
     public String getName() {
         return name;
-    }
-
-
-    public List<Prize> getPrizes() {
-        return prizes;
-    }
-
-    public void setPrizes(List<Prize> prizes) {
-        this.prizes = prizes;
     }
 
     @Override
