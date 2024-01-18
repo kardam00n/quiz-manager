@@ -1,8 +1,18 @@
 package quizmanager.utils;
 
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import org.springframework.stereotype.Component;
+
 import quizmanager.model.Record;
 import quizmanager.model.prize.Prize;
 import quizmanager.service.PrizeService;
@@ -15,11 +25,17 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import java.util.stream.Stream;
 
 
 @Component
 public class FileManager {
+
+    private final int NICKNAME_COLUMN = 13;
+    private final int START_TIMESTAMP_COLUMN = 1;
+    private final int END_TIMESTAMP_COLUMN = 2;
+    private final int SCORE_COLUMN = 5;
+    private final int PRIZE_COLUMN = 16;
 
     private final PrizeService prizeService;
     private FileManager(PrizeService prizeService) {
@@ -37,20 +53,24 @@ public class FileManager {
             if (row.getRowNum() == 0) {
                 continue;
             }
-            recordSet.add(new Record(
-                    row.getCell(13).getStringCellValue(),
-                    Timestamp.from(
-                            Instant.ofEpochMilli(row.getCell(1).getDateCellValue().getTime())),
-                    Timestamp.from(
-                            Instant.ofEpochMilli(row.getCell(2).getDateCellValue().getTime())),
-                    (int) row.getCell(5).getNumericCellValue(),
-                    parsePrizeString(row.getCell(16).getStringCellValue())
-            ));
+            recordSet.add(recordFromRow(row));
         }
         return recordSet;
     }
 
-    public void exportFile(Set<Record> recordSet, String filePath) throws IOException {
+    private Record recordFromRow(Row row) {
+        return new Record(
+                row.getCell(NICKNAME_COLUMN).getStringCellValue(),
+                Timestamp.from(
+                        Instant.ofEpochMilli(row.getCell(START_TIMESTAMP_COLUMN).getDateCellValue().getTime())),
+                Timestamp.from(
+                        Instant.ofEpochMilli(row.getCell(END_TIMESTAMP_COLUMN).getDateCellValue().getTime())),
+                (int) row.getCell(SCORE_COLUMN).getNumericCellValue(),
+                parsePrizeString(row.getCell(PRIZE_COLUMN).getStringCellValue())
+        );
+    }
+
+    public void exportXlsx(List<Record> recordList, String filePath) throws IOException {
         Workbook workbook = new XSSFWorkbook();
         CellStyle dateCellStyle = workbook.createCellStyle();
         dateCellStyle.setDataFormat((short) 22);
@@ -70,21 +90,22 @@ public class FileManager {
         Cell endTimestampCell = header.createCell(2);
         endTimestampCell.setCellValue("endTimestamp");
 
-        sheet.setColumnWidth(3, 1000);
+        sheet.setColumnWidth(3, 2000);
         Cell scoreCell = header.createCell(3);
         scoreCell.setCellValue("score");
 
-        sheet.setColumnWidth(4, 2000);
+        sheet.setColumnWidth(4, 4000);
         Cell prizeCell = header.createCell(4);
         prizeCell.setCellValue("prize");
 
-        sheet.setColumnWidth(5, 6000);
+        sheet.setColumnWidth(5, 8000);
         Cell prizeListCell = header.createCell(5);
         prizeListCell.setCellValue("prize list");
 
         int rowNum = 1;
-        for (Record record : recordSet) {
+        for (Record record : recordList) {
             Row row = sheet.createRow(rowNum);
+
             nicknameCell = row.createCell(0);
             nicknameCell.setCellValue(record.getNickname());
 
@@ -92,22 +113,65 @@ public class FileManager {
             startTimestampCell.setCellValue(record.getStartTimestamp());
             startTimestampCell.setCellStyle(dateCellStyle);
 
-            endTimestampCell = row.createCell(1);
+            endTimestampCell = row.createCell(2);
             endTimestampCell.setCellValue(record.getEndTimestamp());
             endTimestampCell.setCellStyle(dateCellStyle);
 
-            scoreCell = row.createCell(2);
+            scoreCell = row.createCell(3);
             scoreCell.setCellValue(record.getScore());
-            prizeCell = row.createCell(3);
+
+            prizeCell = row.createCell(4);
             Prize prize = record.getPrize();
             prizeCell.setCellValue(prize == null ? "no prize" : prize.toString());
-            prizeListCell = row.createCell(4);
+
+            prizeListCell = row.createCell(5);
             prizeListCell.setCellValue(prizeListToString(record.getPrizeList()));
+
             rowNum++;
         }
 
         FileOutputStream outputStream = new FileOutputStream(filePath);
         workbook.write(outputStream);
+        outputStream.close();
+    }
+
+    public void exportPdf(List<Record> recordList, String filePath) throws IOException, DocumentException {
+        Document document = new Document();
+
+        PdfWriter.getInstance(document, new FileOutputStream(filePath));
+
+        document.open();
+
+        PdfPTable table = new PdfPTable(6);
+        addTableHeader(table);
+
+        for (Record record : recordList) {
+            addTableRow(table, record);
+        }
+
+        document.add(table);
+        document.close();
+    }
+
+    public void addTableHeader(PdfPTable table) {
+        Stream.of("nickname", "start time", "end time", "score", "prize", "prize list")
+                .forEach(columnTitle -> {
+                    PdfPCell header = new PdfPCell();
+                    header.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                    header.setBorderWidth(1.2F);
+                    header.setPhrase(new Phrase(columnTitle));
+                    table.addCell(header);
+                });
+    }
+
+    public void addTableRow(PdfPTable table, Record record) {
+        table.addCell(record.getNickname());
+        table.addCell(record.getStartTimestamp().toString());
+        table.addCell(record.getEndTimestamp().toString());
+        table.addCell(Integer.toString(record.getScore()));
+        Prize prize = record.getPrize();
+        table.addCell(prize == null ? "no prize" : prize.toString());
+        table.addCell(record.getPrizeList().toString());
     }
 
     private List<Prize> parsePrizeString(String prizeString) {
@@ -116,7 +180,6 @@ public class FileManager {
         for (String prize : prizes) {
             String name = prize.split("\\(")[0];
             name = name.substring(0, name.length() - 1);
-            System.out.println("|" + name + "|");
             Prize foundPrize = prizeService.getPrizeByName(name);
             if (foundPrize != null) {
                 if(!result.contains(foundPrize)){
@@ -135,5 +198,6 @@ public class FileManager {
         }
         return result.toString();
     }
+
 
 }
