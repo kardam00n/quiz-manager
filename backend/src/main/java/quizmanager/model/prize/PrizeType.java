@@ -40,4 +40,9 @@ public class PrizeType {
     public void setPrizes(List<Prize> prizes) {
         this.prizes = prizes;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

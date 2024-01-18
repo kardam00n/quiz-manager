@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import quizmanager.model.prize.Prize;
 import quizmanager.model.prize.PrizeType;
 
+import java.util.Collection;
 import java.util.Optional;
 import java.util.List;
 
@@ -16,5 +17,7 @@ public interface PrizeTypeRepository extends JpaRepository<PrizeType, Integer> {
     List<String> getPrizeTypeNames();
 
     Optional<PrizeType> findByName(String name);
+
+    List<PrizeType> findPrizeTypesByNameIsIn(Collection<String> name);
 
 }

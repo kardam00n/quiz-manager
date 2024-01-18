@@ -7,6 +7,7 @@ import quizmanager.model.prize.PrizeTypeDto;
 import quizmanager.repository.PrizeRepository;
 import quizmanager.repository.PrizeTypeRepository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +36,8 @@ public class PrizeService {
         return prizeTypeRepository.findAll();
     }
 
+
+
     public List<Prize> getAllPrizes() {
         return prizeRepository.findAll();
     }
@@ -49,4 +52,5 @@ public class PrizeService {
     public void addPrize(Prize newPrize) {
         prizeRepository.save(newPrize);
     }
+
 }

@@ -63,9 +63,13 @@ public class PrizeDto {
         return prizeTypes;
     }
 
-    public Prize toPrize() {
-        return new Prize(prizeTypes.stream().map(prizeTypeDto -> new PrizeType(prizeTypeDto.getName())).toList(), name, description);
-    }
+//    public Prize toPrize() {
+//        return new Prize(prizeTypes.stream().map(prizeTypeDto -> new PrizeType(prizeTypeDto.getName())).toList(), name, description);
+//    }
+
+//    public Prize toPrize() {
+//    }
+
 
     @Override
     public String toString() {

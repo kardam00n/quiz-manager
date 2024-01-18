@@ -288,6 +288,7 @@ public class QuizView implements Initializable {
     private BorderPane loadDialogView(FXMLLoader loader) throws IOException {
         loader.setLocation(QuizManagerController.class.getResource("/view/strategy_config_dialog.fxml"));
         loader.setControllerFactory(controllerClass -> new StrategyConfigPresenter(service));
+
         BorderPane page = loader.load();
         return page;
     }

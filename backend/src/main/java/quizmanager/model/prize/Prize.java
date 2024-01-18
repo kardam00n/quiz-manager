@@ -22,6 +22,17 @@ public class Prize {
     public Prize() {
     }
 
+
+    // TODO TEST
+    public Prize(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    public void setTypes(List<PrizeType> types) {
+        this.types = types;
+    }
+
     public Prize(List<PrizeType> type, String name, String description) {
         this.types = type;
         this.name = name;
@@ -51,6 +62,11 @@ public class Prize {
 
     @Override
     public String toString() {
-        return name + " (" + description + ")";
+
+        StringBuilder sb = new StringBuilder("(" + id + name + description);
+        types.forEach(sb::append);
+        sb.append(")");
+        return sb.toString();
+
     }
 }
