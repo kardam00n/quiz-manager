@@ -43,6 +43,9 @@ public class Quiz {
         return rewardingStrategy;
     }
 
+    public String getName() {
+        return name;
+    }
     @Override
     public String toString(){
         return name + " " + recordSet.get(0).getNickname();

@@ -1,5 +1,8 @@
 package quizmanager.controller;
 
+import com.itextpdf.text.DocumentException;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,8 +15,10 @@ import quizmanager.service.QuizService;
 import quizmanager.service.RewardingStrategyService;
 import quizmanager.utils.FileManager;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -44,7 +49,7 @@ public class QuizController {
 
     @GetMapping("/{name}")
     public List<RecordDto> getQuizByName(@PathVariable("name") String name) {
-
+        System.out.println(name);
         Optional<Quiz> quizOptional = quizService.getQuizByName(name);
         List<RecordDto> recordDtoList = new ArrayList<>();
 
@@ -70,6 +75,33 @@ public class QuizController {
 
         return recordDtoList;
     }
+
+@GetMapping("/{name}/export")
+public void getQuizFileByName(@PathVariable("name") String name, @Param("format") String format, HttpServletResponse response) {
+
+    Quiz quiz = quizService.getQuizByName(name)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+    try {
+        if (format.equals("pdf")) {
+            File file = fileManager.exportPdf(quiz.getRecordSet());
+            Files.copy(file.toPath(), response.getOutputStream());
+            response.setContentType("application/pdf");
+            response.setHeader("Content-disposition", "attachment;filename=" + name + ".pdf");
+            response.flushBuffer();
+        } else if (format.equals("xlsx")) {
+            File file = fileManager.exportXlsx(quiz.getRecordSet());
+            Files.copy(file.toPath(), response.getOutputStream());
+            response.setContentType("application/xlsx");
+            response.setHeader("Content-disposition", "attachment;filename=" + name + ".xlsx");
+            response.flushBuffer();
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+    } catch (DocumentException | IOException e) {
+        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+}
 
 
 

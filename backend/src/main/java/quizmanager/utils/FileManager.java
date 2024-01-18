@@ -70,7 +70,7 @@ public class FileManager {
         );
     }
 
-    public void exportXlsx(List<Record> recordList, String filePath) throws IOException {
+    public File exportXlsx(List<Record> recordList) throws IOException {
         Workbook workbook = new XSSFWorkbook();
         CellStyle dateCellStyle = workbook.createCellStyle();
         dateCellStyle.setDataFormat((short) 22);
@@ -130,15 +130,17 @@ public class FileManager {
             rowNum++;
         }
 
-        FileOutputStream outputStream = new FileOutputStream(filePath);
+        File file = File.createTempFile("exported", ".xlsx");
+        FileOutputStream outputStream = new FileOutputStream(file);
         workbook.write(outputStream);
         outputStream.close();
+        return file;
     }
 
-    public void exportPdf(List<Record> recordList, String filePath) throws IOException, DocumentException {
+    public File exportPdf(List<Record> recordList) throws IOException, DocumentException {
         Document document = new Document();
-
-        PdfWriter.getInstance(document, new FileOutputStream(filePath));
+        File file = File.createTempFile("exported", ".pdf");
+        PdfWriter.getInstance(document, new FileOutputStream(file));
 
         document.open();
 
@@ -151,6 +153,7 @@ public class FileManager {
 
         document.add(table);
         document.close();
+        return file;
     }
 
     public void addTableHeader(PdfPTable table) {
