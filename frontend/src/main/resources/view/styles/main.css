@@ -26,13 +26,15 @@
     -fx-text-fill: -text-color;
     -fx-background-insets: 0;
     -fx-background-radius: 5;
-    -fx-alignment: left;
+    -fx-alignment: center_left;
     -fx-padding: 15 0 15 10;
 }
 
 .nav_button:hover {
     -fx-background-color: -primary-color;
     -fx-text-fill: white;
+    -fx-cursor: hand;
+
 
 }
 
@@ -56,6 +58,10 @@
 
 #dark_mode_toggle{
     -fx-background-color: transparent ;
+}
+
+#dark_mode_toggle:hover {
+    -fx-cursor: hand;
 }
 
 #dark_mode_toggle_icon {

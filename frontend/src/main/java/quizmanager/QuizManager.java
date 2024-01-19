@@ -2,11 +2,18 @@ package quizmanager;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import quizmanager.controller.QuizManagerController;
+import quizmanager.presenter.AddPrizeTypePresenter;
+import quizmanager.presenter.MainPresenter;
 import quizmanager.service.QuizService;
 
+import java.io.IOException;
 import java.util.Objects;
 
 public class QuizManager extends Application {
@@ -21,18 +28,26 @@ public class QuizManager extends Application {
                 .add(new Image(Objects.requireNonNull(QuizManager.class.getResourceAsStream("/logo.png"))));
 
         QuizService service = new QuizService();
-        QuizManagerController quizManagerController = new QuizManagerController(primaryStage, service);
 
 
-        quizManagerController.initRootLayout();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(QuizManager.class.getResource("/view/main_light.fxml"));
+        loader.setControllerFactory(controllerClass -> new MainPresenter(primaryStage, service));
+
+        try {
+            HBox page = loader.load();
+            Scene scene = new Scene(page);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
 
         primaryStage.setOnCloseRequest(event -> {
             Platform.exit();
             System.exit(0);
         });
-
-        primaryStage.setMaximized(true);
     }
 
     public static void main(String[] args) {

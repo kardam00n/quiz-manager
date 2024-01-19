@@ -1,11 +1,35 @@
 package quizmanager.presenter;
 
-import de.jensd.fx.glyphs.GlyphsDude;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.stage.Stage;
+import quizmanager.service.QuizService;
 
 public class MainPresenter {
-    public static void main(String[] args) {
-        FontAwesomeIcon.SUN
+
+    private final Stage primaryStage;
+    private final QuizService restService;
+
+    public MainPresenter(Stage primaryStage, QuizService restService) {
+        this.primaryStage = primaryStage;
+        this.restService= restService;
+    }
+
+
+    @FXML
+    private void showQuizList(ActionEvent actionEvent) {
+
+    }
+
+    @FXML
+    private void showPrizes(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    private void showPrizeCategories(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    private void toggleDarkMode(ActionEvent actionEvent) {
     }
 }
