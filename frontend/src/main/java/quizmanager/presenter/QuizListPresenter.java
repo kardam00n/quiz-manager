@@ -71,6 +71,17 @@ public class QuizListPresenter implements Initializable {
                             System.out::println
                     );
 
+
+            service.loadQuizTitles()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(Schedulers.from(Platform::runLater))
+                    .subscribe(
+                            this::createGridPane,
+                            System.out::println
+
+
+                    );
+
         }
 
     }
