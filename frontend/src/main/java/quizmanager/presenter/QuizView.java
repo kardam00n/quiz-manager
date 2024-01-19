@@ -260,7 +260,6 @@ public class QuizView implements Initializable {
     }
 
     private void saveExportedFile(ResponseBody responseBody, String filePath) {
-        System.out.println(filePath);
         try (InputStream inputStream = responseBody.byteStream(); FileOutputStream fileOutputStream = new FileOutputStream(filePath)) {
             byte[] fileReader = new byte[4096];
             while (true) {

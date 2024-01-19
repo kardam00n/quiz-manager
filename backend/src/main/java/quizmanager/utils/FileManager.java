@@ -72,8 +72,31 @@ public class FileManager {
 
     public File exportXlsx(List<Record> recordList) throws IOException {
         Workbook workbook = new XSSFWorkbook();
-        CellStyle dateCellStyle = workbook.createCellStyle();
-        dateCellStyle.setDataFormat((short) 22);
+        CellStyle basicDateCellStyle = workbook.createCellStyle();
+        basicDateCellStyle.setDataFormat((short) 22);
+
+        CellStyle winnerCellStyle = workbook.createCellStyle();
+        winnerCellStyle.setFillForegroundColor(IndexedColors.GREY_50_PERCENT.getIndex());
+        winnerCellStyle.setFillPattern((short) 1);
+        CellStyle winnerDateCellStyle = workbook.createCellStyle();
+        winnerDateCellStyle.setFillForegroundColor(IndexedColors.GREY_50_PERCENT.getIndex());
+        winnerDateCellStyle.setFillPattern((short) 1);
+        winnerDateCellStyle.setDataFormat((short) 22);
+        CellStyle winnerLighterCellStyle = workbook.createCellStyle();
+        winnerLighterCellStyle.setFillForegroundColor(IndexedColors.GREY_40_PERCENT.getIndex());
+        winnerLighterCellStyle.setFillPattern((short) 1);
+        CellStyle winnerLighterDateCellStyle = workbook.createCellStyle();
+        winnerLighterDateCellStyle.setFillForegroundColor(IndexedColors.GREY_40_PERCENT.getIndex());
+        winnerLighterDateCellStyle.setFillPattern((short) 1);
+        winnerLighterDateCellStyle.setDataFormat((short) 22);
+
+        CellStyle headerCellStyle = workbook.createCellStyle();
+        headerCellStyle.setFillForegroundColor(IndexedColors.GREY_80_PERCENT.getIndex());
+        headerCellStyle.setFillPattern((short) 1);
+        Font font = workbook.createFont();
+        font.setColor(IndexedColors.WHITE.getIndex());
+        font.setBoldweight(Font.BOLDWEIGHT_BOLD);
+        headerCellStyle.setFont(font);
 
         Sheet sheet = workbook.createSheet("quiz results");
 
@@ -81,33 +104,55 @@ public class FileManager {
         sheet.setColumnWidth(0, 4000);
         Cell nicknameCell = header.createCell(0);
         nicknameCell.setCellValue("nickname");
+        nicknameCell.setCellStyle(headerCellStyle);
 
         sheet.setColumnWidth(1, 4000);
         Cell startTimestampCell = header.createCell(1);
         startTimestampCell.setCellValue("startTimestamp");
+        startTimestampCell.setCellStyle(headerCellStyle);
 
         sheet.setColumnWidth(2, 4000);
         Cell endTimestampCell = header.createCell(2);
         endTimestampCell.setCellValue("endTimestamp");
+        endTimestampCell.setCellStyle(headerCellStyle);
 
         sheet.setColumnWidth(3, 2000);
         Cell scoreCell = header.createCell(3);
         scoreCell.setCellValue("score");
+        scoreCell.setCellStyle(headerCellStyle);
 
         sheet.setColumnWidth(4, 4000);
         Cell prizeCell = header.createCell(4);
         prizeCell.setCellValue("prize");
+        prizeCell.setCellStyle(headerCellStyle);
 
         sheet.setColumnWidth(5, 8000);
         Cell prizeListCell = header.createCell(5);
         prizeListCell.setCellValue("prize list");
+        prizeListCell.setCellStyle(headerCellStyle);
 
         int rowNum = 1;
         for (Record record : recordList) {
+            CellStyle cellStyle;
+            CellStyle dateCellStyle;
             Row row = sheet.createRow(rowNum);
+            Prize prize = record.getPrize();
+            if (prize == null || prize.getName().equals("None")) {
+                cellStyle = null;
+                dateCellStyle = basicDateCellStyle;
+            } else {
+                if (rowNum % 2 == 0) {
+                    cellStyle = winnerCellStyle;
+                    dateCellStyle = winnerDateCellStyle;
+                } else {
+                    cellStyle = winnerLighterCellStyle;
+                    dateCellStyle = winnerLighterDateCellStyle;
+                }
+            }
 
             nicknameCell = row.createCell(0);
             nicknameCell.setCellValue(record.getNickname());
+            nicknameCell.setCellStyle(cellStyle);
 
             startTimestampCell = row.createCell(1);
             startTimestampCell.setCellValue(record.getStartTimestamp());
@@ -119,13 +164,15 @@ public class FileManager {
 
             scoreCell = row.createCell(3);
             scoreCell.setCellValue(record.getScore());
+            scoreCell.setCellStyle(cellStyle);
 
             prizeCell = row.createCell(4);
-            Prize prize = record.getPrize();
-            prizeCell.setCellValue(prize == null ? "no prize" : prize.simpleToString());
+            prizeCell.setCellValue(prize == null ? "no prize" : prize.toSimpleString());
+            prizeCell.setCellStyle(cellStyle);
 
             prizeListCell = row.createCell(5);
             prizeListCell.setCellValue(prizeListToString(record.getPrizeList()));
+            prizeListCell.setCellStyle(cellStyle);
 
             rowNum++;
         }
@@ -150,8 +197,10 @@ public class FileManager {
 
         addTableHeader(table);
 
+        boolean variableColor = false;
         for (Record record : recordList) {
-            addTableRow(table, record);
+            addTableRow(table, record, variableColor);
+            variableColor = !variableColor;
         }
 
         document.add(table);
@@ -170,13 +219,26 @@ public class FileManager {
                 });
     }
 
-    public void addTableRow(PdfPTable table, Record record) {
-        table.addCell(record.getNickname());
-        table.addCell(record.getStartTimestamp().toString());
-        table.addCell(record.getEndTimestamp().toString());
-        table.addCell(Integer.toString(record.getScore()));
+    public void addTableRow(PdfPTable table, Record record, boolean variableColor) {
         Prize prize = record.getPrize();
-        table.addCell(prize == null ? "no prize" : prize.simpleToString());
+        BaseColor color = new BaseColor(220,189,81);
+        if (prize == null || prize.getName().equals("None")) {
+            color = new BaseColor(255, 255, 255);
+        }
+        if (variableColor) {
+            color = color.brighter();
+        }
+        table.addCell(colorCell(record.getNickname(), color));
+        table.addCell(colorCell(record.getStartTimestamp().toString(), color));
+        table.addCell(colorCell(record.getEndTimestamp().toString(), color));
+        table.addCell(colorCell(Integer.toString(record.getScore()), color));
+        table.addCell(colorCell(prize == null ? "no prize" : prize.toSimpleString(), color));
+    }
+
+    public PdfPCell colorCell(String text, BaseColor color) {
+        PdfPCell cell = new PdfPCell(Phrase.getInstance(text));
+        cell.setBackgroundColor(color);
+        return cell;
     }
 
     private List<Prize> parsePrizeString(String prizeString) {
