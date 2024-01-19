@@ -67,20 +67,20 @@ public class QuizListPresenter implements Initializable {
                     .subscribeOn(Schedulers.io())
                     .observeOn(Schedulers.from(Platform::runLater))
                     .subscribe(
-                            System.out::println,
+                            next -> {
+                                service.loadQuizTitles()
+                                        .subscribeOn(Schedulers.io())
+                                        .observeOn(Schedulers.from(Platform::runLater))
+                                        .subscribe(
+                                                this::createGridPane,
+                                                System.out::println
+
+
+                                        );
+                            },
                             System.out::println
                     );
 
-
-            service.loadQuizTitles()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(Schedulers.from(Platform::runLater))
-                    .subscribe(
-                            this::createGridPane,
-                            System.out::println
-
-
-                    );
 
         }
 
@@ -144,7 +144,6 @@ public class QuizListPresenter implements Initializable {
             quizElement.setMinHeight(170);
 
             quizElement.setAlignment(Pos.CENTER);
-
 
 
             // tworzymy tło naszego quizu
