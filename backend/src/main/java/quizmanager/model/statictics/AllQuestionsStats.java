@@ -8,16 +8,18 @@ import java.util.List;
 import java.util.Map;
 
 @Entity
+@Table(name = "ALL_QUESTIONS_STATS")
 public class AllQuestionsStats {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private int id;
 
     @ElementCollection
-    @MapKeyColumn(name="question")
-    @Column(name="percentage")
-    @CollectionTable(name="answer_percentages", joinColumns = @JoinColumn(name="id"))
+    @CollectionTable(name = "ANSWERS_MAP", joinColumns = @JoinColumn(name = "STATS_ID"))
+    @MapKeyColumn(name = "ANSWER_KEY")
+    @Column(name = "ANSWER_VALUE")
     private Map<String, Double> answersMap;
     private int totalAnswers;
     private boolean canBeModified;
