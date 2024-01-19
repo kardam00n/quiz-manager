@@ -40,7 +40,10 @@ public class QuizService {
 
     public Observable<List<RecordDto>> loadQuiz(String name) {
         return service.getQuiz(name);
+    }
 
+    public Observable<ResponseBody> getExportedFile(String name, String format) {
+        return service.getExportedFile(name, format);
     }
 
     public Observable<ResponseBody> uploadQuiz(QuizListElement quizListElement) {
@@ -73,8 +76,6 @@ public class QuizService {
     public Observable<ResponseBody> uploadPrizeType(List<PrizeTypeDto> prizeTypeDto){
         return service.uploadPrizeType(prizeTypeDto);
     }
-
-
 
     public Observable<SpeedRewardingStrategy> getStrategyAData(String quizTitle) {
         return service.getSpeedRewardingStrategy();

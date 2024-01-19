@@ -10,14 +10,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import okhttp3.ResponseBody;
 import quizmanager.controller.QuizManagerController;
 import quizmanager.model.*;
 import quizmanager.service.QuizService;
 import rx.schedulers.Schedulers;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -231,6 +233,48 @@ public class QuizView implements Initializable {
 
         } catch (IOException e) {
             System.out.println("Message: " + e.getMessage() + ", Cause: " + e.getCause());
+        }
+    }
+
+    @FXML
+    private void exportPdf() {
+        exportQuiz("pdf");
+    }
+
+    @FXML
+    private void exportXlsx() {
+        exportQuiz("xlsx");
+    }
+
+    private void exportQuiz(String format) {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        File selectedDirectory = directoryChooser.showDialog(stage);
+
+        String quizTitle = quizTitles.getSelectionModel().getSelectedItem();
+        service.getExportedFile(quizTitle, format)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.from(Platform::runLater))
+                .subscribe(
+                        responseBody -> saveExportedFile(responseBody, selectedDirectory.getAbsolutePath() + "/" + quizTitle + "." + format)
+                );
+    }
+
+    private void saveExportedFile(ResponseBody responseBody, String filePath) {
+        System.out.println(filePath);
+        try (InputStream inputStream = responseBody.byteStream(); FileOutputStream fileOutputStream = new FileOutputStream(filePath)) {
+            byte[] fileReader = new byte[4096];
+            while (true) {
+                int read = inputStream.read(fileReader);
+
+                if (read == -1) {
+                    break;
+                }
+
+                fileOutputStream.write(fileReader, 0, read);
+            }
+            fileOutputStream.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

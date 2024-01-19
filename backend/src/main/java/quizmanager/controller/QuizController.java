@@ -76,9 +76,9 @@ public class QuizController {
         return recordDtoList;
     }
 
-@GetMapping("/{name}/export")
-public void getQuizFileByName(@PathVariable("name") String name, @Param("format") String format, HttpServletResponse response) {
-
+@GetMapping("/{name}/export/{format}") //TODO: change format to be parameter (now path variable because of Retrofit on frontend :)) )
+public void getQuizFileByName(@PathVariable("name") String name, @PathVariable("format") String format, HttpServletResponse response) {
+    System.out.println(name + " " + format);
     Quiz quiz = quizService.getQuizByName(name)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 

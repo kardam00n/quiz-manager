@@ -78,7 +78,18 @@
                         <Insets bottom="5.0"/>
                     </VBox.margin>
                 </Button>
-
+                <Button fx:id="exportPdf" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#exportPdf" text="Wyeksportuj do pdf"
+                        GridPane.rowIndex="1">
+                    <VBox.margin>
+                        <Insets bottom="5.0"/>
+                    </VBox.margin>
+                </Button>
+                <Button fx:id="exportXlsx" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#exportXlsx" text="Wyeksportuj do xlsx"
+                        GridPane.rowIndex="1">
+                    <VBox.margin>
+                        <Insets bottom="5.0"/>
+                    </VBox.margin>
+                </Button>
             </children>
             <BorderPane.margin>
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>

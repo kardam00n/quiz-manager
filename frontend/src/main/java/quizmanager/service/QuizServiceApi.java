@@ -6,6 +6,7 @@ import quizmanager.model.*;
 import retrofit2.http.*;
 import rx.Observable;
 
+import javax.management.ConstructorParameters;
 import java.util.List;
 
 public interface QuizServiceApi {
@@ -19,6 +20,10 @@ public interface QuizServiceApi {
 
     @GET("/quizzes/{name}")
     Observable<List<RecordDto>> getQuiz(@Path("name") String name);
+
+    @GET("/quizzes/{name}/export/{format}")
+    @Streaming
+    Observable<ResponseBody> getExportedFile(@Path("name") String name, @Path("format") String format);
 
     @GET("/prizeTypes")
     Observable<List<PrizeTypeDto>> getPrizeTypes();
