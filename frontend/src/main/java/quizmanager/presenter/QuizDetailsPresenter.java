@@ -114,6 +114,9 @@ public class QuizDetailsPresenter implements Initializable {
 
     }
 
+    public void exportQuiz(ActionEvent actionEvent) {
+    }
+
 
     private class ButtonCell extends TableCell<RecordDto, Boolean> {
         final Button cellButton = new Button("Zmień nagrodę");
