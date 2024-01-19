@@ -8,22 +8,23 @@ import rx.schedulers.Schedulers;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class QuizListPresenter implements Initializable {
-    private final QuizService service;
+public class PrizeTypePresenter implements Initializable {
 
-    public QuizListPresenter(QuizService service) {
-        this.service = service;
-    }
+private final QuizService service;
+
+
+public PrizeTypePresenter(QuizService service) {
+    this.service = service;
+}
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        service.loadQuizTitles()
+        service.getPrizeTypes()
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.from(Platform::runLater))
                 .subscribe(
                         System.out::println,
                         System.out::println
-
-
                 );
     }
 }

@@ -1,9 +1,9 @@
 .root {
     -primary-color: #3372c4;
-    -background-color: #ffffff;
-    -text-color: #464646;
-    -secondary-color: #f3f8ff;
-    -secondary-color-darker: #eef3fa;
+    -background-color: #232323;
+    -text-color: #d3d3d3;
+    -secondary-color: #333333;
+    -secondary-color-darker: #292929;
 }
 
 #vertical_menu {

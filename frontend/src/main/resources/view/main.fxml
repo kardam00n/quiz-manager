@@ -7,8 +7,8 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -26,17 +26,17 @@
             </Label>
             <VBox id="navbar" alignment="TOP_CENTER" prefHeight="500.0" prefWidth="268.0" spacing="5.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button graphicTextGap="6.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showQuizList" prefWidth="150.0" styleClass="nav_button" stylesheets="@styles/main_light.css" text="Lista Quizów  ">
+                  <Button fx:id="quizListButton" graphicTextGap="6.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showQuizList" prefWidth="150.0" styleClass="nav_button" stylesheets="@styles/main_light.css" text="Lista Quizów  ">
                      <graphic>
                         <FontAwesomeIconView glyphName="LIST" styleClass="font_icon" />
                      </graphic>
                   </Button>
-                  <Button graphicTextGap="6.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showPrizes" prefWidth="150.0" styleClass="nav_button" stylesheets="@styles/main_light.css" text="Nagrody">
+                  <Button fx:id="prizeButton" graphicTextGap="6.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showPrizes" prefWidth="150.0" styleClass="nav_button" stylesheets="@styles/main_light.css" text="Nagrody">
                      <graphic>
                         <FontAwesomeIconView glyphName="DIAMOND" styleClass="font_icon" />
                      </graphic>
                   </Button>
-                  <Button graphicTextGap="6.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showPrizeCategories" prefWidth="150.0" styleClass="nav_button" text="Kategorie nagród">
+                  <Button fx:id="prizeTypeButton" graphicTextGap="6.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showPrizeCategories" prefWidth="150.0" styleClass="nav_button" text="Kategorie nagród">
                      <graphic>
                         <FontAwesomeIconView glyphName="KEY" styleClass="font_icon" />
                      </graphic>
@@ -44,9 +44,9 @@
                   <Separator maxHeight="1.7976931348623157E308" orientation="VERTICAL" visible="false" VBox.vgrow="ALWAYS" />
                   <HBox id="dark_mode_container" alignment="CENTER_LEFT" VBox.vgrow="NEVER">
                      <children>
-                        <Label id="dark_mode_label" graphicTextGap="6.0" text="Tryb Ciemny" HBox.hgrow="ALWAYS">
+                        <Label id="dark_mode_label" fx:id="darkModeLabel" graphicTextGap="6.0" text="Tryb Ciemny" HBox.hgrow="ALWAYS">
                            <graphic>
-                              <FontAwesomeIconView id="dark_mode_icon" glyphName="MOON_ALT" />
+                              <FontAwesomeIconView id="dark_mode_icon" fx:id="darkModeIcon" glyphName="MOON_ALT" />
                            </graphic>
                         </Label>
                         <Separator visible="false" HBox.hgrow="ALWAYS" />
@@ -71,6 +71,6 @@
             </VBox>
          </children>
       </VBox>
-      <BorderPane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+      <StackPane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
    </children>
 </HBox>

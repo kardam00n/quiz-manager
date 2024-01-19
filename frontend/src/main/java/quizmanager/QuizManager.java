@@ -5,11 +5,8 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import quizmanager.controller.QuizManagerController;
-import quizmanager.presenter.AddPrizeTypePresenter;
 import quizmanager.presenter.MainPresenter;
 import quizmanager.service.QuizService;
 
@@ -31,7 +28,7 @@ public class QuizManager extends Application {
 
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(QuizManager.class.getResource("/view/main_light.fxml"));
+        loader.setLocation(QuizManager.class.getResource("/view/main.fxml"));
         loader.setControllerFactory(controllerClass -> new MainPresenter(primaryStage, service));
 
         try {
