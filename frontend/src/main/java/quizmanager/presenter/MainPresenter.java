@@ -52,7 +52,7 @@ public class MainPresenter {
             return;
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(this.getClass().getResource("/view/quiz_list_light.fxml"));
+        loader.setLocation(this.getClass().getResource("/view/quiz_list.fxml"));
         loader.setControllerFactory(controllerClass -> new QuizListPresenter(service, this));
         try {
             BorderPane quizList = loader.load();
@@ -69,7 +69,7 @@ public class MainPresenter {
         if (checkedButton == prizeButton)
             return;
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(this.getClass().getResource("/view/prize_light.fxml"));
+        loader.setLocation(this.getClass().getResource("/view/prize.fxml"));
         loader.setControllerFactory(controllerClass -> new PrizePresenter(service, this));
         try {
             BorderPane prizes = loader.load();
@@ -86,7 +86,7 @@ public class MainPresenter {
         if (checkedButton == prizeTypeButton)
             return;
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(this.getClass().getResource("/view/prize_type_light.fxml"));
+        loader.setLocation(this.getClass().getResource("/view/prize_type.fxml"));
         loader.setControllerFactory(controllerClass -> new PrizeTypePresenter(service, this));
         try {
             BorderPane prizeTypes = loader.load();

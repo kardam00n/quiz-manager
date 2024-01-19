@@ -15,7 +15,6 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import okhttp3.ResponseBody;
-import quizmanager.controller.QuizManagerController;
 import quizmanager.model.CorrectAnswersRewardingStrategy;
 import quizmanager.model.RecordDto;
 import quizmanager.model.RewardingStrategyDto;
@@ -163,7 +162,7 @@ public class QuizDetailsPresenter implements Initializable {
 
 
     private BorderPane loadDialogView(FXMLLoader loader) throws IOException {
-        loader.setLocation(QuizManagerController.class.getResource("/view/strategy_config_dialog.fxml"));
+        loader.setLocation(this.getClass().getResource("/view/strategy_config_dialog.fxml"));
         loader.setControllerFactory(controllerClass -> new StrategyConfigPresenter(service));
 
         return loader.load();
@@ -247,7 +246,7 @@ public class QuizDetailsPresenter implements Initializable {
         try {
             // Load the fxml file and create a new stage for the dialog
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(QuizManagerController.class.getResource("/view/change_prize_dialog.fxml"));
+            loader.setLocation(this.getClass().getResource("/view/change_prize_dialog.fxml"));
             BorderPane page = loader.load();
 
             // Create the dialog Stage.

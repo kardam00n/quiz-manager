@@ -19,7 +19,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import quizmanager.controller.QuizManagerController;
 import quizmanager.model.QuizListElement;
 import quizmanager.service.QuizService;
 import rx.schedulers.Schedulers;
@@ -68,9 +67,20 @@ public class QuizListPresenter implements Initializable {
                     .subscribeOn(Schedulers.io())
                     .observeOn(Schedulers.from(Platform::runLater))
                     .subscribe(
-                            System.out::println,
+                            next -> {
+                                service.loadQuizTitles()
+                                        .subscribeOn(Schedulers.io())
+                                        .observeOn(Schedulers.from(Platform::runLater))
+                                        .subscribe(
+                                                this::createGridPane,
+                                                System.out::println
+
+
+                                        );
+                            },
                             System.out::println
                     );
+
 
         }
 
@@ -82,7 +92,7 @@ public class QuizListPresenter implements Initializable {
         try {
             // Load the fxml file and create a new stage for the dialog
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(QuizManagerController.class.getResource("/view/form_upload_dialog.fxml"));
+            loader.setLocation(this.getClass().getResource("/view/form_upload_dialog.fxml"));
             BorderPane page = loader.load();
 
             // Create the dialog Stage.
@@ -136,7 +146,6 @@ public class QuizListPresenter implements Initializable {
             quizElement.setAlignment(Pos.CENTER);
 
 
-
             // tworzymy tło naszego quizu
             Rectangle rectangle = new Rectangle(150, 150, Color.rgb(random.nextInt(256), random.nextInt(256), random.nextInt(256)));
             quizElement.getChildren().add(rectangle);
@@ -154,6 +163,7 @@ public class QuizListPresenter implements Initializable {
 
             GridPane.setHgrow(quizElement, Priority.ALWAYS);
             GridPane.setHalignment(quizElement, HPos.CENTER);
+            gridPane.setVgap(40.0);
 
 
             quizElement.setOnMouseClicked(
@@ -173,7 +183,7 @@ public class QuizListPresenter implements Initializable {
 
     private void showQuizDetails(String quizName) {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(this.getClass().getResource("/view/quiz_details_light.fxml"));
+        loader.setLocation(this.getClass().getResource("/view/quiz_details.fxml"));
         loader.setControllerFactory(controllerClass -> new QuizDetailsPresenter(service, mainPresenter, quizName));
         try {
             BorderPane quizDetails = loader.load();
