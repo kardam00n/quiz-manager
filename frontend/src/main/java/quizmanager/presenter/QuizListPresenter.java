@@ -134,9 +134,7 @@ public class QuizListPresenter implements Initializable {
             quizElement.setMinHeight(170);
 
             quizElement.setAlignment(Pos.CENTER);
-            quizElement.setOnMouseClicked(
-                    e -> showQuizDetails()
-            );
+
 
 
             // tworzymy tło naszego quizu
@@ -158,6 +156,10 @@ public class QuizListPresenter implements Initializable {
             GridPane.setHalignment(quizElement, HPos.CENTER);
 
 
+            quizElement.setOnMouseClicked(
+                    e -> showQuizDetails(text)
+            );
+
             columnIndex++;
 
             if (columnIndex == 3) {
@@ -169,10 +171,10 @@ public class QuizListPresenter implements Initializable {
     }
 
 
-    private void showQuizDetails() {
+    private void showQuizDetails(String quizName) {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(this.getClass().getResource("/view/quiz_details_light.fxml"));
-        loader.setControllerFactory(controllerClass -> new QuizDetailsPresenter(service, primaryStage));
+        loader.setControllerFactory(controllerClass -> new QuizDetailsPresenter(service, mainPresenter, quizName));
         try {
             BorderPane quizDetails = loader.load();
             mainPresenter.switchMainContentTo(quizDetails);
