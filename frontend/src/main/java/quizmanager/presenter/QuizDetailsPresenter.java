@@ -11,8 +11,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import okhttp3.ResponseBody;
 import quizmanager.controller.QuizManagerController;
 import quizmanager.model.CorrectAnswersRewardingStrategy;
 import quizmanager.model.RecordDto;
@@ -21,7 +23,10 @@ import quizmanager.model.SpeedRewardingStrategy;
 import quizmanager.service.QuizService;
 import rx.schedulers.Schedulers;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ResourceBundle;
@@ -97,9 +102,45 @@ public class QuizDetailsPresenter implements Initializable {
     }
 
 
-    public void exportQuiz(ActionEvent actionEvent) {
+    @FXML
+    private void exportPdf() {
+        exportQuiz("pdf");
+    }
 
-        // TODO
+    @FXML
+    private void exportXlsx() {
+        exportQuiz("xlsx");
+    }
+
+    private void exportQuiz(String format) {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        File selectedDirectory = directoryChooser.showDialog(stage);
+
+        String quizTitle = quizName;
+        service.getExportedFile(quizTitle, format)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.from(Platform::runLater))
+                .subscribe(
+                        responseBody -> saveExportedFile(responseBody, selectedDirectory.getAbsolutePath() + "/" + quizTitle + "-results." + format)
+                );
+    }
+
+    private void saveExportedFile(ResponseBody responseBody, String filePath) {
+        try (InputStream inputStream = responseBody.byteStream(); FileOutputStream fileOutputStream = new FileOutputStream(filePath)) {
+            byte[] fileReader = new byte[4096];
+            while (true) {
+                int read = inputStream.read(fileReader);
+
+                if (read == -1) {
+                    break;
+                }
+
+                fileOutputStream.write(fileReader, 0, read);
+            }
+            fileOutputStream.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML

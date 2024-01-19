@@ -20,7 +20,8 @@
                     </font>
                 </Label>
                 <Separator visible="false" HBox.hgrow="ALWAYS" />
-            <Button mnemonicParsing="false" onAction="#exportQuiz" styleClass="regular_button" text="eksportuj" />
+            <Button mnemonicParsing="false" onAction="#exportXlsx" styleClass="regular_button" text="eksportuj (xlsx)" />
+            <Button mnemonicParsing="false" onAction="#exportPdf" styleClass="regular_button" text="eksportuj (pdf)" />
             <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#configureStrategy" styleClass="regular_button">
                <graphic>
                   <FontAwesomeIconView glyphName="GEAR" />
