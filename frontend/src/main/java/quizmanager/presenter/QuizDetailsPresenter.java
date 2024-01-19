@@ -14,7 +14,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import quizmanager.controller.QuizManagerController;
+import quizmanager.model.CorrectAnswersRewardingStrategy;
 import quizmanager.model.RecordDto;
+import quizmanager.model.RewardingStrategyDto;
+import quizmanager.model.SpeedRewardingStrategy;
 import quizmanager.service.QuizService;
 import rx.schedulers.Schedulers;
 
@@ -77,6 +80,20 @@ public class QuizDetailsPresenter implements Initializable {
     }
 
     public void configureStrategy(ActionEvent actionEvent) {
+        try {
+
+            FXMLLoader loader = new FXMLLoader();
+            BorderPane page = loadDialogView(loader);
+
+            Stage dialogStage = createDialogStage(page);
+            StrategyConfigPresenter presenter = setViewPresenter(loader, dialogStage);
+            dialogStage.showAndWait();
+
+            updateStrategyForQuiz(presenter);
+
+        } catch (IOException e) {
+            System.out.println("Message: " + e.getMessage() + ", Cause: " + e.getCause());
+        }
     }
 
 
@@ -166,6 +183,55 @@ public class QuizDetailsPresenter implements Initializable {
         } catch (IOException e) {
             System.out.println("Message: " + e.getMessage() + ", Cause: " + e.getCause());
             return false;
+        }
+    }
+
+
+    private StrategyConfigPresenter setViewPresenter(FXMLLoader loader, Stage dialogStage) {
+        StrategyConfigPresenter presenter = loader.getController();
+        presenter.setDialogStage(dialogStage);
+        presenter.setData(quizName);
+        return presenter;
+    }
+
+    private Stage createDialogStage(BorderPane page) {
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Konfiguracja strategii [" + quizName + "]" );
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(stage);
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+        return dialogStage;
+    }
+
+    private BorderPane loadDialogView(FXMLLoader loader) throws IOException {
+        loader.setLocation(QuizManagerController.class.getResource("/view/strategy_config_dialog.fxml"));
+        loader.setControllerFactory(controllerClass -> new StrategyConfigPresenter(service));
+
+        return loader.load();
+    }
+
+
+    private void updateStrategyForQuiz(StrategyConfigPresenter presenter) {
+        RewardingStrategyDto rewardingStrategyDto = presenter.getStrategyDto();
+        if(rewardingStrategyDto instanceof SpeedRewardingStrategy strategy) {
+            service.updateStrategyForQuiz(quizName, strategy)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(Schedulers.from(Platform::runLater))
+                    .subscribe(
+                            System.out::println,
+                            System.out::println
+                    );
+        }
+        else if (rewardingStrategyDto instanceof CorrectAnswersRewardingStrategy strategy) {
+            service.updateStrategyForQuiz(quizName, strategy)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(Schedulers.from(Platform::runLater))
+                    .subscribe(
+                            System.out::println,
+                            System.out::println
+                    );
+
         }
     }
 }
