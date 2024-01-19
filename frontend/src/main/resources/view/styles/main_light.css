@@ -2,6 +2,8 @@
     -primary-color: #3372c4;
     -background-color: #ffffff;
     -text-color: #464646;
+    -secondary-color: #f3f8ff;
+    -secondary-color-darker: #eef3fa;
 }
 
 #vertical_menu {
@@ -66,4 +68,14 @@
 
 #dark_mode_toggle_icon {
     -fx-fill: -text-color;
+}
+
+#dark_mode_container {
+    -fx-background-color: -secondary-color;
+    -fx-background-radius: 5;
+    -fx-padding: 5 0 5 10;
+}
+
+#dark_mode_container:hover {
+    -fx-background-color: -secondary-color-darker ;
 }

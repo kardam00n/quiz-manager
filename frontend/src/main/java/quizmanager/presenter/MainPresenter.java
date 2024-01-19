@@ -18,6 +18,7 @@ public class MainPresenter {
 
     @FXML
     private void showQuizList(ActionEvent actionEvent) {
+        System.out.println("Show");
 
     }
 

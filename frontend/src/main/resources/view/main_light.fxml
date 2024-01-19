@@ -12,9 +12,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@styles/main.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="quizmanager.presenter.MainPresenter">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@styles/main_light.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="quizmanager.presenter.MainPresenter">
    <children>
-      <VBox fx:id="vertical_menu" alignment="CENTER_LEFT" prefHeight="600.0" prefWidth="226.0" stylesheets="@styles/main.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox fx:id="vertical_menu" alignment="CENTER_LEFT" prefHeight="600.0" prefWidth="226.0" stylesheets="@styles/main_light.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label id="app_title" alignment="CENTER" prefHeight="80.0" text="QM" textAlignment="CENTER">
                <font>
@@ -26,12 +26,12 @@
             </Label>
             <VBox id="navbar" alignment="TOP_CENTER" prefHeight="500.0" prefWidth="268.0" spacing="5.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button graphicTextGap="6.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showQuizList" prefWidth="150.0" styleClass="nav_button" stylesheets="@styles/main.css" text="Lista Quizów  ">
+                  <Button graphicTextGap="6.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showQuizList" prefWidth="150.0" styleClass="nav_button" stylesheets="@styles/main_light.css" text="Lista Quizów  ">
                      <graphic>
                         <FontAwesomeIconView glyphName="LIST" styleClass="font_icon" />
                      </graphic>
                   </Button>
-                  <Button graphicTextGap="6.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showPrizes" prefWidth="150.0" styleClass="nav_button" stylesheets="@styles/main.css" text="Nagrody">
+                  <Button graphicTextGap="6.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showPrizes" prefWidth="150.0" styleClass="nav_button" stylesheets="@styles/main_light.css" text="Nagrody">
                      <graphic>
                         <FontAwesomeIconView glyphName="DIAMOND" styleClass="font_icon" />
                      </graphic>
@@ -42,7 +42,7 @@
                      </graphic>
                   </Button>
                   <Separator maxHeight="1.7976931348623157E308" orientation="VERTICAL" visible="false" VBox.vgrow="ALWAYS" />
-                  <HBox alignment="CENTER_LEFT" VBox.vgrow="NEVER">
+                  <HBox id="dark_mode_container" alignment="CENTER_LEFT" VBox.vgrow="NEVER">
                      <children>
                         <Label id="dark_mode_label" graphicTextGap="6.0" text="Tryb Ciemny" HBox.hgrow="ALWAYS">
                            <graphic>
