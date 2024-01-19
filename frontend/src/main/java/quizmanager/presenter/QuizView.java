@@ -280,7 +280,7 @@ public class QuizView implements Initializable {
     private void updateStrategyForQuiz(StrategyConfigPresenter presenter) {
         RewardingStrategyDto rewardingStrategyDto = presenter.getStrategyDto();
         if(rewardingStrategyDto instanceof SpeedRewardingStrategy strategy) {
-            service.updateStrategyForQuiz(quizTitles.getSelectionModel().getSelectedItem(), strategy)
+            service.updateSpeedStrategy(strategy)
                     .subscribeOn(Schedulers.io())
                     .observeOn(Schedulers.from(Platform::runLater))
                     .subscribe(
@@ -289,7 +289,7 @@ public class QuizView implements Initializable {
             );
         }
         else if (rewardingStrategyDto instanceof CorrectAnswersRewardingStrategy strategy) {
-            service.updateStrategyForQuiz(quizTitles.getSelectionModel().getSelectedItem(), strategy)
+            service.updateCorrectStrategy(strategy)
                     .subscribeOn(Schedulers.io())
                     .observeOn(Schedulers.from(Platform::runLater))
                     .subscribe(

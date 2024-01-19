@@ -23,13 +23,13 @@ public interface RewardingStrategyRepository extends JpaRepository<RewardingStra
 
     @Modifying
     @Transactional
-    @Query("update CorrectAnswersRewardingStrategy r set r.prizeTypeMap = ?1, r.correctAnswersToPass = ?2 where r.id = ?3")
-    void updateCorrectAnswersRewardingStrategy(Map<Integer, PrizeType> prizeTypeMap, int correctAnswersToPass, int id);
+    @Query("update CorrectAnswersRewardingStrategy r set r.prizeTypeMap = ?1, r.correctAnswersToPass = ?2 where r.name = ?3")
+    void updateCorrectAnswersRewardingStrategy(Map<Integer, PrizeType> prizeTypeMap, int correctAnswersToPass, String name);
 
     @Modifying
     @Transactional
-    @Query("update SpeedRewardingStrategy r set r.topSpeedPercentage = ?1, r.maxAnswers = ?2 where r.id = ?3")
-    void updateSpeedRewardingStrategy(float topSpeedPercentage, int maxAnswers, int id);
+    @Query("update SpeedRewardingStrategy r set r.topSpeedPercentage = ?1, r.prizeTypeIfPassed = ?2, r.prizeTypeIfFailed = ?3 where r.name = ?4")
+    void updateSpeedRewardingStrategy(double topSpeedPercentage, PrizeType prizeTypeifPassed,PrizeType prizeTypeifFaied, String name);
 
 //    @Query(value= "SELECT * FROM rewarding_strategy WHERE strat_type = 'SPEED' LIMIT 1", nativeQuery = true)
 //    SpeedRewardingStrategy findSpeedRewardingStrategy();

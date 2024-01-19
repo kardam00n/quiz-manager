@@ -45,11 +45,11 @@ public interface QuizServiceApi {
     Observable<CorrectAnswersRewardingStrategy> getCorrectAnswersStrategy();
 
 
-    @PUT("/strategies/{quizName}")
-    Observable<ResponseBody> updateStrategyForQuiz(@Path("quizName") String quizName, @Body SpeedRewardingStrategy strategy);
+    @PUT("/strategies/speed")
+    Observable<ResponseBody> updateSpeedStrategy(@Body SpeedRewardingStrategy strategy);
 
-    @PUT("/strategies/{quizName}")
-    Observable<ResponseBody> updateStrategyForQuiz(@Path("quizName") String quizName, @Body CorrectAnswersRewardingStrategy strategy);
+    @PUT("/strategies/correct")
+    Observable<ResponseBody> updateCorrectStrategy(@Body CorrectAnswersRewardingStrategy strategy);
 
     @PUT("/records")
     Observable<ResponseBody> updateRecord(@Query(value = "recordId") int recordId, @Query(value = "prizeId") int prizeId);

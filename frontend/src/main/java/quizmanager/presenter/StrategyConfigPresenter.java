@@ -19,6 +19,8 @@ import quizmanager.model.SpeedRewardingStrategy;
 import quizmanager.service.QuizService;
 import rx.schedulers.Schedulers;
 
+import java.util.List;
+
 @SuppressWarnings("unused")
 public class StrategyConfigPresenter {
 
@@ -48,11 +50,18 @@ public class StrategyConfigPresenter {
     private static final String SpeedStrategyName = "SPEED";
     private static final String CorrectAnswersStrategyName = "CORR_ANS";
 
+    private List<PrizeTypeDto> availablePrizeTypes;
 
     @FXML
     private void initialize() {
 
-
+        service.getPrizeTypes()
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.from(Platform::runLater))
+                .subscribe(
+                        next -> availablePrizeTypes = next,
+                        error -> System.out.println("sth went wrong")
+                );
         chosenStrategy.getItems().addAll(new RewardingStrategyDto(SpeedStrategyName), new RewardingStrategyDto(CorrectAnswersStrategyName));
         chosenStrategy.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
@@ -144,7 +153,7 @@ public class StrategyConfigPresenter {
                         && (choiceBox1Node instanceof ChoiceBox<?> choiceBox1)
                         && (choiceBox2Node instanceof ChoiceBox<?> choiceBox2)
         ) {
-            Integer spinnerValue = (Integer) (spinner.getValue());
+            double spinnerValue = (double) (spinner.getValue());
             PrizeTypeDto choiceBox1Value = (PrizeTypeDto) (choiceBox1.getValue());
             PrizeTypeDto choiceBox2Value = (PrizeTypeDto) (choiceBox2.getValue());
 
@@ -201,7 +210,7 @@ public class StrategyConfigPresenter {
         hBox.setAlignment(Pos.CENTER);
         hBox.setSpacing(20.0);
 
-        Spinner<Float> spinner = new Spinner<>(0.0f, 1.0f, 0.1f, 0.05f);
+        Spinner<Double> spinner = new Spinner<>(0.0, 1.0, 0.5, 0.05);
         spinner.setMaxWidth(130.0);
         spinner.setMinWidth(130.0);
         ChoiceBox<PrizeTypeDto> victoryPrizeCategory = new ChoiceBox<>();
@@ -221,8 +230,10 @@ public class StrategyConfigPresenter {
                         next ->
                         {
                             spinner.getValueFactory().setValue(next.getTopSpeedPercentage());
-                            victoryPrizeCategory.getItems().addAll(next.getPrizeTypeIfPassed());
-                            restPrizeCategory.getItems().addAll(next.getPrizeTypeIfFailed());
+                            victoryPrizeCategory.setValue(next.getPrizeTypeIfPassed());
+                            victoryPrizeCategory.getItems().addAll(availablePrizeTypes);
+                            restPrizeCategory.setValue(next.getPrizeTypeIfFailed());
+                            restPrizeCategory.getItems().addAll(availablePrizeTypes);
                         },
                         error -> System.out.println("sth went wrong... (poprawimy na kolejne laby :>)")
                 );
@@ -286,7 +297,8 @@ public class StrategyConfigPresenter {
         optionsPane.getChildren().add(optionsPane.getChildren().size() - 1, hBox);
         if (i != null && prizeTypeDto != null) {
             spinner.getValueFactory().setValue(i);
-            prizeCategory.getItems().addAll(prizeTypeDto);
+            prizeCategory.setValue(prizeTypeDto);
+            prizeCategory.getItems().addAll(availablePrizeTypes);
         }
     }
 
@@ -297,7 +309,7 @@ public class StrategyConfigPresenter {
     private void displayBStrategyControls() {
         addRowButton.setVisible(true);
         displayStrategyBHeader();
-        displayStrategyBRow();
+//        displayStrategyBRow();
 
     }
 

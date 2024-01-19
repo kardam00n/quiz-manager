@@ -95,12 +95,12 @@ public class QuizService {
         return service.getCorrectAnswersStrategy();
     }
 
-    public Observable<ResponseBody> updateStrategyForQuiz(String quizTitle, SpeedRewardingStrategy speedRewardingStrategy){
-        return service.updateStrategyForQuiz(quizTitle, speedRewardingStrategy);
+    public Observable<ResponseBody> updateSpeedStrategy(SpeedRewardingStrategy speedRewardingStrategy){
+        return service.updateSpeedStrategy(speedRewardingStrategy);
     }
 
-    public Observable<ResponseBody> updateStrategyForQuiz(String quizTitle, CorrectAnswersRewardingStrategy correctAnswersRewardingStrategy){
-        return service.updateStrategyForQuiz(quizTitle, correctAnswersRewardingStrategy);
+    public Observable<ResponseBody> updateCorrectStrategy(CorrectAnswersRewardingStrategy correctAnswersRewardingStrategy){
+        return service.updateCorrectStrategy(correctAnswersRewardingStrategy);
     }
 
     public Observable<ResponseBody> updateRecord(int recordId, int prizeId) {

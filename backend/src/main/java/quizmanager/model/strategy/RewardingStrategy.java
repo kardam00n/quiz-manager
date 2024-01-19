@@ -1,5 +1,7 @@
 package quizmanager.model.strategy;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import quizmanager.model.Quiz;
 import quizmanager.model.Record;
 import quizmanager.model.prize.Prize;
@@ -7,6 +9,7 @@ import quizmanager.model.prize.PrizeType;
 
 import javax.persistence.*;
 import java.util.List;
+
 
 @SuppressWarnings("unused")
 @Entity
