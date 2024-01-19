@@ -153,6 +153,7 @@ public class QuizListPresenter implements Initializable {
 
             GridPane.setHgrow(quizElement, Priority.ALWAYS);
             GridPane.setHalignment(quizElement, HPos.CENTER);
+            gridPane.setVgap(40.0);
 
 
             quizElement.setOnMouseClicked(
