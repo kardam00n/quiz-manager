@@ -142,4 +142,8 @@ public class MainPresenter {
     public Stage getStage() {
         return primaryStage;
     }
+
+    public boolean isDarkMode() {
+        return darkMode;
+    }
 }

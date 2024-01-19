@@ -74,6 +74,7 @@ public class QuizDetailsPresenter implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         quizTitleLabel.setText(quizName);
         nickname.setCellValueFactory(new PropertyValueFactory<>("nickname"));
         score.setCellValueFactory(new PropertyValueFactory<>("score"));

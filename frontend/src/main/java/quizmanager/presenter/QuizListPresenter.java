@@ -48,6 +48,7 @@ public class QuizListPresenter implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         service.loadQuizTitles()
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.from(Platform::runLater))

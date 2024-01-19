@@ -50,6 +50,10 @@ public class PrizeTypePresenter implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+
+
+
         addPrizeTypeButton.disableProperty().bind(
                 Bindings.isEmpty(prizeTypeName.textProperty())
         );

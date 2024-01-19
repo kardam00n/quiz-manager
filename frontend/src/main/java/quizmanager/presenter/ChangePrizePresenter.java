@@ -26,6 +26,7 @@ public class ChangePrizePresenter {
     private void initialize() {
         changeButton.disableProperty().bind(
                 Bindings.isNull(prizeSelector.valueProperty()));
+
     }
 
     @FXML

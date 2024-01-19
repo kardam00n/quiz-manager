@@ -12,9 +12,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@styles/main_light.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="quizmanager.presenter.MainPresenter">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="/view/styles/main_light.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="quizmanager.presenter.MainPresenter">
    <children>
-      <VBox fx:id="vertical_menu" alignment="CENTER_LEFT" prefHeight="600.0" prefWidth="226.0" stylesheets="@styles/main_light.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox fx:id="vertical_menu" alignment="CENTER_LEFT" prefHeight="600.0" prefWidth="226.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label id="app_title" alignment="CENTER" prefHeight="80.0" text="QM" textAlignment="CENTER">
                <font>
@@ -26,12 +26,12 @@
             </Label>
             <VBox id="navbar" alignment="TOP_CENTER" prefHeight="500.0" prefWidth="268.0" spacing="5.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button fx:id="quizListButton" graphicTextGap="6.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showQuizList" prefWidth="150.0" styleClass="nav_button" stylesheets="@styles/main_light.css" text="Lista Quizów  ">
+                  <Button fx:id="quizListButton" graphicTextGap="6.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showQuizList" prefWidth="150.0" styleClass="nav_button" text="Lista Quizów  ">
                      <graphic>
                         <FontAwesomeIconView glyphName="LIST" styleClass="font_icon" />
                      </graphic>
                   </Button>
-                  <Button fx:id="prizeButton" graphicTextGap="6.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showPrizes" prefWidth="150.0" styleClass="nav_button" stylesheets="@styles/main_light.css" text="Nagrody">
+                  <Button fx:id="prizeButton" graphicTextGap="6.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showPrizes" prefWidth="150.0" styleClass="nav_button" text="Nagrody">
                      <graphic>
                         <FontAwesomeIconView glyphName="DIAMOND" styleClass="font_icon" />
                      </graphic>
@@ -71,6 +71,6 @@
             </VBox>
          </children>
       </VBox>
-      <StackPane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+      <StackPane id="stack_pane" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
    </children>
 </HBox>

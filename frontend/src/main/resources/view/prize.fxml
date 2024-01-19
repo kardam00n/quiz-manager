@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 
 <?import javafx.scene.control.Button?>
-<BorderPane prefHeight="600.0" prefWidth="800.0" stylesheets="@styles/main_light.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="quizmanager.presenter.PrizePresenter">
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="quizmanager.presenter.PrizePresenter" stylesheets="/view/styles/main_light.css">
    <top>
       <HBox alignment="CENTER" styleClass="section_title" BorderPane.alignment="CENTER">
          <children>
@@ -62,7 +62,7 @@
                   <Insets left="20.0" right="20.0" />
                </padding>
             </HBox>
-            <ScrollPane fx:id="scrollPane" fitToWidth="true" stylesheets="@styles/style.css" VBox.vgrow="ALWAYS">
+            <ScrollPane fx:id="scrollPane" fitToWidth="true" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets left="20.0" right="20.0" />
                </VBox.margin>
