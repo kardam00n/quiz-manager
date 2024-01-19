@@ -11,6 +11,7 @@ import quizmanager.model.Quiz;
 import quizmanager.model.Record;
 import quizmanager.model.RecordDto;
 import quizmanager.model.prize.PrizeDto;
+import quizmanager.model.statictics.AllQuestionsStats;
 import quizmanager.service.QuizService;
 import quizmanager.service.RewardingStrategyService;
 import quizmanager.utils.FileManager;
@@ -107,13 +108,14 @@ public void getQuizFileByName(@PathVariable("name") String name, @PathVariable("
     //  niepotrzebnych? Dodanie quizu ma być możliwe tylko, jeśli jest on poprawny w pełni!!!!
     @PostMapping("")
     public void addQuiz(@RequestBody MultipartFile file) {
-//        System.out.println("received file with name: " + file.getOriginalFilename());
         try {
             File transferFile = File.createTempFile("received", ".xlsx");
             file.transferTo(transferFile);
-//            System.out.println("Im here");
-            List<Record> records = fileManager.importFile(transferFile);
+            List<Object> importerResult = fileManager.importFile(transferFile);
+            List<Record> records = (List<Record>) importerResult.get(0);
+            AllQuestionsStats allQuestionsStats = (AllQuestionsStats) importerResult.get(1);
             Quiz quiz = new Quiz(file.getOriginalFilename(), records, rewardingStrategyService.getFirstRewardingStrategy());
+            quiz.setAllQuestionsStats(allQuestionsStats);
             quizService.addQuiz(quiz);
         } catch (IOException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);

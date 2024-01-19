@@ -1,5 +1,7 @@
 package quizmanager.model;
 
+import org.apache.xmlbeans.impl.xb.xsdschema.All;
+import quizmanager.model.statictics.AllQuestionsStats;
 import quizmanager.model.strategy.RewardingStrategy;
 
 import javax.persistence.*;
@@ -20,6 +22,10 @@ public class Quiz {
     @JoinColumn(name = "quiz_id")
     private List<Record> recordSet;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id")
+    private AllQuestionsStats allQuestionsStats;
+
     private int maxAnswers;
 
     public Quiz() {
@@ -33,6 +39,14 @@ public class Quiz {
 
     public void assignPrizes() {
         rewardingStrategy.assignPrizes(recordSet);
+    }
+
+    public void setAllQuestionsStats(AllQuestionsStats allQuestionsStats) {
+        this.allQuestionsStats = allQuestionsStats;
+    }
+
+    public AllQuestionsStats getAllQuestionsStats() {
+        return allQuestionsStats;
     }
 
     public List<Record> getRecordSet() {
