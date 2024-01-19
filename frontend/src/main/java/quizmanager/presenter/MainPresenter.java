@@ -48,8 +48,8 @@ public class MainPresenter {
 
     @FXML
     private void showQuizList(ActionEvent actionEvent) {
-        if (checkedButton == quizListButton)
-            return;
+//        if (checkedButton == quizListButton)
+//            return;
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(this.getClass().getResource("/view/quiz_list.fxml"));
@@ -66,8 +66,8 @@ public class MainPresenter {
 
     @FXML
     private void showPrizes(ActionEvent actionEvent) {
-        if (checkedButton == prizeButton)
-            return;
+//        if (checkedButton == prizeButton)
+//            return;
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(this.getClass().getResource("/view/prize.fxml"));
         loader.setControllerFactory(controllerClass -> new PrizePresenter(service, this));
@@ -83,8 +83,8 @@ public class MainPresenter {
 
     @FXML
     private void showPrizeCategories(ActionEvent actionEvent) {
-        if (checkedButton == prizeTypeButton)
-            return;
+//        if (checkedButton == prizeTypeButton)
+//            return;
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(this.getClass().getResource("/view/prize_type.fxml"));
         loader.setControllerFactory(controllerClass -> new PrizeTypePresenter(service, this));

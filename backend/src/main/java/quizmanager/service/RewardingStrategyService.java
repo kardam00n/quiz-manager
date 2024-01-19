@@ -36,6 +36,7 @@ public class RewardingStrategyService {
         return speedRewardingStrategy;
     }
     public void updateCorrectAnswersRewardingStrategy(RewardingStrategy strategy1){
+
         CorrectAnswersRewardingStrategy strategy = (CorrectAnswersRewardingStrategy) strategy1;
         rewardingStrategyRepository.updateCorrectAnswersRewardingStrategy(strategy.getPrizeTypeMap(), strategy.getCorrectAnswersToPass(), "CORR_ANS");
     }
