@@ -1,9 +1,18 @@
 package quizmanager.presenter;
 
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -22,74 +31,78 @@ public class PrizeTypePresenter implements Initializable {
 
     private final QuizService service;
     private final MainPresenter mainPresenter;
+    public TextField prizeTypeName;
+    public Button addPrizeTypeButton;
+
+
+
+
+
+
+
+
+
+    @FXML
+    private ListView<String> currentCategories;
+
+
+
+
+    private final List<PrizeTypeDto> prizeTypeDto;
+
 
 
     public PrizeTypePresenter(QuizService service, MainPresenter presenter) {
         this.service = service;
         this.mainPresenter = presenter;
+        prizeTypeDto = new ArrayList<>();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        addPrizeTypeButton.disableProperty().bind(
+                Bindings.isEmpty(prizeTypeName.textProperty())
+        );
+
+        prizeTypeName.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
+
+
         service.getPrizeTypes()
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.from(Platform::runLater))
                 .subscribe(
-                        System.out::println,
+                        next -> {
+                            next.forEach(e -> currentCategories.getItems().add(e.getName()));
+                        },
                         System.out::println
                 );
 
 
-        var prizeTypeDto = new ArrayList<PrizeTypeDto>();
-        if (showNewPrizeTypeDialog(prizeTypeDto)) {
-            service.uploadPrizeType(prizeTypeDto)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(Schedulers.from(Platform::runLater))
-                    .subscribe(
-                            next -> {
+        prizeTypeName.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                addPrizeType();
 
-                            },
-                            System.out::println
-                    );
-        }
+            }
+        });
     }
 
 
-    public boolean showNewPrizeTypeDialog(List<PrizeTypeDto> prizeTypeDto) {
-        try {
 
 
-            // Load the fxml file and create a new stage for the dialog
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(QuizManagerController.class.getResource("/view/new_prize_type_dialog.fxml"));
-            loader.setControllerFactory(controllerClass -> new AddPrizeTypePresenter(service));
-
-            BorderPane page = loader.load();
-
-            // Create the dialog Stage.
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("Add new prize type");
-            dialogStage.setResizable(false);
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(mainPresenter.getStage());
-            Scene scene = new Scene(page);
-            dialogStage.setScene(scene);
-
-            // Set the size of the dialog stage
-
-            // Set the presenter for the view
-            AddPrizeTypePresenter presenter = loader.getController();
-            presenter.setDialogStage(dialogStage);
-            presenter.setData(prizeTypeDto);
+    public void addPrizeType() {
+        prizeTypeDto.add(new PrizeTypeDto(prizeTypeName.getText()));
 
 
-            // Show the dialog and wait until the user closes it
-            dialogStage.showAndWait();
-            return presenter.isApproved();
+        service.uploadPrizeType(prizeTypeDto)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.from(Platform::runLater))
+                .subscribe(
+                        next -> {
 
-        } catch (IOException e) {
-            System.out.println("Message: " + e.getMessage() + ", Cause: " + e.getCause());
-            return false;
-        }
+                            currentCategories.getItems().add(prizeTypeName.getText());
+                            prizeTypeName.clear();
+                        },
+                        System.out::println
+                );
     }
 }
