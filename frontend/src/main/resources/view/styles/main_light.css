@@ -4,6 +4,7 @@
     -text-color: #464646;
     -secondary-color: #f3f8ff;
     -secondary-color-darker: #eef3fa;
+    -background-secondary-color: #cddbf5
 }
 
 #vertical_menu {
@@ -87,3 +88,26 @@
     -fx-padding: 14 0 14 9;
 }
 
+
+
+.section_title {
+    -fx-padding: 20 20 20 20;
+}
+
+.section_title Label {
+    -fx-text-fill: -primary-color;
+    -fx-font-family: "Lato Medium";
+    -fx-background-radius: 5;
+    -fx-background-color: -background-secondary-color;
+    -fx-padding: 5 5 5 5;
+}
+
+.regular_button {
+    -fx-background-color: #e0e0e0;
+    -fx-text-fill: -text-color;
+    -fx-cursor: hand;
+}
+
+.scroll_pane {
+    -fx-background-color: transparent;
+}

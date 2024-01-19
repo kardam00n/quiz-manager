@@ -53,7 +53,7 @@ public class MainPresenter {
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(this.getClass().getResource("/view/quiz_list_light.fxml"));
-        loader.setControllerFactory(controllerClass -> new QuizListPresenter(service));
+        loader.setControllerFactory(controllerClass -> new QuizListPresenter(service, this));
         try {
             BorderPane quizList = loader.load();
             switchMainContentTo(quizList);
@@ -120,7 +120,7 @@ public class MainPresenter {
     }
 
 
-    private void switchMainContentTo(Node quizList) {
+    public void switchMainContentTo(Node quizList) {
 
         HBox hBox = (HBox) primaryStage.getScene().getRoot();
         StackPane stackPane = (StackPane) hBox.getChildren().get(1);
@@ -139,4 +139,7 @@ public class MainPresenter {
     }
 
 
+    public Stage getStage() {
+        return primaryStage;
+    }
 }
