@@ -1,5 +1,6 @@
 package quizmanager.service;
 
+import javafx.application.Platform;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -9,6 +10,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
+import rx.schedulers.Schedulers;
 
 import java.io.File;
 import java.util.List;
@@ -78,7 +80,15 @@ public class QuizService {
     }
 
     public Observable<SpeedRewardingStrategy> getStrategyAData(String quizTitle) {
-        return service.getSpeedRewardingStrategy();
+        Observable<SpeedRewardingStrategy> speedRewardingStrategy = service.getSpeedRewardingStrategy();
+        speedRewardingStrategy.subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.from(Platform::runLater))
+                .subscribe(
+                        next -> {
+                            System.out.println(next.getName());
+                        }
+                );;
+        return speedRewardingStrategy;
     }
 
     public Observable<CorrectAnswersRewardingStrategy> getStrategyBData(String quizTitle) {

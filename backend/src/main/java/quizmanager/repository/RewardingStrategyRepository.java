@@ -18,8 +18,8 @@ public interface RewardingStrategyRepository extends JpaRepository<RewardingStra
     @Override
     RewardingStrategy getReferenceById(Integer integer);
 
-    @Query(value= "SELECT * FROM rewarding_strategy WHERE type = 'CORR_ANS' LIMIT 1", nativeQuery = true)
-    CorrectAnswersRewardingStrategy findCorrectAnswersRewardingStrategy();
+//    @Query(value= "SELECT * FROM rewarding_strategy WHERE strat_type = 'CORR_ANS' LIMIT 1", nativeQuery = true)
+//    CorrectAnswersRewardingStrategy findCorrectAnswersRewardingStrategy();
 
     @Modifying
     @Transactional
@@ -31,6 +31,12 @@ public interface RewardingStrategyRepository extends JpaRepository<RewardingStra
     @Query("update SpeedRewardingStrategy r set r.topSpeedPercentage = ?1, r.maxAnswers = ?2 where r.id = ?3")
     void updateSpeedRewardingStrategy(float topSpeedPercentage, int maxAnswers, int id);
 
-    @Query(value= "SELECT * FROM rewarding_strategy WHERE type = 'SPEED' LIMIT 1", nativeQuery = true)
+//    @Query(value= "SELECT * FROM rewarding_strategy WHERE strat_type = 'SPEED' LIMIT 1", nativeQuery = true)
+//    SpeedRewardingStrategy findSpeedRewardingStrategy();
+
+    @Query("select r from CorrectAnswersRewardingStrategy r where r.name = 'CORR_ANS'")
+    CorrectAnswersRewardingStrategy findCorrectAnswersRewardingStrategy();
+
+    @Query("select r from SpeedRewardingStrategy r where r.name = 'SPEED'")
     SpeedRewardingStrategy findSpeedRewardingStrategy();
 }
