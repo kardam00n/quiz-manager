@@ -59,6 +59,9 @@ public class Prize {
         return description;
     }
 
+    public String simpleToString() {
+        return name + " (" + description + ")";
+    }
     @Override
     public String toString() {
 

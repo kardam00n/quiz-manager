@@ -49,7 +49,6 @@ public class QuizController {
 
     @GetMapping("/{name}")
     public List<RecordDto> getQuizByName(@PathVariable("name") String name) {
-        System.out.println(name);
         Optional<Quiz> quizOptional = quizService.getQuizByName(name);
         List<RecordDto> recordDtoList = new ArrayList<>();
 
@@ -78,7 +77,6 @@ public class QuizController {
 
 @GetMapping("/{name}/export/{format}") //TODO: change format to be parameter (now path variable because of Retrofit on frontend :)) )
 public void getQuizFileByName(@PathVariable("name") String name, @PathVariable("format") String format, HttpServletResponse response) {
-    System.out.println(name + " " + format);
     Quiz quiz = quizService.getQuizByName(name)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
@@ -109,11 +107,11 @@ public void getQuizFileByName(@PathVariable("name") String name, @PathVariable("
     //  niepotrzebnych? Dodanie quizu ma być możliwe tylko, jeśli jest on poprawny w pełni!!!!
     @PostMapping("")
     public void addQuiz(@RequestBody MultipartFile file) {
-        System.out.println("received file with name: " + file.getOriginalFilename());
+//        System.out.println("received file with name: " + file.getOriginalFilename());
         try {
             File transferFile = File.createTempFile("received", ".xlsx");
             file.transferTo(transferFile);
-            System.out.println("Im here");
+//            System.out.println("Im here");
             List<Record> records = fileManager.importFile(transferFile);
             Quiz quiz = new Quiz(file.getOriginalFilename(), records, rewardingStrategyService.getFirstRewardingStrategy());
             quizService.addQuiz(quiz);

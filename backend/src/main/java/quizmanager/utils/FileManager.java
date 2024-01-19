@@ -122,7 +122,7 @@ public class FileManager {
 
             prizeCell = row.createCell(4);
             Prize prize = record.getPrize();
-            prizeCell.setCellValue(prize == null ? "no prize" : prize.toString());
+            prizeCell.setCellValue(prize == null ? "no prize" : prize.simpleToString());
 
             prizeListCell = row.createCell(5);
             prizeListCell.setCellValue(prizeListToString(record.getPrizeList()));
@@ -144,7 +144,10 @@ public class FileManager {
 
         document.open();
 
-        PdfPTable table = new PdfPTable(6);
+        PdfPTable table = new PdfPTable(5);
+        float[] widths = new float[] {20f, 18f, 18f, 10f, 34f};
+        table.setWidths(widths);
+
         addTableHeader(table);
 
         for (Record record : recordList) {
@@ -156,8 +159,8 @@ public class FileManager {
         return file;
     }
 
-    public void addTableHeader(PdfPTable table) {
-        Stream.of("nickname", "start time", "end time", "score", "prize", "prize list")
+    public void addTableHeader(PdfPTable table) throws DocumentException {
+        Stream.of("nickname", "start time", "end time", "score", "prize")
                 .forEach(columnTitle -> {
                     PdfPCell header = new PdfPCell();
                     header.setBackgroundColor(BaseColor.LIGHT_GRAY);
@@ -173,8 +176,7 @@ public class FileManager {
         table.addCell(record.getEndTimestamp().toString());
         table.addCell(Integer.toString(record.getScore()));
         Prize prize = record.getPrize();
-        table.addCell(prize == null ? "no prize" : prize.toString());
-        table.addCell(record.getPrizeList().toString());
+        table.addCell(prize == null ? "no prize" : prize.simpleToString());
     }
 
     private List<Prize> parsePrizeString(String prizeString) {

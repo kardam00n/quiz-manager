@@ -255,7 +255,7 @@ public class QuizView implements Initializable {
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.from(Platform::runLater))
                 .subscribe(
-                        responseBody -> saveExportedFile(responseBody, selectedDirectory.getAbsolutePath() + "/" + quizTitle + "." + format)
+                        responseBody -> saveExportedFile(responseBody, selectedDirectory.getAbsolutePath() + "/" + quizTitle + "-results." + format)
                 );
     }
 
