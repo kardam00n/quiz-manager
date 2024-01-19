@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import quizmanager.model.Record;
 import quizmanager.model.prize.Prize;
+import quizmanager.model.statictics.AllQuestionsStats;
 import quizmanager.service.PrizeService;
 
 import java.io.File;
@@ -23,10 +24,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Stream;
-
 
 @Component
 public class FileManager {
@@ -37,25 +36,39 @@ public class FileManager {
     private final int SCORE_COLUMN = 5;
     private final int PRIZE_COLUMN = 16;
 
+    private final int[][] QUESTION_COLUMNS = {{7, 8}, {10, 11}}; //{{question name column, question score column}, {..., ...}, ...}
+
     private final PrizeService prizeService;
     private FileManager(PrizeService prizeService) {
         this.prizeService = prizeService;
     }
 
-    public List<Record> importFile(File file) throws IOException {
+    //TODO: DO IT SOME PROPER WAY, IT IS SUPER SUPER SUPER TEMPORARY (I know it's terrible, but time... xd)
+    public List<Object> importFile(File file) throws IOException {
         List<Record> recordSet = new ArrayList<>();
         FileInputStream fileStream = new FileInputStream(file);
         Workbook workbook = new XSSFWorkbook(fileStream);
 
         Sheet sheet = workbook.getSheetAt(0);
 
+        Row headers = sheet.getRow(0);
+        List <String> questionNames = new ArrayList<>();
+        for (int i = 0; i < QUESTION_COLUMNS.length; i++) {
+            String questionName = String.valueOf(headers.getCell(QUESTION_COLUMNS[i][0]));
+            questionNames.add(questionName);
+        }
+        AllQuestionsStats allQuestionsStats = new AllQuestionsStats(questionNames);
+
         for (Row row : sheet) {
             if (row.getRowNum() == 0) {
                 continue;
             }
             recordSet.add(recordFromRow(row));
+            addRowStats(row, allQuestionsStats, questionNames);
         }
-        return recordSet;
+        allQuestionsStats.calculatePercentages();
+
+        return new ArrayList<>(Arrays.asList(recordSet, allQuestionsStats));
     }
 
     private Record recordFromRow(Row row) {
@@ -68,6 +81,14 @@ public class FileManager {
                 (int) row.getCell(SCORE_COLUMN).getNumericCellValue(),
                 parsePrizeString(row.getCell(PRIZE_COLUMN).getStringCellValue())
         );
+    }
+
+    private void addRowStats(Row row, AllQuestionsStats allQuestionsStats, List<String> questionNames) {
+        Map<String, Integer> response = new HashMap<>();
+        for (int i = 0; i < QUESTION_COLUMNS.length; i++) {
+            response.put(questionNames.get(i), (int) row.getCell(QUESTION_COLUMNS[i][1]).getNumericCellValue());
+        }
+        allQuestionsStats.addResponse(response);
     }
 
     public File exportXlsx(List<Record> recordList) throws IOException {

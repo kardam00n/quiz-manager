@@ -11,6 +11,7 @@ import quizmanager.model.Quiz;
 import quizmanager.model.Record;
 import quizmanager.model.RecordDto;
 import quizmanager.model.prize.PrizeDto;
+import quizmanager.model.statictics.AllQuestionsStats;
 import quizmanager.service.QuizService;
 import quizmanager.service.RewardingStrategyService;
 import quizmanager.utils.FileManager;
@@ -19,9 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping(path = "quizzes")
@@ -101,19 +100,25 @@ public void getQuizFileByName(@PathVariable("name") String name, @PathVariable("
     }
 }
 
-
+    @GetMapping("/{name}/allQuestionStats")
+    public Map<String, Double> getQuizAllQuestionStats(@PathVariable("name") String name) {
+        Quiz quiz = quizService.getQuizByName(name)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        System.out.println(quiz.getAllQuestionsStats().toString());
+        return quiz.getAllQuestionsStats().getAnswersMap();
+    }
 
     // TODO dodać zapisywanie i obsługę błędów (czy mamy sprawdzanie, czy są wszystkie kolumny i czy nie ma jakichś
     //  niepotrzebnych? Dodanie quizu ma być możliwe tylko, jeśli jest on poprawny w pełni!!!!
     @PostMapping("")
     public void addQuiz(@RequestBody MultipartFile file) {
-//        System.out.println("received file with name: " + file.getOriginalFilename());
         try {
             File transferFile = File.createTempFile("received", ".xlsx");
             file.transferTo(transferFile);
-//            System.out.println("Im here");
-            List<Record> records = fileManager.importFile(transferFile);
-            Quiz quiz = new Quiz(file.getOriginalFilename(), records, rewardingStrategyService.getFirstRewardingStrategy());
+            List<Object> importerResults = fileManager.importFile(transferFile);
+            List<Record> records = (List<Record>) importerResults.get(0);
+            AllQuestionsStats allQuestionsStats = (AllQuestionsStats) importerResults.get(1);
+            Quiz quiz = new Quiz(file.getOriginalFilename(), records, rewardingStrategyService.getFirstRewardingStrategy(), allQuestionsStats);
             quizService.addQuiz(quiz);
         } catch (IOException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
