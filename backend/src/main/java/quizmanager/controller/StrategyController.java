@@ -28,18 +28,17 @@ public class StrategyController {
         return rewardingStrategyService.getCorrectAnswersRewardingStrategy();
     }
 
-    @PutMapping("/{quizName}")
-    public void updateStrategyForQuiz (@PathVariable("quizName") String quizName, @RequestBody RewardingStrategy strategy) {
-
-        if(quizName.equals("CORR_ANS")){
-            rewardingStrategyService.updateCorrectAnswersRewardingStrategy(strategy);
-        }
-        else if(quizName.equals("SPEED")){
-            rewardingStrategyService.updateSpeedRewardingStrategy(strategy);
-        }
-        // TODO https://new-spike.net/abstract-request-body/
-        //  jakby się nie dało, to 2 * Put po jednym na klasę
+    @PutMapping("/speed")
+    public void updateStrategyForQuiz (@RequestBody SpeedRewardingStrategy strategy) {
+        rewardingStrategyService.updateSpeedRewardingStrategy(strategy);
     }
+
+    @PutMapping("/correct")
+    public void updateStrategyForQuiz (@RequestBody CorrectAnswersRewardingStrategy strategy) {
+        rewardingStrategyService.updateCorrectAnswersRewardingStrategy(strategy);
+    }
+
+
 
 
 

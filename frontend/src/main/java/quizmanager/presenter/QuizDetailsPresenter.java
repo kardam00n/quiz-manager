@@ -190,7 +190,7 @@ public class QuizDetailsPresenter implements Initializable {
     private void updateStrategyForQuiz(StrategyConfigPresenter presenter) {
         RewardingStrategyDto rewardingStrategyDto = presenter.getStrategyDto();
         if (rewardingStrategyDto instanceof SpeedRewardingStrategy strategy) {
-            service.updateStrategyForQuiz(quizName, strategy)
+            service.updateSpeedStrategy(strategy)
                     .subscribeOn(Schedulers.io())
                     .observeOn(Schedulers.from(Platform::runLater))
                     .subscribe(
@@ -198,7 +198,7 @@ public class QuizDetailsPresenter implements Initializable {
                             System.out::println
                     );
         } else if (rewardingStrategyDto instanceof CorrectAnswersRewardingStrategy strategy) {
-            service.updateStrategyForQuiz(quizName, strategy)
+            service.updateCorrectStrategy(strategy)
                     .subscribeOn(Schedulers.io())
                     .observeOn(Schedulers.from(Platform::runLater))
                     .subscribe(

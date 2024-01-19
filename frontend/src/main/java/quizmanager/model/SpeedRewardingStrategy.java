@@ -5,24 +5,24 @@ package quizmanager.model;
 
 public class SpeedRewardingStrategy extends RewardingStrategyDto {
 
-    private float topSpeedPercentage;
+    private double topSpeedPercentage;
 
     private int maxAnswers;
 
     public SpeedRewardingStrategy() {
     }
 
-    public SpeedRewardingStrategy(String name, PrizeTypeDto prizeTypeIfPassed, PrizeTypeDto prizeTypeIfFailed, float topSpeedPercentage, int maxAnswers) {
+    public SpeedRewardingStrategy(String name, PrizeTypeDto prizeTypeIfPassed, PrizeTypeDto prizeTypeIfFailed, double topSpeedPercentage, int maxAnswers) {
         super(name, prizeTypeIfPassed, prizeTypeIfFailed);
         this.topSpeedPercentage = topSpeedPercentage;
         this.maxAnswers = maxAnswers;
     }
 
-    public float getTopSpeedPercentage() {
+    public double getTopSpeedPercentage() {
         return topSpeedPercentage;
     }
 
-    public void setTopSpeedPercentage(float topSpeedPercentage) {
+    public void setTopSpeedPercentage(double topSpeedPercentage) {
         this.topSpeedPercentage = topSpeedPercentage;
     }
 

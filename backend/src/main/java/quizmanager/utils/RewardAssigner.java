@@ -48,7 +48,7 @@ public class RewardAssigner implements Visitor {
 
     public void assignPrizesSpeed(SpeedRewardingStrategy rewardingStrategy, Quiz quiz, Prize nonePrize) {
         List<Record> records = quiz.getRecordSet();
-        float topSpeedPercentage = rewardingStrategy.getTopSpeedPercentage();
+        double topSpeedPercentage = rewardingStrategy.getTopSpeedPercentage();
         int maxAnswers = rewardingStrategy.getMaxAnswers();
 
         int howManyToPass = (int) Math.floor((topSpeedPercentage * records.size()));

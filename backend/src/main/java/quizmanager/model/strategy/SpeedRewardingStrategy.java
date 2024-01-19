@@ -14,10 +14,10 @@ import java.util.List;
 @DiscriminatorValue("SPEED")
 public class SpeedRewardingStrategy extends RewardingStrategy{
 
-    private float topSpeedPercentage;
+    private double topSpeedPercentage;
     private int maxAnswers;
 
-    public SpeedRewardingStrategy(String name, PrizeType prizeTypeIfPassed, PrizeType prizeTypeIfFailed, float topSpeedPercentage, int maxAnswers) {
+    public SpeedRewardingStrategy(String name, PrizeType prizeTypeIfPassed, PrizeType prizeTypeIfFailed, double topSpeedPercentage, int maxAnswers) {
         super(name, prizeTypeIfPassed, prizeTypeIfFailed);
         this.topSpeedPercentage = topSpeedPercentage;
         this.maxAnswers = maxAnswers;
@@ -27,7 +27,7 @@ public class SpeedRewardingStrategy extends RewardingStrategy{
         super();
     }
 
-    public float getTopSpeedPercentage() {
+    public double getTopSpeedPercentage() {
         return topSpeedPercentage;
     }
 
