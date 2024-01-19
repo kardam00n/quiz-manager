@@ -20,9 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping(path = "quizzes")
@@ -102,7 +100,13 @@ public void getQuizFileByName(@PathVariable("name") String name, @PathVariable("
     }
 }
 
-
+    @GetMapping("/{name}/allQuestionStats")
+    public Map<String, Double> getQuizAllQuestionStats(@PathVariable("name") String name) {
+        Quiz quiz = quizService.getQuizByName(name)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        System.out.println(quiz.getAllQuestionsStats().toString());
+        return quiz.getAllQuestionsStats().getAnswersMap();
+    }
 
     // TODO dodać zapisywanie i obsługę błędów (czy mamy sprawdzanie, czy są wszystkie kolumny i czy nie ma jakichś
     //  niepotrzebnych? Dodanie quizu ma być możliwe tylko, jeśli jest on poprawny w pełni!!!!
@@ -111,11 +115,10 @@ public void getQuizFileByName(@PathVariable("name") String name, @PathVariable("
         try {
             File transferFile = File.createTempFile("received", ".xlsx");
             file.transferTo(transferFile);
-            List<Object> importerResult = fileManager.importFile(transferFile);
-            List<Record> records = (List<Record>) importerResult.get(0);
-            AllQuestionsStats allQuestionsStats = (AllQuestionsStats) importerResult.get(1);
-            Quiz quiz = new Quiz(file.getOriginalFilename(), records, rewardingStrategyService.getFirstRewardingStrategy());
-            quiz.setAllQuestionsStats(allQuestionsStats);
+            List<Object> importerResults = fileManager.importFile(transferFile);
+            List<Record> records = (List<Record>) importerResults.get(0);
+            AllQuestionsStats allQuestionsStats = (AllQuestionsStats) importerResults.get(1);
+            Quiz quiz = new Quiz(file.getOriginalFilename(), records, rewardingStrategyService.getFirstRewardingStrategy(), allQuestionsStats);
             quizService.addQuiz(quiz);
         } catch (IOException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
