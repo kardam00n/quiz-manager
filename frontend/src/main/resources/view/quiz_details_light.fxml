@@ -19,7 +19,7 @@
                         <Font name="Lato Medium" size="13.0" />
                     </font>
                 </Label>
-                <Separator prefWidth="200.0" visible="false" HBox.hgrow="ALWAYS" />
+                <Separator visible="false" HBox.hgrow="ALWAYS" />
             <Button mnemonicParsing="false" onAction="#exportQuiz" styleClass="regular_button" text="eksportuj" />
             <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#configureStrategy" styleClass="regular_button">
                <graphic>

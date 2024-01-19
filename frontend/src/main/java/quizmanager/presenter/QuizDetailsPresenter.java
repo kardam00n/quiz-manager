@@ -30,13 +30,14 @@ public class QuizDetailsPresenter implements Initializable {
 
     private final Stage stage;
     private final QuizService service;
-    public Label quizTitleLabel;
-    public ScrollPane scrollPane;
 
-    private MainPresenter mainPresenter;
+    private final MainPresenter mainPresenter;
 
-    private String quizName;
+    private final String quizName;
 
+
+    @FXML
+    private Label quizTitleLabel;
 
     @FXML
     private TableView<RecordDto> quizDetailsTable;
@@ -49,11 +50,12 @@ public class QuizDetailsPresenter implements Initializable {
 
     @FXML
     private TableColumn<RecordDto, Timestamp> startTimestamp;
+
     @FXML
     private TableColumn<RecordDto, Timestamp> endTimestamp;
 
     @FXML
-    private TableColumn<RecordDto, String> prize; // TODO change type
+    private TableColumn<RecordDto, String> prize;
 
     @FXML
     private TableColumn<RecordDto, Boolean> prizeChangeButton;
@@ -76,10 +78,32 @@ public class QuizDetailsPresenter implements Initializable {
         prize.setCellValueFactory(new PropertyValueFactory<>("prize"));
         prizeChangeButton.setCellFactory(recordDtoBooleanTableColumn -> new ButtonCell());
 
-        getAndShowSelectedQuiz(quizName);
+        getAndShowQuizDetails(quizName);
     }
 
-    public void configureStrategy(ActionEvent actionEvent) {
+    private void getAndShowQuizDetails(String selectedQuiz) {
+        service.loadQuiz(selectedQuiz)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.from(Platform::runLater))
+                .subscribe(
+                        next -> {
+                            ObservableList<RecordDto> data = FXCollections.observableArrayList();
+                            data.addAll(next);
+                            quizDetailsTable.setItems(data);
+                        },
+                        System.out::println);
+
+
+    }
+
+
+    public void exportQuiz(ActionEvent actionEvent) {
+
+        // TODO
+    }
+
+    @FXML
+    private void configureStrategy(ActionEvent actionEvent) {
         try {
 
             FXMLLoader loader = new FXMLLoader();
@@ -97,31 +121,58 @@ public class QuizDetailsPresenter implements Initializable {
     }
 
 
-    private void getAndShowSelectedQuiz(String selectedQuiz) {
+    private BorderPane loadDialogView(FXMLLoader loader) throws IOException {
+        loader.setLocation(QuizManagerController.class.getResource("/view/strategy_config_dialog.fxml"));
+        loader.setControllerFactory(controllerClass -> new StrategyConfigPresenter(service));
 
-
-        service.loadQuiz(selectedQuiz)
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.from(Platform::runLater))
-                .subscribe(
-                        next -> {
-                            ObservableList<RecordDto> data = FXCollections.observableArrayList();
-                            data.addAll(next);
-                            quizDetailsTable.setItems(data);
-                        },
-                        System.out::println);
-
-
+        return loader.load();
     }
 
-    public void exportQuiz(ActionEvent actionEvent) {
+    private Stage createDialogStage(BorderPane page) {
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Konfiguracja strategii [" + quizName + "]");
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(stage);
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+        return dialogStage;
+    }
+
+    private StrategyConfigPresenter setViewPresenter(FXMLLoader loader, Stage dialogStage) {
+        StrategyConfigPresenter presenter = loader.getController();
+        presenter.setDialogStage(dialogStage);
+        presenter.setData(quizName);
+        return presenter;
+    }
+
+
+    private void updateStrategyForQuiz(StrategyConfigPresenter presenter) {
+        RewardingStrategyDto rewardingStrategyDto = presenter.getStrategyDto();
+        if (rewardingStrategyDto instanceof SpeedRewardingStrategy strategy) {
+            service.updateStrategyForQuiz(quizName, strategy)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(Schedulers.from(Platform::runLater))
+                    .subscribe(
+                            System.out::println,
+                            System.out::println
+                    );
+        } else if (rewardingStrategyDto instanceof CorrectAnswersRewardingStrategy strategy) {
+            service.updateStrategyForQuiz(quizName, strategy)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(Schedulers.from(Platform::runLater))
+                    .subscribe(
+                            System.out::println,
+                            System.out::println
+                    );
+
+        }
     }
 
 
     private class ButtonCell extends TableCell<RecordDto, Boolean> {
         final Button cellButton = new Button("Zmień nagrodę");
 
-        ButtonCell(){
+        ButtonCell() {
 
             cellButton.setOnAction(actionEvent -> {
                 RecordDto recordDto = quizDetailsTable.getItems().get(getTableRow().getIndex());
@@ -133,16 +184,15 @@ public class QuizDetailsPresenter implements Initializable {
         @Override
         protected void updateItem(Boolean t, boolean empty) {
             super.updateItem(t, empty);
-            if(!empty){
+            if (!empty) {
                 setGraphic(cellButton);
             }
         }
     }
 
-    // TODO!!
 
     private void changePrize(RecordDto recordDto) {
-        if(showChangePrizeDialog(recordDto)) {
+        if (showChangePrizeDialog(recordDto)) {
             quizDetailsTable.refresh();
             service.updateRecord(recordDto.getId(), recordDto.getPrize().getId()).subscribe(
                     next -> System.out.println("OK"),
@@ -150,10 +200,6 @@ public class QuizDetailsPresenter implements Initializable {
             );
         }
     }
-
-
-
-
 
 
     public boolean showChangePrizeDialog(RecordDto recordDto) {
@@ -190,51 +236,4 @@ public class QuizDetailsPresenter implements Initializable {
     }
 
 
-    private StrategyConfigPresenter setViewPresenter(FXMLLoader loader, Stage dialogStage) {
-        StrategyConfigPresenter presenter = loader.getController();
-        presenter.setDialogStage(dialogStage);
-        presenter.setData(quizName);
-        return presenter;
-    }
-
-    private Stage createDialogStage(BorderPane page) {
-        Stage dialogStage = new Stage();
-        dialogStage.setTitle("Konfiguracja strategii [" + quizName + "]" );
-        dialogStage.initModality(Modality.WINDOW_MODAL);
-        dialogStage.initOwner(stage);
-        Scene scene = new Scene(page);
-        dialogStage.setScene(scene);
-        return dialogStage;
-    }
-
-    private BorderPane loadDialogView(FXMLLoader loader) throws IOException {
-        loader.setLocation(QuizManagerController.class.getResource("/view/strategy_config_dialog.fxml"));
-        loader.setControllerFactory(controllerClass -> new StrategyConfigPresenter(service));
-
-        return loader.load();
-    }
-
-
-    private void updateStrategyForQuiz(StrategyConfigPresenter presenter) {
-        RewardingStrategyDto rewardingStrategyDto = presenter.getStrategyDto();
-        if(rewardingStrategyDto instanceof SpeedRewardingStrategy strategy) {
-            service.updateStrategyForQuiz(quizName, strategy)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(Schedulers.from(Platform::runLater))
-                    .subscribe(
-                            System.out::println,
-                            System.out::println
-                    );
-        }
-        else if (rewardingStrategyDto instanceof CorrectAnswersRewardingStrategy strategy) {
-            service.updateStrategyForQuiz(quizName, strategy)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(Schedulers.from(Platform::runLater))
-                    .subscribe(
-                            System.out::println,
-                            System.out::println
-                    );
-
-        }
-    }
 }

@@ -70,7 +70,7 @@ public class MainPresenter {
             return;
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(this.getClass().getResource("/view/prize_light.fxml"));
-        loader.setControllerFactory(controllerClass -> new PrizePresenter(service));
+        loader.setControllerFactory(controllerClass -> new PrizePresenter(service, this));
         try {
             BorderPane prizes = loader.load();
             switchMainContentTo(prizes);
@@ -87,7 +87,7 @@ public class MainPresenter {
             return;
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(this.getClass().getResource("/view/prize_type_light.fxml"));
-        loader.setControllerFactory(controllerClass -> new PrizeTypePresenter(service));
+        loader.setControllerFactory(controllerClass -> new PrizeTypePresenter(service, this));
         try {
             BorderPane prizeTypes = loader.load();
             switchMainContentTo(prizeTypes);
