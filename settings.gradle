@@ -1,3 +1,5 @@
+rootProject.name = "quiz-manager"
+
 include 'backend'
 include 'frontend'
 

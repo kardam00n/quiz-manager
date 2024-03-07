@@ -1,0 +1,15 @@
+#scrollPane {
+    -fx-background-color: transparent;
+    -fx-background-radius: 10; /* Adjust the corner radius as needed */
+    -fx-border-color: #CCCCCC; /* Border color */
+    -fx-border-width: 2; /* Border width */
+    -fx-border-radius: 10;
+}
+
+#scrollPane .viewport {
+    -fx-background-color: transparent;
+}
+
+#scrollPane .scroll-pane > .content {
+    -fx-background-color: transparent;
+}
