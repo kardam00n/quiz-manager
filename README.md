@@ -1,51 +1,64 @@
-# quiz manager
-Project made for Object-Oriented Technologies course at AGH University.
-
-### functionalities:
-Import quiz results from Object-Oriented Programming course lectures. Analyzes responses, assigns prizes and allows for export to .xlsx.
-
-### technologies:
-Spring Boot, REST API, Hibernate, JavaFX
+# Quiz Manager
+Project made for Object-Oriented Technologies course at AGH University. \
+The purpose for this project is to manage quiz results from Object-Oriented Programming course lectures and easily assign different prizes for student based on their performance. \
+Students take part in quizzes during lectures, which results are stored in .xlsx files. \
+This application allows for importing these files, analyzing responses and assigning prizes based on different assigning strategies.
+For example: top  x% students get a prize from category A, the rest get a prize from category B.
 
 
-</br>
 
-## Changelog
-### 07.12.23
- - podstawowy model danych
- - import plików działający w backendzie
- 
-### 14.12.23
- - działająca baza danych z przykładowymi danymi
- - endpointy w backendzie
- - pobieranie listy dostępnych quizów
- - wyświetlanie rekordów i wyników wybranego quizu
 
-### 21.12.23
- - małe poprawki modelu danych
- 
-### 5.12.23
- - upload pliku
- - parsowanie danych z arkusza
- - przypisywanie nagród według strategii
- - widoki dodawania nagród, kategorii nagród oraz konfiguracji strategii (na razie brak połączenia z backendem)
+## Functionalities:
+- Import quiz results from .xlsx files
+- Assign prizes based on a strategy
+- Display quiz results
+- Change prize assigned to a student (the lecturer's decision is final) 
+- Manage prize and prize categories
+- Export quiz results to .xlsx or .pdf file
+- Generate statistics for a quiz (**NOT IMPLENTED IN TIME**)
 
-## Uwagi
-- podczas dodawania Quizu, nagrody będą mogły zostać przypisane, dlatego przed dodaniem Quizu nalezy upewnić się, że nagrody wraz z kategoriami są w bazie (na ten moment w bazie są testowe nagrody z kategoriami oraz nagrody wg. konspektu na repo kursu od PO)
-- domyślnie wybierana jest pierwsza dostępna strategia, potem możliwość zmiany
-- przy dodawaniu quizu możliwe, że operacja będzie trwała chwilę więc dla pewności zaleca się przeklikać między quizami
+### Implemented strategies:
+- *SPEED* - top x% students with the shortest time get a prize from category A, the rest get a prize from category B
+- *CORR_ANS* - students who got x points get a prize from category A, then students who got y points get a prize from category B, etc.
 
-### SQLite
-Baza danych znajduje się w backend/mydb.sqlite
+You can change the values and prize categories for both strategies in the configuration menu.
 
-### Model danych i aplikacji (do zmiany)
-Model danych
-![Model](docs/ModelDanych.jpg)
+## Technologies:
+### Backend:
+- Java
+- Spring Boot
+- Hibernate
+- SQLite
 
-Schemat aplikacji
-![Schemat aplikacji](docs/AppSchematics.jpg)
+### Frontend:
+- JavaFX
+- Retrofit
 
-Przejrzysta historia commitów
-![Slalom](docs/slalom.png)
+### Communication:
+- REST API
+
+<br>
+
+# How to run the app:
+Our app uses gradle as a build tool.
+Tough, it is advised to first run the backend module, then the frontend module.
+
+### TODO: Containerize the app, or improve gradle config to run both modules at once.
+
+## [Screenshots](docs/Screenshots.md)
+
+## [Project Structure](docs/ProjectStructure.md)
+
+## [Changelog](docs/Changelog.md)
+
+## Team
+- <span style="font-size: 1.5em;">[Dawid Kardacz](https://github.com/kardam00n)</span>
+- <span style="font-size: 1.5em;">[Adam Mężydło](https://github.com/amezydlo)</span>
+- <span style="font-size: 1.5em;">[Bartosz Rzepa](https://github.com/brzep)</span>
+
+## Warnings
+- Before importing a quiz, make sure to add the prize categories and prizes first
+- By default, the application is set to use the `SPEED` strategy, but can be changed in the configuration menu 
+- During the import of a quiz, the operation may take a while, so it is recommended to switch between quizzes to be sure
 
 
